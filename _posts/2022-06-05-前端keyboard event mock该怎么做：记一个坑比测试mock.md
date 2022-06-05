@@ -1,0 +1,31 @@
+---
+title: 前端keyboard event mock该怎么做：记一个坑比测试mock
+date: 2021-08-17
+categories: []
+tags: [frontend]
+---
+
+> Author's Note: It is one of the projects required by freeCodeCamp's Developer Certification of [*Front End Development Libraries*](https://www.freecodecamp.org/learn/front-end-development-libraries/#front-end-development-libraries-projects)
+
+凌晨三点钟睡不着干脆起来在前端写个简单架子鼓，没想被一个测试点卡了超久😥，无奈到测试代码里面看了才明白是怎么回事，是真的坑🤬。
+
+![image-20210817000734564](/assets/blog-images/前端keyboard event mock该怎么做：记一个坑比测试mock.assets\image-20210817000734564-16291300584941.png)
+
+图中是测试框架模拟出发用户输入的`keydown`、`keyup`等事件，把`e`这个`Array`中的ascii code当作keycode来构造相应的事件。但是从图上看，这一串列表里面装的全都是大写字母的ascii code，但是按照设计，真实用户不会用```shift```键来修饰，输入的都是小写的keyboard event，但这边构建测试mock的时候用的都是大写的字母。这就导致了我如下断言总是返回假。
+
+```javascript
+e.key === this.props.keyTrigger.toLowerCase()
+```
+
+讲道理的话🤔，我左边假定用户输入小写字母肯定没错，但是如果多一点所谓防御性编程defensive programming的想法的话，应该保证两边都是小写，这样也提高了所谓的鲁棒性robustness。btw，这两个词翻译得是真的💩。
+
+```javascript
+e.key.toLowerCase() === this.props.keyTrigger.toLowerCase()
+```
+
+不过这次debug过程还反映出我debug水平不够的问题，我不懂得按照逻辑链条一步一步的分析，从头到尾都是在播放声音的函数里边纠缠，不懂得往调用链上游排查，下游就是浏览器接口了，不是我写的代码，不需要深入。途中还错误地怀疑是否异步的调用```audio.play()```没有在测试环境下被立刻处理，而导致紧随fire keyboard event的检查音频播放状态的代码检查出audio尚未开始播放。具体的看截屏再复现了。
+
+我在这个用例卡了一个小时，期间反复在做两件事，一个是比对我的代码跟模版代码，二个是怀疑上面说的异步的问题。
+
+这还反映出我不会灵活应用排错技术，为什么不下断点或者```console.log```呢？真的醉了，codepen编辑器这一陌生的开发环境中，同样可以使用这些基本的排错技术。在DevTool里可以看得到经Babel编译得到的vanilla JavaScript，下断点是轻而易举的，```console.log```更不用说。
+
