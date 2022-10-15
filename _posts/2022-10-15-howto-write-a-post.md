@@ -5,9 +5,19 @@ categories: [Howto,Memo]
 tags: [chore]
 ---
 
-steps:
+## steps:
 
 0. Clone this repo from GitHub
 1. Create a markdown file under `/_posts/`
 2. Add article metadata in the very start. Be sure to enclose them with triple dashes
 3. Commit then push.
+
+## update:
+
+Steps above worked!
+
+### expected behavior:
+
+- The push to GitHub kicks off a sequence GitHub Action
+- The new blog is live at the site
+
