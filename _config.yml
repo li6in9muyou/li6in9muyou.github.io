@@ -23,10 +23,10 @@ timezone: Asia/Shanghai
 
 title: Li6q 笔记                          # the main title
 
-tagline: A blog of a boring person.   # it will display as the sub-title
+tagline: A blog of a unique person.   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
-  A blog of a boring person.
+  I write about my dev experiences.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
 url: 'https://li6in9muyou.github.io'
