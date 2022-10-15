@@ -1,7 +1,11 @@
 ---
-title: powershell自动补全
+title: PowerShell自动补全
 date: 2022-06-06
+categories: [HowTo]
+tags: [tooling,PowerShell]
 ---
+
+execute following lines in PowerShell, then restart it.
 
 ```powershell
 Install-Module PSReadLine -AllowPrerelease -Force
