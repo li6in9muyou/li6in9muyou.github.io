@@ -20,4 +20,5 @@ Steps above worked!
 
 - The push to GitHub kicks off a sequence GitHub Action
 - The new blog is live at the site
+- A [small commit](https://github.com/li6in9muyou/li6in9muyou.github.io/commit/682e485caccb328c7a4595632f69bdd63891ce79) takes about one minute from push to live.
 
