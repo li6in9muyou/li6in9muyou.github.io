@@ -44,7 +44,7 @@ tags: [chore]
 ---
 ```
 
-For anything else, refer to [jekyll doc](https://jekyllrb.com/docs/front-matter/).
+For anything else, refer to [Jekyll doc](https://jekyllrb.com/docs/front-matter/).
 
 fields
 
@@ -62,3 +62,11 @@ Images should be in `/assets/blog-images`. Links in markdown should have prefix 
 **FIXME**
 
 The set up above would cause markdown editor to be unable to locate and render images. This behavior is not desirable. I am working on a better solution.
+
+## other guidelines
+
+0. Markdown titles and subtitles are used to generate permalink, use concise ACSII titles if you don't want your link ends up to be gibberish like `example.com/posts/%E5%A6%82%E4%BD%95%E7%BB%99%E6%9C%AC%E7%AB%99%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0`
+1. coming soon...
+
+
+
