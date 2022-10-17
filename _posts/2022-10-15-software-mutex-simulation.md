@@ -10,7 +10,7 @@ mermaid: true
 
 See it live at [live demo](https://li6in9muyou.github.io/software-mutex-sim/)
 
-I built a simple webpage to demonstrate the execution of 4 algorithms that solved the mutex problem. The mutex problem is to ensure that only one of many concurrently running processes is executing the critical region. Being a software solution means that it requires no special hardware or special instructions e.g. test-and-set, compare-and-swap.
+I built a simple app to demonstrate the execution of 4 algorithms that solved the mutex problem. The mutex problem is to ensure that only one of many concurrently running processes is executing the critical region. Being a software solution means that it requires no special hardware or special instructions e.g. test-and-set, compare-and-swap.
 
 The four algorithms I was asked to implement are:
 
@@ -19,11 +19,28 @@ The four algorithms I was asked to implement are:
 - Peterson's
 - Eisenberg & McGuire's
 
-## feature
+## Features
 
 - Each (simulated) process can be paused and resumed during execution
 - Global memory is updated in real-time
 - Line number of source code at which the process is executing is updated in real-time
+
+## Background
+
+This app simulates a scenario where many processes are contending a lock. These algorithms implements `lock()` and `unlock()` routines for such a lock. All four algorithms uses some shared memory, e.g. `wants_to_enter` and `turn` in the following snippet. 
+
+```javascript
+async function lock(...) {
+  wants_to_enter[pid] = TRUE;
+  while (TRUE === wants_to_enter[counterpart(pid)]) {
+    if (turn[0] !== pid) {
+        ...
+    }
+  }
+}
+```
+
+By definition, shared memory means that all processes are able to observe modifications made by other processes. Typically, `lock()` routine of these algorithms only writes to a same memory index, e.g. `pid`, and occasionally iterates over all elements in memory.
 
 ## Implementation Considerations
 
@@ -85,6 +102,10 @@ while (should_wait()) {
 }
 ```
 
+### observe and command processes
+
+coming soon...
+
 ### shared global memory
 
 Data exchange between master thread and worker threads is extremely limited. And worker threads can not directly access memory used by master thread. 
@@ -95,7 +116,9 @@ One solution to this problem is to use [SharedArrayBuffer](https://developer.moz
 
 #### the hairy way: broadcast writes
 
-I think this approach has a name in the field of distributed programming but I have not identified it yet. Another approach would be manually syncing all memory writes. Every process sends its write requests to a centralized broadcaster. Upon receiving any write requests, the broadcaster broadcasts this request to all the other processes. When receiving write requests from other processes, process updates its local copy of global memory. 
+Another approach would be manually syncing all memory writes. Every process sends its write requests to a centralized broadcaster. Upon receiving any write requests, the broadcaster broadcasts this request to all the other processes. When receiving write requests from other processes, process updates its local copy of global memory. 
+
+This approach eliminates the need for special headers and it can be employed in simple static web pages. I think this approach has a name in the field of distributed programming but I have not identified it yet. 
 
 ```mermaid
 flowchart TB
@@ -110,6 +133,16 @@ Inevitably, local copies of individual processes will be stale from time to time
 
 In practice, all processes subscribe to an observable in master thread and a broadcaster in master thread subscribe to all processes.
 
+In master thread
+
+```javascript
+process.source.subscribe((args) => {
+    if (isWriteRequest(args)) {
+        this.processes.map((process) => process.update(args));
+    }
+});
+```
+
 And in simulated process's code, we update local copy on every write
 
 ```javascript
@@ -118,4 +151,53 @@ update(ev) {
    local_copy[slice][index] = arr;
 }
 ```
+
+## General Design
+
+### IProcess and IProcessGroup
+
+Simulated process is modeled by two interfaces as follows:
+
+```typescript
+interface IProcessQuery {
+  pid: number;
+  execution_state: Observable<ProcessLifeCycle>;
+  program: IProgram;
+}
+
+interface IProgram {
+  locking_state: Observable<LockingState>;
+  line_number: Observable<number>;
+}
+
+interface IProcessCommand {
+  start(): Promise<void>;
+  resume(): Promise<void>;
+  pause(): Promise<void>;
+  kill(): Promise<void>;
+  set_breakpoint(to_be: boolean): Promise<void>;
+}
+```
+
+Shared memory is attached to a group of contending processes. Furthermore to facilitate use cases where all processes are commanded or queried together.
+
+Finally, a process group is modeled as:
+
+```typescript
+interface IProcessGroupQuery {
+  execution_state: Observable<ProcessLifeCycle>[];
+  program: IProgram[];
+  memory: Map<string, Observable<Array<number>>>;
+}
+
+interface IProcessGroup {
+  all: IProcessGroupQuery & IProcessCommand;
+  pid(pid: number): IProcess;
+  process_count: number;
+}
+```
+
+Note that type `Observable` used above is nothing more than an interface with a simple `subscribe(subscriber)` method. It's a rather generic and universal concept so I suppose it's ok to put it in interfaces without limiting implementation at any way. 
+
+In `IProcessGroupQuery`, memory is modeled as a `Map<string, ...>` where its keys are names of shared objects used in algorithm implementations. UI sub-systems consumes this interface by subscribing to every item in this `Map` object and updates when events are emitted.
 
