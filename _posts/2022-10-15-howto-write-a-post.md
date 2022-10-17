@@ -4,17 +4,17 @@ categories: [Howto,Memo]
 tags: [chore]
 ---
 
-# steps:
+# steps
 
 0. Clone this repo from GitHub
-1. Create a post under `/_posts/`. See "A Post" below for detail
+1. Create a post under `/_posts/`. See "A Post" section below for details
 2. Commit then push.
 
 ## expected behavior:
 
 - The push to GitHub kicks off a sequence GitHub Actions
 - The new post is live at the site
-- A [small commit](https://github.com/li6in9muyou/li6in9muyou.github.io/commit/682e485caccb328c7a4595632f69bdd63891ce79) takes about one minute from push to live.
+- A small commit like [this](https://github.com/li6in9muyou/li6in9muyou.github.io/commit/682e485caccb328c7a4595632f69bdd63891ce79) takes about one minute from push to live.
 
 # A Post
 
