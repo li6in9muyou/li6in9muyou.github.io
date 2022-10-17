@@ -5,6 +5,8 @@ categories: [Howto]
 tags: [chore]
 ---
 
+# **THIS POST IS OUTDATED, REFER TO [THE LASTEST VERSION](https://blog.li6q.fun/posts/howto-write-a-post/)**
+
 1. 添加front matter。
 2. 把源post复制到`/_posts/`，重命名为`YYYY-MM-DD-${title}.md`的格式。
    I may leave title as is knowing that chineses characters are preserved in browser's address bar and white spaces will be automatically replaced with dashes.
