@@ -10,3 +10,35 @@ I am using this book *"Writing An Interpreter In Go"* by Thorsten Ball. You can 
 
 # Lexer
 
+Lexer and parser have a very common behavior. Both of them will peek one character/token then decide which concrete lexer/tokenizer to use. Some tokens may start with the same character. For example, `let` and `latitude` both starts with character `l` but they are keyword and identifier respectively. So when character `l` is encountered a lexer would try to use a sequence of "sub-lexers" according to some predefined priority. When one "sub-lexer" fails, it tries the next one. An example is given below.
+
+```go
+word := lexer.eatWord()
+
+t, err = lexer.tryKeyword(word)
+if err == nil {
+    return t, err
+}
+
+t, err = lexer.tryIdentifier(word)
+if err == nil {
+    return t, err
+}
+```
+
+# Parser
+
+A parser parses tokens into abstract syntax trees. Parsing is one of the most well-understood branches of computer science and really smart people have already invested a lot of time into the problems of parsing.
+
+I will implement a "Pratt parser" or "top down operator precedence parser"
+
+## let statement
+
+### steps
+
+0. ensure there is a LET token
+1. try parse an identifier
+2. ensure there is an equal sign
+3. try parse an expression
+
+Steps above closely resemble a let statement literal.
