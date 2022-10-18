@@ -160,7 +160,7 @@ token 或者 ID 没有的话就返回 204
 前置要求：无
 
 ```mermaid
-stateDiagram
+stateDiagram-v2
 state "要求用户输入网名" as unreg
 state "欢迎你" as reg
 
@@ -176,7 +176,7 @@ reg --> [*]: 用户决定查看存档\nemit evMySavedGame()
 ### 零件：用户的历史对局
 
 ```mermaid
-stateDiagram
+stateDiagram-v2
 
 state "列出历史对局" as d
 
@@ -192,7 +192,7 @@ d-->[*]: 用户返回\nemit evBackToGameTitle()
 - 玩家网名
 
 ```mermaid
-stateDiagram
+stateDiagram-v2
 
 state "询问要跟电脑对战还是跟玩家匹配" as s
 
@@ -214,7 +214,7 @@ s-->[*]: 跟玩家匹配\nemit evStartMatching()
 每次进入此页面或者玩家决定继续等，都要发布开始查询匹配状态的事件。
 
 ```mermaid
-stateDiagram
+stateDiagram-v2
 
 state "等待中" as A
 state "汇报匹配失败了" as B
@@ -234,7 +234,7 @@ B-->[*]: 用户决定跟电脑玩\nemit evStartLocalComputerGame()
 - 如果是在线匹配游戏，必须有棋盘 token，玩家在线 handle
 
 ```mermaid
-stateDiagram
+stateDiagram-v2
 
 state "等待服务器传回初始棋盘" as pre
 state "游戏正在进行" as inGame
