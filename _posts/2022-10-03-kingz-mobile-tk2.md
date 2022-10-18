@@ -158,13 +158,57 @@ token或者ID没有的话就返回204
 
 前置要求：无
 
+```mermaid
+stateDiagram-v2
+state "要求用户输入网名" as unreg
+state "欢迎你" as reg
+
+[*] --> unreg: props.registered === false
+[*] --> reg: props.registered === true
+
+unreg --> [*]: 用户提交新输入的网名\nemit evSubmitNewNickname(nickname)
+
+reg --> [*]: 用户决定查看存档\nemit evMySavedGame()
+
+```
+
+
+
+### 零件：用户的历史对局
+
+```mermaid
+stateDiagram-v2
+
+state "列出历史对局" as d
+
+[*]-->d: 
+d-->[*]: 用户选定存档\nemit evResumeSavedGame(save_idx)
+d-->[*]: 用户返回\nemit evBackToGameTitle()
+```
+
+
+
 ### 零件：选择跟电脑玩或者匹配玩家
 
 前置要求：
 
 - 玩家网名
 
+```mermaid
+stateDiagram-v2
+
+state "询问要跟电脑对战还是跟玩家匹配" as s
+
+[*] --> s
+s-->[*]: 跟电脑玩\nemit evStartLocalComputerGame()
+s-->[*]: 跟玩家匹配\nemit evStartMatching()
+```
+
+
+
 ### 零件：匹配中
+
+`WaitingInQueue.jsx`
 
 前置要求：
 
@@ -172,13 +216,52 @@ token或者ID没有的话就返回204
 
 本页面等待`GameHttpClient`的结果，如果回报失败则显示失败页面，询问玩家是否继续等。
 
+每次进入此页面或者玩家决定继续等，都要发布开始查询匹配状态的事件。
+
+```mermaid
+stateDiagram-v2
+
+state "等待中" as A
+state "汇报匹配失败了" as B
+
+[*]-->A: emit evStartPollingMatchStatus()
+A-->[*]: 用户取消匹配\nemit evCancelMatching()
+A-->B: recive evCloudDeclineMatch
+B-->A: 用户决定继续等\nemit evStartPollingMatchStatus()
+B-->[*]: 用户决定跟电脑玩\nemit evStartLocalComputerGame()
+
+```
+
+
+
 ### 零件：棋盘页
 
 前置要求：
 
 - 如果是在线匹配游戏，必须有棋盘token，玩家在线handle
 
-## 前端的实现任务                  
+```mermaid
+stateDiagram-v2
+
+state "等待服务器传回初始棋盘" as pre
+state "游戏正在进行" as inGame
+state "汇报对手离开了对局" as remoteQuit
+
+[*]-->pre
+pre-->inGame: receive evInitGameState(game_state)
+inGame-->inGame: receive evUpdateGameState(game_state)
+inGame-->inGame: 用户输入他的招数\nemit evLocalMove(game_move)
+
+inGame-->[*]: receive evGameOver()
+inGame-->[*]: receive evRemotePlayerWentOffline()
+
+inGame-->remoteQuit: receive evRemotePlayerWentOffline()
+remoteQuit-->[*]: 用户决定保存退出了\nemit evSaveGameState(game_state)
+remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nemit evStartMatching()
+
+```
+
+## 前端的实现任务
 
 ### 编写公共代码
 
