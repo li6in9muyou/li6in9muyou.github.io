@@ -14,8 +14,8 @@ mermaid: true
 
 ```javascript
 {
-  idx: 存档的id
-  match_token: 棋局token，同下面的定义
+  idx: "存档的id";
+  match_token: "棋局token，同下面的定义";
 }
 ```
 
@@ -71,9 +71,9 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ```js
 {
-    token: 棋局ID,
-    data: 下面描述的二维数组
-    roundIdx：一个整数
+    token: 棋局ID;
+    data: "下面描述的二维数组";
+    roundIdx: "一个整数表示当前回合数";
 }
 ```
 
@@ -263,9 +263,9 @@ remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nem
 这一个实体大致实现下面这个接口，emit 就是发布事件的意思，on 就是用来订阅某个事件和事件处理函数的。为了调试的方便，要求在控制台记录所有发布出来的事件，以及调用了哪些订阅者。
 
 ```typescript
-interface {
-    emit(event_type: string, payload: any): void;
-    on(
+interface Observable {
+    publish(event_type: string, payload: any): void;
+    subscribe(
         event_type: string,
         subscriber: (ev: {event_type: string, payload: any}) => void
     ): void;
@@ -316,9 +316,9 @@ interface {
 
 这里说的页面就是上面图中的方框，对每个页面要做这些操作：
 
-0. 考虑要不要把跟它有频繁关系的页面归并在一起，编为一个零件。如果没有那就是一个零件渲染一个页面
-1. 罗列出这一个零件需要订阅的事件以及要发布的事件，给出数据块的定义，如果有。
-2. 编码实现。
+1. 考虑要不要把跟它有频繁关系的页面归并在一起，编为一个零件。如果没有那就是一个零件渲染一个页面
+2. 罗列出这一个零件需要订阅的事件以及要发布的事件，给出数据块的定义，如果有。
+3. 编码实现。
 
 # 开发进度记录
 
