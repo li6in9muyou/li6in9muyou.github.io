@@ -2,14 +2,14 @@
 title: book list demo项目批判
 date: 2022-05-09
 categories: [ProjectExperience]
-tags: [svelte,frontend]
+tags: [svelte, frontend]
 ---
 
-> 编者按：这是对一个书单分享应用demo的反思，[项目地址](https://github.com/li6in9muyou/book-list-app-demo)。使用svelte开发，持续了一个月。
+> 编者按：这是对一个书单分享应用 demo 的反思，[项目地址](https://github.com/li6in9muyou/book-list-app-demo)。使用 svelte 开发，持续了一个月。
 
-e-library项目
+e-library 项目
 
-`routes.js`定义了URL字面量到svelte组件映射以及页面名字到URL字面量的映射，前者是给路由库使用的路由定义，后者是在HTML中嵌入链接时使用的常量。每个页面都大致对应系统的一个子系统，调试页则聚合了相关的功能。最初分为如下几个子系统：
+`routes.js`定义了 URL 字面量到 svelte 组件映射以及页面名字到 URL 字面量的映射，前者是给路由库使用的路由定义，后者是在 HTML 中嵌入链接时使用的常量。每个页面都大致对应系统的一个子系统，调试页则聚合了相关的功能。最初分为如下几个子系统：
 
 - 书本搜索页
 - 注册
@@ -18,22 +18,22 @@ e-library项目
 
 ## 注册和登录功能
 
-最初的注册页，组合了`AskPassword`和`AskDisplayName`两个组件并且要求它们返回一个`Reable<{value: string}>`。这里的返回是以output parameter来完成的，使用svelte的bind directive。不过从父组件的角度看，他只需要字符串，整个生命周期只会读取一次store中的值。
+最初的注册页，组合了`AskPassword`和`AskDisplayName`两个组件并且要求它们返回一个`Reable<{value: string}>`。这里的返回是以 output parameter 来完成的，使用 svelte 的 bind directive。不过从父组件的角度看，他只需要字符串，整个生命周期只会读取一次 store 中的值。
 
 并且注册页组件还负责调用`persistUser`来将`createUser`的返回值持久化储存。这几个功能都是由一个`UserService`包提供的。
 
-功能上来看，这个注册页没有考虑alternative execution path，例如：
+功能上来看，这个注册页没有考虑 alternative execution path，例如：
 
 - 用户存在但密码错误
 - 用户不存在
 
-以及等待网络回复时也没有反馈给用户，应该disable UI按钮的click handler并显示loading spinner，网络回复收到之后要相应地恢复上述这些状态。
+以及等待网络回复时也没有反馈给用户，应该 disable UI 按钮的 click handler 并显示 loading spinner，网络回复收到之后要相应地恢复上述这些状态。
 
-登录页跟注册页有大量的重复，他们两个都使用`AskPassword`和`AskDisplayName`组件。他们的提交按钮的click handler中只有“正在登录”vs“正在注册”等字面量有差别。
+登录页跟注册页有大量的重复，他们两个都使用`AskPassword`和`AskDisplayName`组件。他们的提交按钮的 click handler 中只有“正在登录”vs“正在注册”等字面量有差别。
 
-后来我加入了路由系统之后，也是在这个`UserLogin`组件中直接抛出路由事件来触发路由切换。这个不太好，因为该组件的主要职责是渲染视觉元素。这里要解决的问题就是通知各interested parties，用户已经成功鉴权了，这边可以用一个全局的publisher/event-emitter之类的模式来处理。路由系统监听此事件，收到后便切换到适当的页面。
+后来我加入了路由系统之后，也是在这个`UserLogin`组件中直接抛出路由事件来触发路由切换。这个不太好，因为该组件的主要职责是渲染视觉元素。这里要解决的问题就是通知各 interested parties，用户已经成功鉴权了，这边可以用一个全局的 publisher/event-emitter 之类的模式来处理。路由系统监听此事件，收到后便切换到适当的页面。
 
-注意到这边说的用户credential校验和异常execution path。用户credential校验又可以分为本地校验和云端校验。理想的状态应该是，本地校验应该从user包中导入相关的validator，然后由UI组件负责搭建输入框及错误提示等视觉元素，云端校验用抛出异常来提示出错，UI组件负责把抛出的这些异常渲染成用户友好的视觉元素。
+注意到这边说的用户 credential 校验和异常 execution path。用户 credential 校验又可以分为本地校验和云端校验。理想的状态应该是，本地校验应该从 user 包中导入相关的 validator，然后由 UI 组件负责搭建输入框及错误提示等视觉元素，云端校验用抛出异常来提示出错，UI 组件负责把抛出的这些异常渲染成用户友好的视觉元素。
 
 ## 书本搜索页
 
@@ -49,19 +49,19 @@ e-library项目
   - 单本书
   - 多本书
 
-一开始时，在`Catalog`UI组件中直接访问数据库，代码中有大量的数据库细节。处理全反选清空的逻辑也是写在此处。
+一开始时，在`Catalog`UI 组件中直接访问数据库，代码中有大量的数据库细节。处理全反选清空的逻辑也是写在此处。
 
 弊端：
 
-- UI组件依赖于其他子系统的实现细节
-- 不同UI组件的逻辑写在一起，很难将视觉元素拆开，在视觉层面和在HTML层面都很难。
+- UI 组件依赖于其他子系统的实现细节
+- 不同 UI 组件的逻辑写在一起，很难将视觉元素拆开，在视觉层面和在 HTML 层面都很难。
 
 ### 关键字匹配的实现方法
 
-1. 规定Filter就是Book上的predicate。
-2. 父组件暴露一个变量filter，类型是上述Filter，初始值为恒真函数，并监听filter的赋值事件。
+1. 规定 Filter 就是 Book 上的 predicate。
+2. 父组件暴露一个变量 filter，类型是上述 Filter，初始值为恒真函数，并监听 filter 的赋值事件。
 3. 子组件在自己的生命周期中可以反复给上述全局变量赋值。
-4. filter的赋值事件发生时，父组件把新的filter应用到全部的items，得出新的应显示的条目。
+4. filter 的赋值事件发生时，父组件把新的 filter 应用到全部的 items，得出新的应显示的条目。
 
 ### 显示一批书本
 
@@ -75,6 +75,6 @@ e-library项目
 `Entry`组件，负责渲染一个条目，输入有一个条目对象。并依赖由祖先组件设置的两个全局变量：
 
 - 当前选中的所有条目的集合：这是为了决定是否显示自己为被选中。
-- toggle函数：调用它可以设置某本书的选中状态。
+- toggle 函数：调用它可以设置某本书的选中状态。
 
-这里其实很怪，因为完全可以把所有条目的集合改成一个查询某本书选中状态的query函数。但即便如此，也不妥当。因为渲染一个条目的组件也可以单独使用，也就是不需要点击切换选中状态这一功能。不应该把实现这一功能的逻辑写在该组件中。同时，这么写的话，这一组件的使用者调用者也根本不知道应提供怎么样的全局变量，调用者一定要知道该组件的实现细节才可以使用，这很不好。
+这里其实很怪，因为完全可以把所有条目的集合改成一个查询某本书选中状态的 query 函数。但即便如此，也不妥当。因为渲染一个条目的组件也可以单独使用，也就是不需要点击切换选中状态这一功能。不应该把实现这一功能的逻辑写在该组件中。同时，这么写的话，这一组件的使用者调用者也根本不知道应提供怎么样的全局变量，调用者一定要知道该组件的实现细节才可以使用，这很不好。

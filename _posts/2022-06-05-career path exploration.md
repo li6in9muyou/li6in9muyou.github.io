@@ -2,7 +2,7 @@
 title: tastes of various scientific research fields other than AI
 date: 2021-07-27
 categories: [Exploration]
-tags: [career_path,read_papers,thoughts]
+tags: [career_path, read_papers, thoughts]
 ---
 
 [CCF](https://www.ccf.org.cn/) groups computer science research journals and conferences into the following fields.
@@ -22,30 +22,30 @@ tags: [career_path,read_papers,thoughts]
 
 ## #3 One way to select many
 
-> This paper is accepted by ECOOP which is rated as class B by CCCF. 
+> This paper is accepted by ECOOP which is rated as class B by CCCF.
 
-It is to address this problem: 
+It is to address this problem:
 
 > software industry has not managed to establish precise
 > standard semantics for selecting multiple elements from collections and, consequently, to produce easily reused implementations of selection features
 
-and it propose: 
+and it propose:
 
 > the abstractions that capture the essence of multi-selection features and enable their precise and concise specification, and their generic implementation
 
-It points out current deficient: 
+It points out current deficient:
 
 > The precise meanings of these actions, however, are not established, as evidenced by the below review of sample applications.
 
 This work is quite good, because the author gets to write a lot of javascript code that solves a concrete problem in the industry. More importantly, the author proposed an general abstraction for such user interaction scenario. He decomposes seemingly complex use-case into reuseable pieces and expresses them with formal language.
 
-I am always facinated with abstraction in software engineering. 
+I am always facinated with abstraction in software engineering.
 
 ## #4 A Survey of State Management in Big Data Processing Systems
 
-> This paper is accepted by VLDB J. which is rated as class A journal by CCCF. 
+> This paper is accepted by VLDB J. which is rated as class A journal by CCCF.
 
-This paper discuss everything you can do with such "state" in database system, such as managing state, using state. It addresses all aspects in the following plot: 
+This paper discuss everything you can do with such "state" in database system, such as managing state, using state. It addresses all aspects in the following plot:
 
 However I find an interesting statement in that paper which is going to be our sample paper from #1
 
@@ -53,7 +53,7 @@ However I find an interesting statement in that paper which is going to be our s
 
 it's published on IEEE Trancsactions on Computers which is a class A journal per CCCF.
 
-It give abstract and general definition to such real world problem: 
+It give abstract and general definition to such real world problem:
 
 > we propose a performance model that expresses formally the checkpoint scheduling problem
 
@@ -61,7 +61,7 @@ What I am interestered in:
 
 > In particular, we prove that the checkpoint scheduling problem is NP-hard even in the simple case of uniform failure distribution
 
-simple introduction to checkpoint scheduling problem: 
+simple introduction to checkpoint scheduling problem:
 
 > One of the main problems for this technique is to determine the
 > right series of intervals for checkpointing. Indeed, too many checkpoints would increase the time overhead while too few
@@ -101,11 +101,11 @@ Facebook reactions, crap, is this even “科研“？
 
 ## #5
 
->  Scalable Termination Detection for Distributed Actor Systems
+> Scalable Termination Detection for Distributed Actor Systems
 
 This paper solves real-world problem in distributed systems. That is Garbage collection of actor instances in a distributed actor system. Plenty of mathmatic notations and logical proof are used in the paper.
 
-it's Very Very abstract. There is this conference called concurency, but I am not familiar with most of the nonus appear in proceeding titles. 
+it's Very Very abstract. There is this conference called concurency, but I am not familiar with most of the nonus appear in proceeding titles.
 
 > Monte Carlo Tree Search Guided by Symbolic Advice for MDPs
 >
@@ -120,4 +120,3 @@ There is this journal called Algorithmica. This is actually pretty cool, most pa
 > Sort Real Numbers in $$O(n\sqrt{logn})$$ Time and Linear Space
 
 This paper converts real numbers to integers then use non comparison based algorithm to sort them thus break the illusion that real numbers have to be sorted by comparison sorting. The author give no implementations.
-

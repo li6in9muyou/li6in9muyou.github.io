@@ -2,7 +2,7 @@
 title: PowerShell自动补全
 date: 2022-06-06
 categories: [HowTo]
-tags: [tooling,PowerShell]
+tags: [tooling, PowerShell]
 ---
 
 execute following lines in PowerShell, then restart it.

@@ -7,7 +7,7 @@ tags: []
 
 I accidentally lost a few folders under `D:\tech--BLOG\`.
 
-0. I need "Windows File Recovery" tool. Go to [https://store.rg-adguard.net/](https://store.rg-adguard.net/) to retrieve direct download links for this tool. 
+0. I need "Windows File Recovery" tool. Go to [https://store.rg-adguard.net/](https://store.rg-adguard.net/) to retrieve direct download links for this tool.
 1. Download VCLibs runtime and the tool itself
 2. In elevated powershell, use `Add-AppPackage` command to install them.
 3. Run command `winfr D: C: /regular /n tech--BLOG/`

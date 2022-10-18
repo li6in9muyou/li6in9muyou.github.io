@@ -2,7 +2,7 @@
 title: design of tomato-clock
 date: 2022-05-14
 categories: [ProjectDesign]
-tags: [software_engineering,making_things_complicated]
+tags: [software_engineering, making_things_complicated]
 ---
 
 # domain entities
@@ -25,9 +25,9 @@ counter has one or more countdown-periods
 ## resume and pause
 
 1.  this event is captured
-2. no business rules
-3. `isRunning = !isRunning`
-4. no output
+2.  no business rules
+3.  `isRunning = !isRunning`
+4.  no output
 
 ## set duration of a countdown-period
 

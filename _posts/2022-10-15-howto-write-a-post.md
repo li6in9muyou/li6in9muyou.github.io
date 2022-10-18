@@ -1,6 +1,6 @@
 ---
 title: 如何给本站添加文章
-categories: [Howto,Memo]
+categories: [Howto, Memo]
 tags: [chore]
 ---
 
@@ -25,7 +25,7 @@ File names of posts should be `<YEAR>-<MONTH>-<DAY>-<title>.md` where title shou
 ```
 good:
 2022-10-17-howto-write-a-post.md
-bad: 
+bad:
 2022-10-17-howto write a post.md
 2022-10-17-如何添加文章.md
 ```
@@ -67,6 +67,3 @@ The set up above would cause markdown editor to be unable to locate and render i
 
 0. Markdown titles and subtitles are used to generate permalink, use concise ACSII titles if you don't want your link ends up to be gibberish like `example.com/posts/%E5%A6%82%E4%BD%95%E7%BB%99%E6%9C%AC%E7%AB%99%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0`
 1. coming soon...
-
-
-

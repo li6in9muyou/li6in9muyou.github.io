@@ -2,16 +2,16 @@
 title: 数据库查询企业长期短期合作伙伴的数量
 date: 2021-08-17
 categories: []
-tags: [pandas,python,database]
+tags: [pandas, python, database]
 ---
 
-假定你是李明，你拿到一份记录有123家企业在2016~2020四年期间的销售记录。记录的形式如下：
+假定你是李明，你拿到一份记录有 123 家企业在 2016~2020 四年期间的销售记录。记录的形式如下：
 
-对每一笔交易，记录企业id，买家id，交易发生年份，这样的记录共有16万余条，以csv格式存储在文件系统中。如下图：
+对每一笔交易，记录企业 id，买家 id，交易发生年份，这样的记录共有 16 万余条，以 csv 格式存储在文件系统中。如下图：
 
 ![image-20210817154025740](/assets/blog-images/用python生态的pandas解决一个aggregation需求.assets\image-20210817154025740.png)
 
-李明的任务是对每一家企业```E1, E2, ..., E123```统计与它们合作了1,2,3,4年的合作伙伴的数量。结果应类似下图：
+李明的任务是对每一家企业`E1, E2, ..., E123`统计与它们合作了 1,2,3,4 年的合作伙伴的数量。结果应类似下图：
 
 <table border="1" class="dataframe">
   <thead>
@@ -112,7 +112,7 @@ tags: [pandas,python,database]
 </table>
 <p>123 rows × 4 columns</p>
 
-表格含义解读：```E47```号企业合作了4年的合作伙伴有80家，而```E101```号企业只有两个刚刚合作一年的伙伴，```E8```则有多达2000余家合作了一年的合作伙伴。
+表格含义解读：`E47`号企业合作了 4 年的合作伙伴有 80 家，而`E101`号企业只有两个刚刚合作一年的伙伴，`E8`则有多达 2000 余家合作了一年的合作伙伴。
 
 ## 我摸索的过程
 
@@ -160,9 +160,8 @@ ff.groupby(by=['id', 'yr'])['sold'].unique()\
 .apply(pd.Series).unstack().dropna()
 ```
 
-
 ```
-    yr  
+    yr
 0   2016    B10116
     2017    B00002
     2018    B07693
@@ -176,7 +175,7 @@ ff.groupby(by=['id', 'yr'])['sold'].unique()\
 dtype: object
 ```
 
-这样合作伙伴代号都拆开了，每一行有一个合作伙伴代号。然后用两次```value_counts```计算出现了1,2,3,4次的代号分别有多少个。
+这样合作伙伴代号都拆开了，每一行有一个合作伙伴代号。然后用两次`value_counts`计算出现了 1,2,3,4 次的代号分别有多少个。
 
 ```python
 ff.groupby(by=['id', 'yr'])['sold'].unique()\
@@ -191,7 +190,7 @@ ff.groupby(by=['id', 'yr'])['sold'].unique()\
 2     3
 dtype: int64</pre></div>
 
-这样就完成了一个企业的统计，下面把同样的过程应用到每一个id
+这样就完成了一个企业的统计，下面把同样的过程应用到每一个 id
 
 ```python
 ff.groupby(by=['id', 'yr'])['sold'].unique().to_frame()\
@@ -203,11 +202,11 @@ ff.groupby(by=['id', 'yr'])['sold'].unique().to_frame()\
 .fillna(0).astype(int).droplevel(0, axis='columns')
 ```
 
-基本上跟单个的时候一致，只有两个区别，apply的算子接收到的参数类型就是```pd.DataFrame```，而上面```loc```得到的是```pd.Series```，这里就不需要```to_drame```操作了。再有一个是需要用转置换成```pd.Series```后面才能使用```value_counts```。
+基本上跟单个的时候一致，只有两个区别，apply 的算子接收到的参数类型就是`pd.DataFrame`，而上面`loc`得到的是`pd.Series`，这里就不需要`to_drame`操作了。再有一个是需要用转置换成`pd.Series`后面才能使用`value_counts`。
 
-这种方法是比较慢的，而且也比较不合理，不是正确的pandas使用方法。因为使用了比较多的```apply```跟反复两次```to_frame```，应该多使用pandas提供的功能。
+这种方法是比较慢的，而且也比较不合理，不是正确的 pandas 使用方法。因为使用了比较多的`apply`跟反复两次`to_frame`，应该多使用 pandas 提供的功能。
 
-计时结果如，需要2秒余：
+计时结果如，需要 2 秒余：
 
 ```python
 %%timeit -n 7 -r 10
@@ -222,8 +221,6 @@ ff.groupby(by=['id', 'yr'])['sold'].unique().to_frame()\
 
 7 loops, best of 10: 2.19 s per loop
 ```
-
-
 
 ## 比较好的思路
 
@@ -241,7 +238,7 @@ ff.groupby(by=['id', 'sold', 'yr']).size().unstack().fillna(0).astype(bool)\
 7 loops, best of 10: 474 ms per loop
 ```
 
-用SQL来写
+用 SQL 来写
 
 ```sql
 SELECT
@@ -253,24 +250,24 @@ FROM
 	SELECT
 		id,
 		sold_to,
-		sum( yc ) AS ycnt 
+		sum( yc ) AS ycnt
 	FROM
 		(
 		SELECT
 			id,
 			sold_to,
-			count( 1 ) AS yc 
+			count( 1 ) AS yc
 		FROM
-			( SELECT DISTINCT id, sold_to, year FROM quiz ) 
+			( SELECT DISTINCT id, sold_to, year FROM quiz )
 		GROUP BY
 			id,
 			sold_to,
-			year 
-		) 
+			year
+		)
 	GROUP BY
 		id,
-		sold_to 
-	) 
+		sold_to
+	)
 GROUP BY
 	id,
 	ycnt
@@ -278,10 +275,9 @@ GROUP BY
 
 效果示例：
 
-| id   | ycnt | pcnt |
-| ---- | ---- | ---- |
-| E1   | 1    | 185  |
-| E1   | 2    | 52   |
-| E1   | 3    | 52   |
-| E1   | 4    | 71   |
-
+| id  | ycnt | pcnt |
+| --- | ---- | ---- |
+| E1  | 1    | 185  |
+| E1  | 2    | 52   |
+| E1  | 3    | 52   |
+| E1  | 4    | 71   |

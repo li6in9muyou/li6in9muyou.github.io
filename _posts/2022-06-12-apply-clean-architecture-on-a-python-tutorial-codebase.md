@@ -2,7 +2,7 @@
 title: apply clean architecture on a python tutorial codebase
 date: 2022-06-12
 categories: [LearnArchitecture]
-tags: [socket,python,clean_architecture]
+tags: [socket, python, clean_architecture]
 ---
 
 # What are we building
@@ -51,11 +51,11 @@ Notice that `Game` calls `Player.draw` to draw sprites on the screen.
 
 # My refactoring
 
-In short, this game models two sprites moving in an arena. 
+In short, this game models two sprites moving in an arena.
 
 ## Domain Objects
 
-Domain objects includes `Arena` and `Player`. 
+Domain objects includes `Arena` and `Player`.
 
 ### `Arena`
 
@@ -146,8 +146,8 @@ Considering the loop-based nature of this video game system, I designed the inte
 
 ```typescript
 interface IAdapter {
-    on_update(elapsed: number): void;
-    on_init(context: Context): void;
+  on_update(elapsed: number): void;
+  on_init(context: Context): void;
 }
 ```
 
@@ -206,7 +206,7 @@ def dump(self, arena, players):
 
 ### exposition
 
-In effect, the `OnlineAdapter` is responsible for both sending local state to server and updating local copy of remote state. The first responsibility ports system state to a external actor while the second mutates system state and invokes method on `ArenaMoveService`. 
+In effect, the `OnlineAdapter` is responsible for both sending local state to server and updating local copy of remote state. The first responsibility ports system state to a external actor while the second mutates system state and invokes method on `ArenaMoveService`.
 
 Hence, component bearing these two responsibilities may be considered a "port" as well as an "adapter". At first, I decided to put it in an output port, like so:
 
@@ -222,9 +222,9 @@ Not before long, I discovered that code snippets above causes stack overflow bec
 
 ### analysis
 
-I made two mistakes here. 
+I made two mistakes here.
 
-For one, this output port is calling a service which violates the clean architecture principles dictating that flow of control should starts from services then points outwards to ports. 
+For one, this output port is calling a service which violates the clean architecture principles dictating that flow of control should starts from services then points outwards to ports.
 
 For another, more generally, when `dump()` is called, it makes query to system state and subsequently mutates it, which leads to another invocation of `dump()`.
 
@@ -245,4 +245,3 @@ One simple solution to this is to make updates only when something has actually 
 ```
 
 Another solution would be move remote synchronization logic in an adapter where it's appropriate to call `ArenaMoveService` as shown above.
-

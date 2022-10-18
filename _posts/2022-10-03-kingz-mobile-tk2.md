@@ -2,7 +2,7 @@
 title: Kingz战棋游戏设计-tk2
 data: 2022-10-03
 categories: [ProjectExperience]
-tags: [react,frontend,teamwork]
+tags: [react, frontend, teamwork]
 ---
 
 # 云端功能需求
@@ -20,9 +20,9 @@ tags: [react,frontend,teamwork]
 
 ## `POST /register`
 
-content-type按照下面的来，只有`nickName`和`secret`两个值。这个content-type就是普通form submit的时候浏览器默认采用的。
+content-type 按照下面的来，只有`nickName`和`secret`两个值。这个 content-type 就是普通 form submit 的时候浏览器默认采用的。
 
-`secret`，不能为空，必须是满足regex`[0-9A-Z]{8}`。
+`secret`，不能为空，必须是满足 regex`[0-9A-Z]{8}`。
 
 `nickName`，不能为空，云端限制一个合理的长度。
 
@@ -37,21 +37,21 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ```
 
-要返回一个玩家ID，要求是`p[0-9A-Z]{12}`。
+要返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
 
 ### 异常事件流
 
-如果有某项为空或者没有这个键，就返回400 bad request。
+如果有某项为空或者没有这个键，就返回 400 bad request。
 
 ## `POST /match/{玩家ID}`
 
 给这个玩家一个棋局，保证有一个对手，但是还没有棋盘状态。这个棋局可以是全新的棋局，也可以是残局。
 
-返回一个棋局token。
+返回一个棋局 token。
 
 ## `GET /match/{棋局token}/opponent`
 
-客户端拿到棋局token后会反复请求这个地址，保证不会太频繁。
+客户端拿到棋局 token 后会反复请求这个地址，保证不会太频繁。
 
 返回一个字符串就行，下面三种情况
 
@@ -61,11 +61,11 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ## `DELETE /match/{玩家ID}/`
 
-这个玩家取消匹配了，解开此玩家ID和此前棋局token的绑定。
+这个玩家取消匹配了，解开此玩家 ID 和此前棋局 token 的绑定。
 
 ## `GET /match/{棋局token}/{玩家ID}`
 
-请求带有一个参数token。
+请求带有一个参数 token。
 返回的格式
 
 ```js
@@ -76,7 +76,7 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 }
 ```
 
-二维JSON数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
+二维 JSON 数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
 
 兵力数量就是一个整数。
 
@@ -95,9 +95,9 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ### 异常事件流
 
-`token`不存在就返回404，和空body。
+`token`不存在就返回 404，和空 body。
 
-这个玩家不属于这个棋盘就返回404，和空body。
+这个玩家不属于这个棋盘就返回 404，和空 body。
 
 ## `PUT /match/{棋局的token}/{玩家ID}`
 
@@ -105,7 +105,7 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ### 异常事件流
 
-`token`不存在的话就返回404。
+`token`不存在的话就返回 404。
 
 `roundIdx`小于或者等于云端的话就抛弃不理会。
 
@@ -113,11 +113,11 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 云端解除这个玩家和这个棋局的关联。
 
-返回空body，200状态码就行。
+返回空 body，200 状态码就行。
 
 ### 异常事件流
 
-token或者ID没有的话就返回204
+token 或者 ID 没有的话就返回 204
 
 # 云端时间进度
 
@@ -127,7 +127,7 @@ token或者ID没有的话就返回204
 
 下面用线框图展示典型交互过程。每个方框就是对应一个用户看到的页面，其中也包含了对该页面上视觉元素的粗略设计，仅供参考。
 
-下图类似UML所讲的状态图，箭头表示在页面之间跳转，箭头上的文字标注表示发生了的行为。初始状态显然是Kingz游戏标题页，最后也会回到这里。要注意的是，这里的箭头并没有被穷尽地列出。
+下图类似 UML 所讲的状态图，箭头表示在页面之间跳转，箭头上的文字标注表示发生了的行为。初始状态显然是 Kingz 游戏标题页，最后也会回到这里。要注意的是，这里的箭头并没有被穷尽地列出。
 
 ![设计-2022-10-03-1830](/assets/blog-images/assets/设计-2022-10-03-1830.svg)
 
@@ -147,8 +147,8 @@ token或者ID没有的话就返回204
 
 ```js
 {
-  type: 类型
-  payload: 数据块
+  type: 类型;
+  payload: 数据块;
 }
 ```
 
@@ -172,8 +172,6 @@ reg --> [*]: 用户决定查看存档\nemit evMySavedGame()
 
 ```
 
-
-
 ### 零件：用户的历史对局
 
 ```mermaid
@@ -181,12 +179,10 @@ stateDiagram-v2
 
 state "列出历史对局" as d
 
-[*]-->d: 
+[*]-->d:
 d-->[*]: 用户选定存档\nemit evResumeSavedGame(save_idx)
 d-->[*]: 用户返回\nemit evBackToGameTitle()
 ```
-
-
 
 ### 零件：选择跟电脑玩或者匹配玩家
 
@@ -203,8 +199,6 @@ state "询问要跟电脑对战还是跟玩家匹配" as s
 s-->[*]: 跟电脑玩\nemit evStartLocalComputerGame()
 s-->[*]: 跟玩家匹配\nemit evStartMatching()
 ```
-
-
 
 ### 零件：匹配中
 
@@ -232,13 +226,11 @@ B-->[*]: 用户决定跟电脑玩\nemit evStartLocalComputerGame()
 
 ```
 
-
-
 ### 零件：棋盘页
 
 前置要求：
 
-- 如果是在线匹配游戏，必须有棋盘token，玩家在线handle
+- 如果是在线匹配游戏，必须有棋盘 token，玩家在线 handle
 
 ```mermaid
 stateDiagram-v2
@@ -267,7 +259,7 @@ remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nem
 
 #### 事件总线
 
-这一个实体大致实现下面这个接口，emit就是发布事件的意思，on就是用来订阅某个事件和事件处理函数的。为了调试的方便，要求在控制台记录所有发布出来的事件，以及调用了哪些订阅者。
+这一个实体大致实现下面这个接口，emit 就是发布事件的意思，on 就是用来订阅某个事件和事件处理函数的。为了调试的方便，要求在控制台记录所有发布出来的事件，以及调用了哪些订阅者。
 
 ```typescript
 interface {
@@ -283,13 +275,13 @@ interface {
 
 路由的意思就是在页面之间切换。这一实体侦听一种定义好的路由事件，按照需要更换显示出来的页面。
 
-### 按照云端API封装客户端代码
+### 按照云端 API 封装客户端代码
 
-编写一个【云端请求类】把对这些API的请求写进这个类的各种方法中去，以便各页面中的代码来调用。
+编写一个【云端请求类】把对这些 API 的请求写进这个类的各种方法中去，以便各页面中的代码来调用。
 
 #### 设计
 
-下面这些方法都可能发送网络请求，所以都是异步的，如果有没有预料到的http错误，会抛出异常。
+下面这些方法都可能发送网络请求，所以都是异步的，如果有没有预料到的 http 错误，会抛出异常。
 
 ##### `OnlineIdentity`
 
@@ -301,15 +293,15 @@ interface {
 
 - `fetch_local_identity():Promise<OnlineHandle|null>`
 
-  查询本机有没有注册，如果`localStorage`没有就向云端查询，都没有就返回null
+  查询本机有没有注册，如果`localStorage`没有就向云端查询，都没有就返回 null
 
 ##### `KingzHttpClient`
 
 - `构造函数(onlineHandle)`
 
--  `fetach_my_games():Promise<GameState[]>`
+- `fetach_my_games():Promise<GameState[]>`
 
-  从云端或者`localStorage`获取`GameState`的列表，供残局对战使用
+从云端或者`localStorage`获取`GameState`的列表，供残局对战使用
 
 - `fetch_init_game(matchHandle):Promise<GameState>`
 
@@ -317,7 +309,7 @@ interface {
 
 - `push_local_state(localState):Promise<Promise<GameState>>`
 
-  异步地返回一个Promise，里面有云端的状态
+  异步地返回一个 Promise，里面有云端的状态
 
 ### 编写各个页面的代码
 

@@ -2,7 +2,16 @@
 title: 临界区问题的软件解法模拟
 date: 2022-10-15
 categories: [ProjectExperience]
-tags: [mutex,javascript,svelte,frontent,JLU-assignment,concurrent-programming,threads]
+tags:
+  [
+    mutex,
+    javascript,
+    svelte,
+    frontent,
+    JLU-assignment,
+    concurrent-programming,
+    threads,
+  ]
 mermaid: true
 ---
 
@@ -27,7 +36,7 @@ The four algorithms I was asked to implement are:
 
 ## Background
 
-This app simulates a scenario where many processes are contending a lock. These algorithms implements `lock()` and `unlock()` routines for such a lock. All four algorithms uses some shared memory, e.g. `wants_to_enter` and `turn` in the following snippet. 
+This app simulates a scenario where many processes are contending a lock. These algorithms implements `lock()` and `unlock()` routines for such a lock. All four algorithms uses some shared memory, e.g. `wants_to_enter` and `turn` in the following snippet.
 
 ```javascript
 async function lock(...) {
@@ -48,7 +57,7 @@ By definition, shared memory means that all processes are able to observe modifi
 
 The JavaScript runtime is single-threaded thus to achieve concurrent execution in the browser is not straight forward. This problem is solved by spawning web workers which are mapped to real operating system threads.
 
-Another approach would be to emulate CPU in one thread. This approach requires all four algorithms to be compiled into some sort of "assembly language" so that code can be broken up into pieces. By switching between "contexts", parallel execution can be achieved. 
+Another approach would be to emulate CPU in one thread. This approach requires all four algorithms to be compiled into some sort of "assembly language" so that code can be broken up into pieces. By switching between "contexts", parallel execution can be achieved.
 
 For example, the following JavaScript code
 
@@ -56,28 +65,28 @@ For example, the following JavaScript code
 // original JavaScript code
 wants_to_enter[this.who] = Dekker.TRUE;
 while (Dekker.TRUE === wants_to_enter[this.counterpart(this.who)]) {
-    if (turn[0] !== this.who) {
-        wants_to_enter[this.who] = Dekker.FALSE;
-        while (turn[0] !== this.who) {
-            // busy waiting
-        }
-        wants_to_enter[this.who] = Dekker.TRUE;
+  if (turn[0] !== this.who) {
+    wants_to_enter[this.who] = Dekker.FALSE;
+    while (turn[0] !== this.who) {
+      // busy waiting
     }
+    wants_to_enter[this.who] = Dekker.TRUE;
+  }
 }
 ```
 
- can be compiled to
+can be compiled to
 
 ```javascript
 [
-    Store("wants_to_enter", pid, TRUE),
-    JumpIfNotEqual("wants_to_enter", pid, TRUE, 7),
-    JumpIfEqual("turn", 0, pid, 6),
-    Store("wants_to_enter", pid, FALSE),
-    Noop(),
-    JumpIfNotEqual("turn", 0, pid, 4),
-    Store("wants_to_enter", pid, TRUE),
-]
+  Store("wants_to_enter", pid, TRUE),
+  JumpIfNotEqual("wants_to_enter", pid, TRUE, 7),
+  JumpIfEqual("turn", 0, pid, 6),
+  Store("wants_to_enter", pid, FALSE),
+  Noop(),
+  JumpIfNotEqual("turn", 0, pid, 4),
+  Store("wants_to_enter", pid, TRUE),
+];
 ```
 
 The above assembly is compiled manually. Dekker's algorithm is the simplest one among them but compiling its code already requires a lot of tedious work. The approach is quickly abandoned.
@@ -98,7 +107,7 @@ This problem is solved by awaiting a promise inside all busy wait loops. Waiting
 
 ```javascript
 while (should_wait()) {
-    await sleep(1)
+  await sleep(1);
 }
 ```
 
@@ -154,7 +163,7 @@ async (...) => {
     emit(Pre());
     await critical_region();
     emit(Post());
-    
+
     await unlock_impl(...);
     emit(Completed());
 }
@@ -204,7 +213,7 @@ request_resume() {
 
 ### shared global memory
 
-Data exchange between master thread and worker threads is extremely limited. And worker threads can not directly access memory used by master thread. 
+Data exchange between master thread and worker threads is extremely limited. And worker threads can not directly access memory used by master thread.
 
 #### the easy way: ShardArrayBuffer
 
@@ -212,9 +221,9 @@ One solution to this problem is to use [SharedArrayBuffer](https://developer.moz
 
 #### the hairy way: broadcast writes
 
-Another approach would be manually syncing all memory writes. Every process sends its write requests to a centralized broadcaster. Upon receiving any write requests, the broadcaster broadcasts this request to all the other processes. When receiving write requests from other processes, process updates its local copy of global memory. 
+Another approach would be manually syncing all memory writes. Every process sends its write requests to a centralized broadcaster. Upon receiving any write requests, the broadcaster broadcasts this request to all the other processes. When receiving write requests from other processes, process updates its local copy of global memory.
 
-This approach eliminates the need for special headers and it can be employed in simple static web pages. I think this approach has a name in the field of distributed programming but I have not identified it yet. 
+This approach eliminates the need for special headers and it can be employed in simple static web pages. I think this approach has a name in the field of distributed programming but I have not identified it yet.
 
 ```mermaid
 flowchart TB
@@ -233,9 +242,9 @@ In master thread
 
 ```javascript
 process.source.subscribe((args) => {
-    if (isWriteRequest(args)) {
-        this.processes.map((process) => process.update(args));
-    }
+  if (isWriteRequest(args)) {
+    this.processes.map((process) => process.update(args));
+  }
 });
 ```
 
@@ -293,7 +302,6 @@ interface IProcessGroup {
 }
 ```
 
-Note that type `Observable` used above is nothing more than an interface with a simple `subscribe(subscriber)` method. It's a rather generic and universal concept so I suppose it's ok to put it in interfaces without limiting implementation at any way. 
+Note that type `Observable` used above is nothing more than an interface with a simple `subscribe(subscriber)` method. It's a rather generic and universal concept so I suppose it's ok to put it in interfaces without limiting implementation at any way.
 
 In `IProcessGroupQuery`, memory is modeled as a `Map<string, ...>` where its keys are names of shared objects used in algorithm implementations. UI sub-systems consumes this interface by subscribing to every item in this `Map` object and updates when events are emitted.
-
