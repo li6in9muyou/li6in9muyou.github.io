@@ -114,25 +114,56 @@ B-->[*]: 用户决定跟电脑玩\nemit evCancelMatching()\nemit evStartLocalCom
 
 前置要求：
 
-- 如果是在线匹配游戏，必须有棋盘 token，玩家在线 handle
+- 能够构造出当前棋盘状态，如下方式之一
+  - 有棋盘初始状态和双方玩家的招数
+  - 或者：当前棋盘状态
+
+等待初始棋盘，如果是在线匹配，要等双方玩家都收到同一个棋盘后才可以继续，如果是
+本地游戏，则由相应游戏进行生成。
 
 ```mermaid
 stateDiagram-v2
 
-state "等待服务器传回初始棋盘" as pre
-state "游戏正在进行" as inGame
-state "汇报对手离开了对局" as remoteQuit
+state "等待初始棋盘" as pre
+state "游戏\n\n\n\n\n\n\n正在进行" as inGame
+state "汇报游戏胜负" as gameOver
 
 [*]-->pre
+
 pre-->inGame: receive evInitGameState(game_state)
 inGame-->inGame: receive evUpdateGameState(game_state)
 inGame-->inGame: 用户输入他的招数\nemit evLocalMove(game_move)
 
-inGame-->[*]: receive evGameOver()
-inGame-->[*]: receive evRemotePlayerWentOffline()
+inGame-->gameOver: receive evGameOver(winner)
+gameOver-->[*]: 用户点击回到主界面\nemit evBackToGameTitle()
 
-inGame-->remoteQuit: receive evRemotePlayerWentOffline()
-remoteQuit-->[*]: 用户决定保存退出了\nemit evSaveGameState(game_state)
+```
+
+上图中的事件：
+
+负责游戏通信的公共代码发布：
+
+- `evRemotePlayerWentOffline()`
+
+具体的游戏发布：
+
+- `evInitGameState(game_state)`
+- `evUpdateGameState(game_state)`
+- `evGameOver(winner)`
+
+具体的游戏订阅：
+
+- `evLocalMove(game_move)`
+
+### 零件：对手离开了对局
+
+```mermaid
+stateDiagram-v2
+
+state "汇报对手离开了对局" as remoteQuit
+
+[*]-->remoteQuit
+remoteQuit-->[*]: 用户决定保存退出\nemit evSaveGameState(game_state)
 remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nemit evStartMatching()
 
 ```
