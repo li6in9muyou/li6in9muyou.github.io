@@ -106,7 +106,7 @@ state "汇报匹配失败了" as B
 A-->[*]: 用户取消匹配\nemit evCancelMatching()
 A-->B: recive evCloudDeclineMatch
 B-->A: 用户决定继续等\nemit evStartPollingMatchStatus()
-B-->[*]: 用户决定跟电脑玩\nemit evStartLocalComputerGame()
+B-->[*]: 用户决定跟电脑玩\nemit evCancelMatching()\nemit evStartLocalComputerGame()
 
 ```
 
@@ -136,6 +136,27 @@ remoteQuit-->[*]: 用户决定保存退出了\nemit evSaveGameState(game_state)
 remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nemit evStartMatching()
 
 ```
+
+## 前端的公共代码
+
+### 在页面之间保存的状态
+
+```ts
+class LocalStore {
+  player_id: string;
+  secret: string;
+  nick_name: string;
+  match_handle: string;
+}
+```
+
+### 对局匹配器
+
+此实体负责：
+
+- 发出匹配请求
+- 反复查询匹配状态
+- 取消当前的匹配请求
 
 ## 前端的实现任务
 
