@@ -146,11 +146,11 @@ remoteQuit-->[*]: 用户决定重新匹配\nemit evSaveGameState(game_state)\nem
 
 ```typescript
 interface Observable {
-    publish(event_type: string, payload: any): void;
-    subscribe(
-        event_type: string,
-        subscriber: (ev: {event_type: string, payload: any}) => void
-    ): void;
+  publish(ev: { event_type: string; payload: any }): void;
+  subscribe(
+    event_type: string,
+    subscriber: (ev: { event_type: string; payload: any }) => void
+  ): void;
 }
 ```
 
