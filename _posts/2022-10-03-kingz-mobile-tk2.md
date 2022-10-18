@@ -180,7 +180,7 @@ stateDiagram-v2
 
 state "列出历史对局" as d
 
-[*]-->d:
+[*]-->d
 d-->[*]: 用户选定存档\nemit evResumeSavedGame(save_idx)
 d-->[*]: 用户返回\nemit evBackToGameTitle()
 ```
