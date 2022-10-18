@@ -52,6 +52,7 @@ state "欢迎你" as reg
 unreg --> [*]: 用户提交新输入的网名\nemit evSubmitNewNickname(nickname)
 
 reg --> [*]: 用户决定查看存档\nemit evMySavedGame()
+reg --> [*]: 用户开始游戏\nemit evStartNewGame()
 
 ```
 
