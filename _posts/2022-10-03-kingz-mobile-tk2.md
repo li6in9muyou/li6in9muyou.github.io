@@ -6,124 +6,6 @@ tags: [react, frontend, teamwork]
 mermaid: true
 ---
 
-# 云端功能需求
-
-## `GET /saved_games/{玩家ID}`
-
-返回格式如下
-
-```javascript
-{
-  idx: "存档的id";
-  match_token: "棋局token，同下面的定义";
-}
-```
-
-## `POST /register`
-
-content-type 按照下面的来，只有`nickName`和`secret`两个值。这个 content-type 就是普通 form submit 的时候浏览器默认采用的。
-
-`secret`，不能为空，必须是满足 regex`[0-9A-Z]{8}`。
-
-`nickName`，不能为空，云端限制一个合理的长度。
-
-示例如下：
-
-```http
-POST /register HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
-
-
-```
-
-要返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
-
-### 异常事件流
-
-如果有某项为空或者没有这个键，就返回 400 bad request。
-
-## `POST /match/{玩家ID}`
-
-给这个玩家一个棋局，保证有一个对手，但是还没有棋盘状态。这个棋局可以是全新的棋局，也可以是残局。
-
-返回一个棋局 token。
-
-## `GET /match/{棋局token}/opponent`
-
-客户端拿到棋局 token 后会反复请求这个地址，保证不会太频繁。
-
-返回一个字符串就行，下面三种情况
-
-- 成功(success)
-- 失败(fail)
-- 等待(waiting)
-
-## `DELETE /match/{玩家ID}/`
-
-这个玩家取消匹配了，解开此玩家 ID 和此前棋局 token 的绑定。
-
-## `GET /match/{棋局token}/{玩家ID}`
-
-请求带有一个参数 token。
-返回的格式
-
-```js
-{
-    token: 棋局ID;
-    data: "下面描述的二维数组";
-    roundIdx: "一个整数表示当前回合数";
-}
-```
-
-二维 JSON 数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
-
-兵力数量就是一个整数。
-
-地块类型：
-
-- m (ountain) 障碍物
-- e (mpty) 空地
-- f (ortress) 堡垒
-- h (ome) 基地。
-
-归属：
-
-- n (eutral) 中立
-- a 其中一个玩家
-- b 另一个玩家
-
-### 异常事件流
-
-`token`不存在就返回 404，和空 body。
-
-这个玩家不属于这个棋盘就返回 404，和空 body。
-
-## `PUT /match/{棋局的token}/{玩家ID}`
-
-格式跟上面的返回格式一样，含义也一样。
-
-### 异常事件流
-
-`token`不存在的话就返回 404。
-
-`roundIdx`小于或者等于云端的话就抛弃不理会。
-
-## `DELETE /match/{棋局的token}/{玩家ID}`
-
-云端解除这个玩家和这个棋局的关联。
-
-返回空 body，200 状态码就行。
-
-### 异常事件流
-
-token 或者 ID 没有的话就返回 204
-
-# 云端时间进度
-
-这部分由刘某某组织设计，由祁某某和刘某某编码实现，十月十七号要做好。
-
 # 前端功能需求
 
 下面用线框图展示典型交互过程。每个方框就是对应一个用户看到的页面，其中也包含了对该页面上视觉元素的粗略设计，仅供参考。
@@ -319,6 +201,124 @@ interface Observable {
 1. 考虑要不要把跟它有频繁关系的页面归并在一起，编为一个零件。如果没有那就是一个零件渲染一个页面
 2. 罗列出这一个零件需要订阅的事件以及要发布的事件，给出数据块的定义，如果有。
 3. 编码实现。
+
+# 云端功能需求
+
+## `GET /saved_games/{玩家ID}`
+
+返回格式如下
+
+```javascript
+{
+  idx: "存档的id";
+  match_token: "棋局token，同下面的定义";
+}
+```
+
+## `POST /register`
+
+content-type 按照下面的来，只有`nickName`和`secret`两个值。这个 content-type 就是普通 form submit 的时候浏览器默认采用的。
+
+`secret`，不能为空，必须是满足 regex`[0-9A-Z]{8}`。
+
+`nickName`，不能为空，云端限制一个合理的长度。
+
+示例如下：
+
+```http
+POST /register HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
+
+
+```
+
+要返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
+
+### 异常事件流
+
+如果有某项为空或者没有这个键，就返回 400 bad request。
+
+## `POST /match/{玩家ID}`
+
+给这个玩家一个棋局，保证有一个对手，但是还没有棋盘状态。这个棋局可以是全新的棋局，也可以是残局。
+
+返回一个棋局 token。
+
+## `GET /match/{棋局token}/opponent`
+
+客户端拿到棋局 token 后会反复请求这个地址，保证不会太频繁。
+
+返回一个字符串就行，下面三种情况
+
+- 成功(success)
+- 失败(fail)
+- 等待(waiting)
+
+## `DELETE /match/{玩家ID}/`
+
+这个玩家取消匹配了，解开此玩家 ID 和此前棋局 token 的绑定。
+
+## `GET /match/{棋局token}/{玩家ID}`
+
+请求带有一个参数 token。
+返回的格式
+
+```js
+{
+  token: 棋局ID;
+  data: "下面描述的二维数组";
+  roundIdx: "一个整数表示当前回合数";
+}
+```
+
+二维 JSON 数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
+
+兵力数量就是一个整数。
+
+地块类型：
+
+- m (ountain) 障碍物
+- e (mpty) 空地
+- f (ortress) 堡垒
+- h (ome) 基地。
+
+归属：
+
+- n (eutral) 中立
+- a 其中一个玩家
+- b 另一个玩家
+
+### 异常事件流
+
+`token`不存在就返回 404，和空 body。
+
+这个玩家不属于这个棋盘就返回 404，和空 body。
+
+## `PUT /match/{棋局的token}/{玩家ID}`
+
+格式跟上面的返回格式一样，含义也一样。
+
+### 异常事件流
+
+`token`不存在的话就返回 404。
+
+`roundIdx`小于或者等于云端的话就抛弃不理会。
+
+## `DELETE /match/{棋局的token}/{玩家ID}`
+
+云端解除这个玩家和这个棋局的关联。
+
+返回空 body，200 状态码就行。
+
+### 异常事件流
+
+token 或者 ID 没有的话就返回 204
+
+# 云端时间进度
+
+这部分由刘某某组织设计，由祁某某和刘某某编码实现，十月十七号要做好。
 
 # 开发进度记录
 
