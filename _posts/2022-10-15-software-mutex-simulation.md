@@ -104,7 +104,103 @@ while (should_wait()) {
 
 ### observe and command processes
 
-coming soon...
+#### tracing hooks
+
+In order to report one process's progress to UI sub-system, we can have them emit tracing events when executing. To do that, tracing function calls must be added in the algorithm implementation. The following example is the `lock()` routine of the Peterson's algorithm. `break_point(...)` is tracing call which is named breakpoint because this call can pause function execution as well.
+
+```javascript
+async function lock(...) {
+  ...
+  for (let i = 1; i < victim.length; i++) {
+    await break_point(1);
+    await break_point(2);
+    level[pid] = i;
+    await break_point(3);
+    victim[i] = pid;
+    await break_point(4);
+    do {
+      await break_point(100);
+      await Yield();
+      ...
+    } while (!can_proceed(pid, i, level, victim));
+
+    await break_point(5);
+    await Yield();
+  }
+  ...
+}
+```
+
+In side `break_point` function call, it emits a `LineNumber` event.
+
+```javascript
+const LineNumber = (lineno: number) => ({
+  type: "lineno",
+  payload: lineno,
+});
+const Pre = () => ({ type: "pre" });
+const Post = () => ({ type: "post" });
+const Running = () => ({ type: "running" });
+```
+
+Similarly, processes emit tracing events before and after critical region.
+
+```javascript
+async (...) => {
+	...
+    emit(Running())
+    await lock_impl(...);
+
+    emit(Pre());
+    await critical_region();
+    emit(Post());
+    
+    await unlock_impl(...);
+    emit(Completed());
+}
+```
+
+#### pause a process
+
+Pausing a process can be implemented as blocking at a function call or enter an idle loop. Utilizing the await semantics in JavaScript, I designed the following implementation to pause a running async function.
+
+The execution of a `lock()` routine is paused when it awaits on a promise that is controlled by master thread. This promise is created when a pause request is received and is fulfilled when a resume request is received. `lock()` routine of Lamport's algorithm is shown below.
+
+```javascript
+async function lock(...) {
+  ...
+  flag[pid] = TRUE;
+  await break_point(1);
+  label[pid] = max(label) + 1;
+  ...
+}
+```
+
+Statements for setting two elements is separated by an await statement where it's going to waiting on the `_pause` promise inside call to `break_point()`. `request_resume()` and `request_resume()` is typically called from master thread.
+
+```javascript
+request_resume() {
+    shouldPause = true;
+    _pause = new Promise((resolve) => {
+        _resolve = () => {
+            shouldPause = false;
+            return resolve(null);
+        };
+    });
+}
+```
+
+Pausing flag `shouldPause` along with `_pause` is set or cleared when a pause request is received. Naturally, `_resolve` is called when a resume request is received.
+
+```javascript
+request_resume() {
+    if (shouldPause && !isUndefined(_resolve)) {
+        dbg(`resume ${_i}`);
+        return _resolve(null);
+    }
+    dbg(`this process is not paused`);
+}
+```
 
 ### shared global memory
 
