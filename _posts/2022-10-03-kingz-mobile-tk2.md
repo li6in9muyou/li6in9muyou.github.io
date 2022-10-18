@@ -3,7 +3,7 @@ title: Kingz战棋游戏设计-tk2
 data: 2022-10-03
 categories: [ProjectExperience]
 tags: [react, frontend, teamwork]
-mermaid:true
+mermaid: true
 ---
 
 # 云端功能需求
