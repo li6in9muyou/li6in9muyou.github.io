@@ -131,14 +131,15 @@ B-->[*]: 用户决定跟电脑玩\nemit evCancelMatching()\nemit evStartLocalCom
 stateDiagram-v2
 
 state "等待初始棋盘" as pre
-state "游戏\n\n\n\n\n\n\n正在进行" as inGame
+state "游戏正在进行" as inGame
+state "等待对手出招" as waitRemote
 state "汇报游戏胜负" as gameOver
 
 [*]-->pre
 
 pre-->inGame: receive evInitGameState(game_state)
-inGame-->inGame: receive evUpdateGameState(game_state)
-inGame-->inGame: 用户输入他的招数\nemit evLocalMove(game_move)
+waitRemote-->inGame: receive evUpdateGameState(game_state)
+inGame-->waitRemote: 用户输入他的招数\nemit evLocalMove(game_move)
 
 inGame-->gameOver: receive evGameOver(winner)
 gameOver-->[*]: 用户点击回到主界面\nemit evBackToGameTitle()
