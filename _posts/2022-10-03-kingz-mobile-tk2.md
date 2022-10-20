@@ -11,6 +11,7 @@ mermaid: true
 - [x] [PR#1](https://github.com/li6in9muyou/kingz-tk7/pull/1) 缺陷：游戏标题页如果“填入网名”宽度不够换行，会导致旁边的“点击随机生成”按钮下半部分全部是空白。预期是按钮高度跟左边没换行时一样，不要出现文字下面有大量的空白。
 - [ ] 增强：远端玩家离线时，现在有两个选项，1 我也不玩了 2 重新匹配，添加一个选项为 3 跟本地电脑接着玩。
 - [ ] 重构：`GameOver.jsx` 中 `winner === "local"` 被用来判断本地玩家的输赢，这很不好。可以考虑拆分成三个事件，即本地赢了、本地输了、平手。
+- [ ] 重构：`evInitGameState` 和 `evUpdateGameState` 非常令人困惑，为什么第一次游戏状态更新这么特殊？我觉得应该可以改成对局生命周期事件。
 
 # 前端功能需求
 
@@ -196,6 +197,19 @@ class LocalStore {
 - 反复查询匹配状态
 - 取消当前的匹配请求
 
+### 在线对战适配器
+
+此模块负责把游戏状态更新发送给云端，并在云端有状态更新时通知客户端。
+在此简单的设计中，此模块使用反复请求云端最新状态的方法来检查游戏是否有更新。
+其公共接口如下：
+
+```ts
+interface OnlineGame {
+  push_state_to_cloud(handle: string, state: any);
+  subscribe(callback: (ev: { versionId: number; game_state: any }) => void);
+}
+```
+
 ## 前端的实现任务
 
 ### 编写公共代码
@@ -263,6 +277,8 @@ interface Observable {
 3. 编码实现。
 
 # 云端功能需求
+
+云端应该是游戏无关的，客户端给云端发送一个游戏状态和一个版本号。客户端和云端的版本号都是从零开始。云端保证各个客户端之间的版本号最多只相差一。
 
 ## `GET /saved_games/{玩家ID}`
 
