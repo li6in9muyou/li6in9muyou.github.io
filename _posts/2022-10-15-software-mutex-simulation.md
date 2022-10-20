@@ -7,15 +7,13 @@ tags:
     mutex,
     javascript,
     svelte,
-    frontent,
+    frontend,
     JLU-assignment,
     concurrent-programming,
     threads,
   ]
 mermaid: true
 ---
-
-**THIS POST IS WOKR-IN-PROGRESS**
 
 See it live at [live demo](https://li6in9muyou.github.io/software-mutex-sim/)
 
@@ -56,6 +54,8 @@ By definition, shared memory means that all processes are able to observe modifi
 ### concurrent execution
 
 The JavaScript runtime is single-threaded thus to achieve concurrent execution in the browser is not straight forward. This problem is solved by spawning web workers which are mapped to real operating system threads.
+
+#### abandoned approach: emulating CPU
 
 Another approach would be to emulate CPU in one thread. This approach requires all four algorithms to be compiled into some sort of "assembly language" so that code can be broken up into pieces. By switching between "contexts", parallel execution can be achieved.
 
@@ -188,26 +188,26 @@ async function lock(...) {
 Statements for setting two elements is separated by an await statement where it's going to waiting on the `_pause` promise inside call to `break_point()`. `request_resume()` and `request_resume()` is typically called from master thread.
 
 ```javascript
-request_resume() {
-    shouldPause = true;
-    _pause = new Promise((resolve) => {
-        _resolve = () => {
-            shouldPause = false;
-            return resolve(null);
-        };
-    });
+function request_resume() {
+  shouldPause = true;
+  _pause = new Promise((resolve) => {
+    _resolve = () => {
+      shouldPause = false;
+      return resolve(null);
+    };
+  });
 }
 ```
 
 Pausing flag `shouldPause` along with `_pause` is set or cleared when a pause request is received. Naturally, `_resolve` is called when a resume request is received.
 
 ```javascript
-request_resume() {
-    if (shouldPause && !isUndefined(_resolve)) {
-        dbg(`resume ${_i}`);
-        return _resolve(null);
-    }
-    dbg(`this process is not paused`);
+function request_resume() {
+  if (shouldPause && !isUndefined(_resolve)) {
+    dbg(`resume ${_i}`);
+    return _resolve(null);
+  }
+  dbg(`this process is not paused`);
 }
 ```
 
@@ -251,13 +251,15 @@ process.source.subscribe((args) => {
 And in simulated process's code, we update local copy on every write
 
 ```javascript
-update(ev) {
-   const [slice, index, arr] = ev;
-   local_copy[slice][index] = arr;
+function update(ev) {
+  const [slice, index, arr] = ev;
+  local_copy[slice][index] = arr;
 }
 ```
 
 ## General Design
+
+Operations on a simulated process can be categorized as a command e.g. pause or a query e.g. whether it's in critical region. UI subsystem subscribes to event source provided by an adapter and updates UI accordingly. Users resume/pause processes through `IProcessComand`.
 
 ### IProcess and IProcessGroup
 
@@ -284,9 +286,9 @@ interface IProcessCommand {
 }
 ```
 
-Shared memory is attached to a group of contending processes. Furthermore to facilitate use cases where all processes are commanded or queried together.
+Shared memory is attached to a group of contending processes. Furthermore, `IProcessGroup` is used to pause/resume all processes at the same time.
 
-Finally, a process group is modeled as:
+Finally, a process group is modeled as follows. Note that `IProcessGroup.pid` and `IProcessGroup.all` implements the `IProcessCommand` interface hence UI subsystem commands them transparently.
 
 ```typescript
 interface IProcessGroupQuery {
@@ -305,3 +307,9 @@ interface IProcessGroup {
 Note that type `Observable` used above is nothing more than an interface with a simple `subscribe(subscriber)` method. It's a rather generic and universal concept so I suppose it's ok to put it in interfaces without limiting implementation at any way.
 
 In `IProcessGroupQuery`, memory is modeled as a `Map<string, ...>` where its keys are names of shared objects used in algorithm implementations. UI sub-systems consumes this interface by subscribing to every item in this `Map` object and updates when events are emitted.
+
+## Implementation Details
+
+### UI subsystem
+
+UI is built with [svelte](https://svelte.dev/).
