@@ -36,9 +36,9 @@ I will implement a "Pratt parser" or "top down operator precedence parser"
 
 ### steps
 
-0. ensure there is a LET token
-1. try parse an identifier
-2. ensure there is an equal sign
-3. try parse an expression
+1. ensure there is a LET token
+2. try parse an identifier
+3. ensure there is an equal sign
+4. try parse an expression
 
 Steps above closely resemble a let statement literal.
