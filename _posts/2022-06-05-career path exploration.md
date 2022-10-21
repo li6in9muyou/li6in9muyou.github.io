@@ -1,5 +1,5 @@
 ---
-title: tastes of various scientific research fields other than AI
+title: 计算机科学各研究领域论文选读
 date: 2021-07-27
 categories: [Exploration]
 tags: [career_path, read_papers, thoughts]

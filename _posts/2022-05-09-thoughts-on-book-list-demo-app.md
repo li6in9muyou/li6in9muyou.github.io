@@ -1,5 +1,5 @@
 ---
-title: book list demo项目批判
+title: 书单分享项目：反思和批判
 date: 2022-05-09
 categories: [ProjectExperience]
 tags: [svelte, frontend]

@@ -1,5 +1,5 @@
 ---
-title: apply clean architecture on a python tutorial codebase
+title: 重构代码练习。apply clean architecture on a python tutorial codebase
 date: 2022-06-12
 categories: [LearnArchitecture]
 tags: [socket, python, clean_architecture]

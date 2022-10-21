@@ -1,5 +1,5 @@
 ---
-title: design of a key-value pair database in python
+title: 设计一个键值对型数据库。design of a key-value pair database in python
 date: 2021-06-10
 categories: []
 tags: [data_structure, python, database]

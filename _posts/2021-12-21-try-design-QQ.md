@@ -1,5 +1,5 @@
 ---
-title: 模拟设计一个即时聊天系统，功能参照QQ
+title: 即时聊天系统的模拟设计
 date: 2021-12-21
 categories: [ProjectExperience]
 tags: [c++, software_engineering]

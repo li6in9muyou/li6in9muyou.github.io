@@ -1,5 +1,5 @@
 ---
-title: design of tomato-clock
+title: 番茄钟的设计与实现。design of tomato-clock
 date: 2022-05-14
 categories: [ProjectDesign]
 tags: [software_engineering, making_things_complicated]

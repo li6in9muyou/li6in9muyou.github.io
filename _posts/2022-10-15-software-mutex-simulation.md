@@ -1,5 +1,5 @@
 ---
-title: 临界区问题的软件解法模拟
+title: 互斥锁的实现：软件方法
 date: 2022-10-15
 categories: [ProjectExperience]
 tags:

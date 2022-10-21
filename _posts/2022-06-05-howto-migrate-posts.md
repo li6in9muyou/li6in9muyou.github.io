@@ -1,5 +1,5 @@
 ---
-title: 把历史上的post migrate到本站
+title: 如何把历史上的post迁移到本站
 date: 2022-06-05
 categories: [Howto]
 tags: [chore]

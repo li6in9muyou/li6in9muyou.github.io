@@ -1,5 +1,5 @@
 ---
-title: 书单分享web app设计分析
+title: 书单分享项目：设计分析
 date: 2022-04-15
 categories: [ProjectDesign]
 tags: [frontend]

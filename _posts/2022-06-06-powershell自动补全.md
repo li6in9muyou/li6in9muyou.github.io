@@ -5,7 +5,7 @@ categories: [HowTo]
 tags: [tooling, PowerShell]
 ---
 
-execute following lines in PowerShell, then restart it.
+Execute following lines in PowerShell, then restart it.
 
 ```powershell
 Install-Module PSReadLine -AllowPrerelease -Force
