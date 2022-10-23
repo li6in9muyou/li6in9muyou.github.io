@@ -145,6 +145,8 @@ inGame-->waitRemote: 用户输入他的招数\nemit evLocalMove(game_move)
 inGame-->gameOver: receive evGameOver(winner)
 gameOver-->[*]: 用户点击回到主界面\nemit evBackToGameTitle()
 
+inGame-->[*]: 用户退出或保存退出\nemit evLocalQuit()\nOR evLocalSaveThenQuit()
+
 ```
 
 上图中的事件：
@@ -162,6 +164,38 @@ gameOver-->[*]: 用户点击回到主界面\nemit evBackToGameTitle()
 具体的游戏订阅：
 
 - `evLocalMove(game_move)`
+
+React 组件层级设计
+
+```mermaid
+classDiagram
+
+GamePage o-- InGame
+GamePage o-- WaitingForInitGameState
+GamePage o-- GameOver
+
+InGame o-- Game
+
+class Game {
+props.game_state
+emit evLocalMove(game_move)
+}
+
+class InGame {
+emit evLocalQuit()
+emit evLocalSaveThenQuit()
+}
+
+class GamePage {
+receive evGameOver()
+receive evInitGameState()
+}
+
+class GameOver {
+props.winner
+emit evBackToGameTitle()
+}
+```
 
 ### 零件：对手离开了对局
 
@@ -199,18 +233,68 @@ class LocalStore {
 
 ### 在线对战适配器
 
+游戏逻辑实现设计如下图。`GameAgentAdapter` 跟 `ConcreteGame` 紧密合作，`ConcreteGame`中保存有游戏的状态，
+它由 `GameAgentAdapter` 实例化，并可被初始化为一个外部给定的初始状态。没有其他实体可以修改 `ConcreteGame` 中的游戏状态
+。游戏状态通过发布事件来传递给其他子系统。
+
+注意到，`OnlineGameAdapter` 包装的是通讯协议，是跟游戏无关的。
 此模块负责把游戏状态更新发送给云端，并在云端有状态更新时通知客户端。
 在此简单的设计中，此模块使用反复请求云端最新状态的方法来检查游戏是否有更新。
-其公共接口如下：
 
-```ts
-interface OnlineGame {
-  push_state_to_cloud(handle: string, state: any);
-  subscribe(callback: (ev: { versionId: number; game_state: any }) => void);
+```mermaid
+classDiagram
+
+class ConcreteGame
+class GameAgentAdapter
+
+GameAgentAdapter --> ConcreteGame
+
+class IGameAgent {
+<<interface>>
+constructor(event_bus, game_state)
+handleLocalMove(move)
+handleCloudUpdate(game_state)
+}
+
+GameAgentAdapter ..|> IGameAgent
+
+OnlineGameAdapter ..|> IRemoteAgent
+
+class IRemoteAgent {
+<<interface>>
+constructor(event_bus)
+async push_state_to_cloud(game_state)
 }
 ```
 
 ## 前端的实现任务
+
+### Kingz 战旗游戏状态的序列化规定
+
+```ts
+interface SerializedKingzGameState {
+  token: string; // 棋局ID
+  data: string[][]; // 下面描述的二维数组
+  roundIdx: number; // 一个整数表示当前回合数
+}
+```
+
+二维 JSON 数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
+
+兵力数量就是一个整数。
+
+地块类型：
+
+- m (ountain) 障碍物
+- e (mpty) 空地
+- f (ortress) 堡垒
+- h (ome) 基地。
+
+归属：
+
+- n (eutral) 中立
+- a 其中一个玩家
+- b 另一个玩家
 
 ### 编写公共代码
 
@@ -254,9 +338,11 @@ interface Observable {
 
 ##### `KingzHttpClient`
 
+**此处设计未更新**
+
 - `构造函数(onlineHandle)`
 
-- `fetach_my_games():Promise<GameState[]>`
+- `fetch_my_games():Promise<GameState[]>`
 
 从云端或者`localStorage`获取`GameState`的列表，供残局对战使用
 
@@ -278,7 +364,14 @@ interface Observable {
 
 # 云端功能需求
 
-云端应该是游戏无关的，客户端给云端发送一个游戏状态和一个版本号。客户端和云端的版本号都是从零开始。云端保证各个客户端之间的版本号最多只相差一。
+云端应该是游戏无关的，客户端给云端发送一个游戏状态和一个版本号。客户端和云端的版本号都是从零开始。云端保证各个客户端之间的版本号最多只相差一。例如
+
+```ts
+interface Data {
+  version: number;
+  game_state: any;
+}
+```
 
 ## `GET /saved_games/{玩家ID}`
 
@@ -291,26 +384,24 @@ interface Observable {
 }
 ```
 
-## `POST /register`
+## `GET /player_handle`
 
-content-type 按照下面的来，只有`nickName`和`secret`两个值。这个 content-type 就是普通 form submit 的时候浏览器默认采用的。
+根据给定的 nickName 和 secret， 返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
 
 `secret`，不能为空，必须是满足 regex`[0-9A-Z]{8}`。
 
 `nickName`，不能为空，云端限制一个合理的长度。
 
-示例如下：
+客户端使用如下请求：
 
-```http
-POST /register HTTP/1.1
-Content-Type: application/x-www-form-urlencoded
-
-nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
-
-
+```js
+axios.get("/player_handle", {
+  params: {
+    secret: "浏览器指纹abcd1234",
+    nickName: "勇敢的小明",
+  },
+});
 ```
-
-要返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
 
 ### 异常事件流
 
@@ -324,7 +415,8 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ## `GET /match/{棋局token}/opponent`
 
-客户端拿到棋局 token 后会反复请求这个地址，保证不会太频繁。
+客户端拿到棋局 token 后会反复请求这个地址，每个客户端每 1 秒请求一次，收到一次
+success 后就不再请求这一个棋局 token 的匹配状态了。
 
 返回一个字符串就行，下面三种情况
 
@@ -338,33 +430,17 @@ nickName=%E6%9D%8E%E7%A7%89%E6%9D%83&secret=9AA342CF
 
 ## `GET /match/{棋局token}/{玩家ID}`
 
+游戏状态版本号
+
 请求带有一个参数 token。
 返回的格式
 
-```js
-{
-  token: 棋局ID;
-  data: "下面描述的二维数组";
-  roundIdx: "一个整数表示当前回合数";
+```ts
+interface MatchPayload {
+  version: number; // 这个游戏状态的版本号
+  game_state: any; // 游戏状态
 }
 ```
-
-二维 JSON 数组中每个元素用一个字符串，格式为`[a-z][n,a,b][0-9]{1,4}`，第一个小写字母表示地块的类型，第二个表示归属，后面的数字表示兵力数量。
-
-兵力数量就是一个整数。
-
-地块类型：
-
-- m (ountain) 障碍物
-- e (mpty) 空地
-- f (ortress) 堡垒
-- h (ome) 基地。
-
-归属：
-
-- n (eutral) 中立
-- a 其中一个玩家
-- b 另一个玩家
 
 ### 异常事件流
 
