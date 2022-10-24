@@ -174,21 +174,25 @@ GamePage o-- InGame
 GamePage o-- WaitingForInitGameState
 GamePage o-- GameOver
 
-InGame o-- Game
+InGame o-- GameView
 
-class Game {
-props.game_state
+class GameView {
+useContext GameState
 emit evLocalMove(game_move)
 }
 
 class InGame {
+props GameView
 emit evLocalQuit()
 emit evLocalSaveThenQuit()
 }
 
 class GamePage {
+props GameView
+createContext GameState
 receive evGameOver()
 receive evInitGameState()
+receive evUpdateGameState()
 }
 
 class GameOver {
