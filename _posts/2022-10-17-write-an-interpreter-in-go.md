@@ -65,6 +65,7 @@ For regex literal or epsilon moves
 
 ```mermaid
 stateDiagram
+direction LR
 [*]-->[*]: regex literal or epsilon
 ```
 
@@ -72,6 +73,7 @@ For `AB`
 
 ```mermaid
 stateDiagram
+direction LR
 [*]-->A: epsilon
 A-->B: epsilon
 B-->[*]: epsilon
