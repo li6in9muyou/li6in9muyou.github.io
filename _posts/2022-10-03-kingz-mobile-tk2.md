@@ -251,7 +251,7 @@ GameAgentAdapter --> ConcreteGame
 
 class IGameAgent {
 <<interface>>
-constructor(event_bus, game_state)
+init(event_bus, game_state)
 handleLocalMove(move)
 handleCloudUpdate(game_state)
 }
@@ -262,7 +262,8 @@ OnlineGameAdapter ..|> IRemoteAgent
 
 class IRemoteAgent {
 <<interface>>
-constructor(event_bus)
+attach_event_bus(event_bus)
+close()
 async push_state_to_cloud(game_state)
 }
 ```
