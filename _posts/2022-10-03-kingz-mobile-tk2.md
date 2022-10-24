@@ -388,7 +388,9 @@ interface Data {
 }
 ```
 
-## `GET /saved_games/{玩家ID}`
+## 查询此玩家保存的棋盘
+
+路径：`GET /saved_games/{玩家ID}`
 
 返回格式如下
 
@@ -399,7 +401,9 @@ interface Data {
 }
 ```
 
-## `GET /player_handle`
+## 获取玩家句柄
+
+路径：`GET /player_handle`
 
 根据给定的 nickName 和 secret， 返回一个玩家 ID，要求是`p[0-9A-Z]{12}`。
 
@@ -422,13 +426,17 @@ axios.get("/player_handle", {
 
 如果有某项为空或者没有这个键，就返回 400 bad request。
 
-## `POST /match/{玩家ID}`
+## 请求开始匹配
+
+路径：`POST /match/{玩家ID}`
 
 给这个玩家一个棋局，保证有一个对手，但是还没有棋盘状态。这个棋局可以是全新的棋局，也可以是残局。
 
 返回一个棋局 token。
 
-## `GET /match/{棋局token}/opponent`
+## 询问匹配状态
+
+路径：`GET /match/{棋局token}/{玩家ID}/opponent`
 
 客户端拿到棋局 token 后会反复请求这个地址，每个客户端每 1 秒请求一次，收到一次
 success 后就不再请求这一个棋局 token 的匹配状态了。
@@ -439,11 +447,15 @@ success 后就不再请求这一个棋局 token 的匹配状态了。
 - 失败(fail)
 - 等待(waiting)
 
-## `DELETE /match/{玩家ID}/`
+## 玩家中途取消匹配
+
+路径：`DELETE /match/{玩家ID}/`
 
 这个玩家取消匹配了，解开此玩家 ID 和此前棋局 token 的绑定。
 
-## `GET /match/{棋局token}/{玩家ID}`
+## 请求云端的游戏状态
+
+路径：`GET /match/{棋局token}/{玩家ID}`
 
 游戏状态版本号
 
@@ -463,7 +475,9 @@ interface MatchPayload {
 
 这个玩家不属于这个棋盘就返回 404，和空 body。
 
-## `PUT /match/{棋局的token}/{玩家ID}`
+## 客户端推送它的状态到云端
+
+路径：`PUT /match/{棋局的token}/{玩家ID}`
 
 格式跟上面的返回格式一样，含义也一样。
 
@@ -473,7 +487,9 @@ interface MatchPayload {
 
 `roundIdx`小于或者等于云端的话就抛弃不理会。
 
-## `DELETE /match/{棋局的token}/{玩家ID}`
+## 玩家退出这个对局
+
+路径：`DELETE /match/{棋局的token}/{玩家ID}`
 
 云端解除这个玩家和这个棋局的关联。
 
