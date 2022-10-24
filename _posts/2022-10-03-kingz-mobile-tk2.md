@@ -270,7 +270,7 @@ async push_state_to_cloud(game_state)
 
 ## 前端的实现任务
 
-### Kingz 战旗游戏状态的序列化规定
+### Kingz 战棋游戏状态的序列化规定
 
 ```ts
 interface SerializedKingzGameState {
