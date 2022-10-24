@@ -6,7 +6,10 @@ tags: [chore, compiler, go]
 
 **THIS POST IS WORK-IN-PROGRESS**
 
-I am using this book _"Writing An Interpreter In Go"_ by Thorsten Ball. You can but this book at [https://interpreterbook.com/](). In the mean time, I am taking [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home) at edx.org.
+I am using this book _"Writing An Interpreter In Go"_ by Thorsten Ball.
+You can but this book at [https://interpreterbook.com/]().
+In the meantime, I am taking [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
+at edx.org.
 
 # Test Driven Development
 
@@ -52,6 +55,62 @@ if err == nil {
 A parser parses tokens into abstract syntax trees. Parsing is one of the most well-understood branches of computer science and really smart people have already invested a lot of time into the problems of parsing.
 
 I will implement a "Pratt parser" or "top down operator precedence parser"
+
+## from regex to NFA
+
+### simple ones
+
+For regex literal or epsilon moves
+
+```mermaid
+stateDiagram
+[*]-->[*]: regex literal or epsilon
+```
+
+For `AB`
+
+```mermaid
+stateDiagram
+[*]-->A: epsilon
+A-->B: epsilon
+B-->[*]: epsilon
+```
+
+For `A + B`
+
+```mermaid
+stateDiagram
+direction LR
+[*]-->A: epsilon
+[*]-->B: epsilon
+A-->[*]: epsilon
+B-->[*]: epsilon
+```
+
+Let's try implementing
+[C# spec for real literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#6454-real-literals)
+
+```
+Real_Literal
+    : Decimal_Digit Decorated_Decimal_Digit* '.'
+      Decimal_Digit Decorated_Decimal_Digit* Exponent_Part? Real_Type_Suffix?
+    | '.' Decimal_Digit Decorated_Decimal_Digit* Exponent_Part? Real_Type_Suffix?
+    | Decimal_Digit Decorated_Decimal_Digit* Exponent_Part Real_Type_Suffix?
+    | Decimal_Digit Decorated_Decimal_Digit* Real_Type_Suffix
+    ;
+
+fragment Exponent_Part
+    : ('e' | 'E') Sign? Decimal_Digit Decorated_Decimal_Digit*
+    ;
+
+fragment Sign
+    : '+' | '-'
+    ;
+
+fragment Real_Type_Suffix
+    : 'F' | 'f' | 'D' | 'd' | 'M' | 'm'
+    ;
+```
 
 ## error handling
 
@@ -110,5 +169,22 @@ func (parser *Parser) tryReturnStatement() (ast.ReturnStatement, error) {
 	// parse an expression, not implemented yet.
 
 	return stmt, nil
+}
+```
+
+### identifier expression
+
+To parse this expression, simply eat one Token.
+Its value is that token's literal.
+
+### integer literal expression
+
+To parse this expression, simply eat one Token.
+Then call `strconv.Atoi` to get its numerical value.
+
+```go
+type IntegerLiteral struct {
+	Token token.Token
+	Value int
 }
 ```
