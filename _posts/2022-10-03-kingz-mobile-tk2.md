@@ -457,9 +457,6 @@ success 后就不再请求这一个棋局 token 的匹配状态了。
 
 路径：`GET /match/{棋局token}/{玩家ID}`
 
-游戏状态版本号
-
-请求带有一个参数 token。
 返回的格式
 
 ```ts
