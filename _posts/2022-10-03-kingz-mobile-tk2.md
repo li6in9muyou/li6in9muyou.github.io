@@ -1,6 +1,5 @@
 ---
 title: 移动应用设计和开发：棋牌类手机游戏
-data: 2022-10-03
 categories: [ProjectExperience]
 tags: [react, frontend, teamwork]
 mermaid: true
