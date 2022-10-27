@@ -2,7 +2,7 @@
 title: 即时聊天系统的模拟设计
 date: 2021-12-21
 categories: [ProjectExperience]
-tags: [c++, software_engineering]
+tags: [c++, software-engineering]
 mermaid: true
 ---
 

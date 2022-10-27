@@ -1,8 +1,8 @@
 ---
 title: 计算机科学各研究领域论文选读
 date: 2021-07-27
-categories: [Exploration]
-tags: [career_path, read_papers, thoughts]
+categories: [Memo]
+tags: [career-path, read-papers, thoughts]
 ---
 
 [CCF](https://www.ccf.org.cn/) groups computer science research journals and conferences into the following fields.
