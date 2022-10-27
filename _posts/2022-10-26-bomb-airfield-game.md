@@ -5,7 +5,7 @@ tags: [teamwork, c#]
 mermaid: true
 ---
 
-游戏顺序图
+# 游戏顺序图
 
 ```mermaid
 sequenceDiagram
