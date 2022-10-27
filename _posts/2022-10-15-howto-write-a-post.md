@@ -1,6 +1,6 @@
 ---
 title: 如何给本站添加文章
-categories: [Howto, Memo]
+categories: [Howto]
 tags: [chore]
 ---
 
@@ -39,7 +39,7 @@ example:
 ```
 ---
 title: 如何给本站添加文章
-categories: [Howto,Memo]
+categories: [Howto]
 tags: [chore]
 ---
 ```
@@ -50,7 +50,7 @@ fields
 
 - title: blog title. Use any character you want
 - date: **ADD THIS FIELD IF YOUR MUST**. this field override dates in file name
-- categories: list of CamelCase category names, `[CategoryOne, CategoryTwo]`
+- categories: CamelCase category name, `[CategoryOne]`. Using multiple category names means sub-category e.g. `[Animal, Mammal]`
 - tags: list of kebab-case tag names, `[tag-one, tag-two]`
 
 ## image assets
