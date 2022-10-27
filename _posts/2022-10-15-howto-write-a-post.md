@@ -20,7 +20,9 @@ tags: [chore]
 
 ## file name
 
-File names of posts should be `<YEAR>-<MONTH>-<DAY>-<title>.md` where title should a sequence of hyphen separated ASCII words. File names will be used in links, blank spaces and non-ASCII character would be unreadable after URL encoding.
+File names of posts should be `<YEAR>-<MONTH>-<DAY>-<title>.md` where title should a sequence of hyphen separated ASCII words.
+File names will be used in links, non-ASCII character would be unreadable after URL encoding.
+Blank spaces are replaced with hyphen automatically by Jekyll
 
 ```
 good:
