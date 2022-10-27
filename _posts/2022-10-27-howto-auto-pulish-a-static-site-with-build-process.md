@@ -5,7 +5,8 @@ tags: [github-actions]
 ---
 
 1. create a file `/.github/workflows/deploy_gh_pages.yml`, with following content
-2. setup secrets on GitHub
+2. add vite config entry `base: /${githubRepoName}/`, note leading and trailing slashes
+3. setup secrets on GitHub
 
 ```yaml
 name: deploy_gh_pages
