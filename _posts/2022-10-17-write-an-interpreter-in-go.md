@@ -61,6 +61,8 @@ I will implement a "Pratt parser" or "top down operator precedence parser"
 
 ### simple ones
 
+The following content is covered in section _04-03_ of that edx course
+
 For regex literal or epsilon moves
 
 ```mermaid
@@ -79,7 +81,7 @@ A-->B: epsilon
 B-->[*]: epsilon
 ```
 
-For `A + B`
+For `A + B`. In regex (and in C# spec below), this means `A|B`.
 
 ```mermaid
 stateDiagram
@@ -90,13 +92,31 @@ A-->[*]: epsilon
 B-->[*]: epsilon
 ```
 
+For `A*`
+
+```mermaid
+flowchart LR
+stt[start]--epsilon-->Astt
+Astt[enter A]-.->Aend[exit A]
+Aend--epsilon-->fin[end]
+Aend--epsilon-->stt
+```
+
 Let's try implementing
 [C# spec for real literals](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/lexical-structure#6454-real-literals)
 
 ```
+fragment Decimal_Digit
+    : '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
+    ;
+
+fragment Decorated_Decimal_Digit
+    : '_'* Decimal_Digit
+    ;
+
 Real_Literal
     : Decimal_Digit Decorated_Decimal_Digit* '.'
-      Decimal_Digit Decorated_Decimal_Digit* Exponent_Part? Real_Type_Suffix?
+    | Decimal_Digit Decorated_Decimal_Digit* Exponent_Part? Real_Type_Suffix?
     | '.' Decimal_Digit Decorated_Decimal_Digit* Exponent_Part? Real_Type_Suffix?
     | Decimal_Digit Decorated_Decimal_Digit* Exponent_Part Real_Type_Suffix?
     | Decimal_Digit Decorated_Decimal_Digit* Real_Type_Suffix
