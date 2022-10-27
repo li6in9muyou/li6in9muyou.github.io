@@ -415,6 +415,15 @@ interface Data {
 }
 ```
 
+为了启用跨站请求，云端发回的 http 回复的头部中应设置 `Access-Control-Allow-Origin` 为如下值中之一。
+如果 http 请求头部中的 `origin` 项的值不是下面三个之一（注意第一个有通配符），云端可拒绝这个请求。
+
+```text
+Access-Control-Allow-Origin: "*.li6q.fun"
+Access-Control-Allow-Origin: "li6q.fun"
+Access-Control-Allow-Origin: "li6in9muyou.github.io"
+```
+
 ## 查询此玩家保存的棋盘
 
 路径：`GET /saved_games/{玩家ID}`
@@ -449,7 +458,7 @@ axios.get("/player_handle", {
 });
 ```
 
-### 异常事件流
+**异常事件流**
 
 如果有某项为空或者没有这个键，就返回 400 bad request。
 
@@ -501,7 +510,7 @@ interface MatchPayload {
 }
 ```
 
-### 异常事件流
+**异常事件流**
 
 `token`不存在就返回 404，和空 body。
 
@@ -513,7 +522,7 @@ interface MatchPayload {
 
 格式跟上面的返回格式一样，含义也一样。
 
-### 异常事件流
+**异常事件流**
 
 `token`不存在的话就返回 404。
 
@@ -527,7 +536,7 @@ interface MatchPayload {
 
 返回空 body，200 状态码就行。
 
-### 异常事件流
+**异常事件流**
 
 token 或者 ID 没有的话就返回 204
 
