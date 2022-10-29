@@ -140,7 +140,7 @@ fragment Real_Type_Suffix
 Error occurs when current token is different from what the parser expects. For now, this parser
 simply adds descriptions of such mismatch to an array.
 
-## parse let statement and return statement
+## parse statements
 
 ### let statement
 
@@ -195,6 +195,8 @@ func (parser *Parser) tryReturnStatement() (ast.ReturnStatement, error) {
 }
 ```
 
+## parse expressions
+
 ### identifier expression
 
 To parse this expression, simply eat one Token.
@@ -211,3 +213,7 @@ type IntegerLiteral struct {
 	Value int
 }
 ```
+
+### prefix operator expression
+
+`prefix_expr := prefix_op expr`
