@@ -2,6 +2,10 @@
 #  Icons from <https://fontawesome.com/>
 
 platforms:
+  - type: Weibo
+    icon: "fab fa-weibo"
+    link: "http://service.weibo.com/share/share.php?title=TITLE&url=URL"
+
   -
     type: Twitter
     icon: "fab fa-twitter"
@@ -21,7 +25,3 @@ platforms:
   #   icon: "fab fa-linkedin"
   #   link: "https://www.linkedin.com/sharing/share-offsite/?url=URL"
   #
-  # -
-  #   type: Weibo
-  #   icon: "fab fa-weibo"
-  #   link: "http://service.weibo.com/share/share.php?title=TITLE&url=URL"
