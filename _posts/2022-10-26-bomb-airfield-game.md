@@ -20,12 +20,16 @@ mermaid: true
 
 ## 现在的状态（）：供读者读取游戏状态，具体表示见下文。
 
-游戏状态的表示
+## 游戏状态的表示
 
 - 飞机摆法列表：一个列表，里面各元素记录有机头坐标和飞机朝向。
 - 系统猜想的敌方飞机的摆法：一个列表，里面各元素记录有机头坐标和飞机朝向。
 - 本方机场挨炸：一个列表，装有挨炸位置的坐标。
 - 我方炸对方机场得到的结果：一个列表，里面各元素记录有坐标和炸的结果。
+
+## 实现细节设计
+
+使用单例模式来保证只有一个实例。
 
 # 网络模块
 
@@ -76,6 +80,10 @@ mermaid: true
 ## 等待获取一个 IP 地址（）：IP 地址
 
 阻塞，如果用户希望创建房间的话就返回空字符串。
+
+# 人工智能模块
+
+## 本回合要炸的对方机场的坐标（游戏数据类实例）:坐标
 
 # 游戏流程
 
@@ -206,17 +214,36 @@ deactivate main
 sequenceDiagram
 
 participant main as 主函数
+participant ai as 人工智能类
 participant ui as 界面类
 participant socket as 网络类
 participant game as 游戏数据类
 participant remote as 远端炸飞机客户端
 
-main ->> ui: 等待本回合用户要炸的对方机场的坐标（）
+
+main ->> ui: 查询用户是否开启AI代玩（）
+activate main
+deactivate main
+activate ui
+ui -->> main: 是或否
+deactivate ui
+
+alt 不开启AI代玩
+main ->> ui: 等待本回合用户要炸的对方机场的坐标（游戏数据类实例）
 activate main
 deactivate main
 activate ui
 ui -->> main: 坐标
 deactivate ui
+else 开启AI代玩
+main ->> ai: 本回合要炸的对方机场的坐标（）
+activate main
+deactivate main
+activate ai
+ai -->> main: 坐标
+deactivate ai
+end
+
 activate main
 main ->> socket: 坐标
 deactivate main
