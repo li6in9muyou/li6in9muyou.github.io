@@ -4,83 +4,36 @@ categories: [ProjectExperience]
 tags: [computer-graphics, algorithms]
 ---
 
-# 软件系统设计
+# 模拟从几何到像素点的全过程
 
-## 绘图器
+1. 给出场景的几何定义
+2. 顶点着色器
+3. 图元装配
+4. 剪裁
+5. 透视除法
+6. 栅格化，此步骤之后开始引入 frame buffer。
+7. 隐面消除
+8. 顶点属性插值
+9. 片段着色器
+10. 点亮像素点
 
-### 基本绘图功能
+# 软件系统设计，绘图器
+
+## API
+
+- 设置顶点
+- 设置顶点着色器和片段着色器
 
 计划从零开始实现。基本思路是用高分辨率的画布模拟低分辨率的画布，使用 `setPixel` 原语绘图。
 点亮屏幕像素时，在高分辨率的画布上绘制无边框的，单色填充的正方形。
 
 题目要求的二维图形绘制较为简单，且相似性很大，绘制多边形、矩形、圆形、贝塞尔曲线其实都是同一个功能。
 
-我计划需要如下基础设施，其中的 `setPixel` 和 `line` 使用逻辑坐标。
+# 软件系统设计，功能选择菜单
 
-```ts
-class Context {
-  drawColor: Color;
-}
+## 需求
 
-type Point = [number, number];
-
-declare function line(
-  context: Context,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number
-);
-
-declare function setPixel(x, y, color: Color);
-
-interface IDrawing {
-  drawArraysLineLoop(context: Context, vertices: Point[]);
-}
-
-interface IDrawOverlay {
-  drawLine(context: Context, a: Point, b: Point);
-  drawPointMark(context: Context, point: Point);
-}
-```
-
-对于各具体的图形，须实现如下的接口
-
-```ts
-interface Path {
-  generateVertices(control_points: Point[]): Point[];
-}
-```
-
-此外还需要如下工具函数，在 setPixel 时使用，负责在实际画布和模拟的低分辨率画布之间转换。
-
-```ts
-declare function viewportToLogical(vertex: Point): Point;
-declare function logicalToViewpoint(vertex: Point): Point;
-```
-
-### 多边形填充
-
-实验课题目要求使用栅栏填充算法。
-
-### 三维图形绘制
-
-我计划在 JavaScript 运行环境下模拟可编程图形处理器流水线，具体的说，要实现如下功能
-
-- 设置顶点列表，`gl.bindBuffer(gl.ARRAY_BUFFER, vertices)`
-- 设置各图形原语的顶点索引，`gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer)`
-- 设置顶点着色器和片元着色器，`gl.useProgram(program)`
-
-用户发出绘图指令，`gl.drawElements(gl.TRIANGLES, count, ...)`，后
-
-- 对设置的各顶点，调用顶点着色器
-- 图形原语组装
-- 对每个图形原语，栅格化然后对每个片元逐顶点属性进行插值
-- 对每个片元，调用片元着色器
-
-## 功能选择菜单
-
-用超链接和静态页面来实现，要实现下面的这个菜单，注意菜单的三个层次结构：
+构建如下三个层次结构的菜单
 
 - 图形应用
   - 图形绘制
@@ -98,6 +51,8 @@ declare function logicalToViewpoint(vertex: Point): Point;
     - 绕 Z 轴旋转
   - 绘制曲线
     - 绘制贝塞尔曲线
+
+用超链接和静态页面来实现，要实现下面的这个菜单，注意菜单的三个层次结构：
 
 ## 每个功能的页面
 
