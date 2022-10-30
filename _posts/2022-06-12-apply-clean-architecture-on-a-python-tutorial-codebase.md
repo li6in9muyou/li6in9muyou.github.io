@@ -208,7 +208,7 @@ def dump(self, arena, players):
 
 In effect, the `OnlineAdapter` is responsible for both sending local state to server and updating local copy of remote state. The first responsibility ports system state to a external actor while the second mutates system state and invokes method on `ArenaMoveService`.
 
-Hence, component bearing these two responsibilities may be considered a "port" as well as an "adapter". At first, I decided to put it in an output port, like so:
+Hence, component with these two responsibilities may be considered a "port" as well as an "adapter". At first, I decided to put it in an output port, like so:
 
 ```python
 def dump(self, *_):
