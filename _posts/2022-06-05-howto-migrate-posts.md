@@ -5,7 +5,7 @@ categories: [Howto]
 tags: [chore]
 ---
 
-# **THIS POST IS OUTDATED, REFER TO [THE LASTEST VERSION](https://blog.li6q.fun/posts/howto-write-a-post/)**
+# **THIS POST IS OUTDATED, REFER TO [THE LATEST VERSION]({% post_url 2022-10-15-howto-write-a-post %})**
 
 1. 添加 front matter。
 2. 把源 post 复制到`/_posts/`，重命名为`YYYY-MM-DD-${title}.md`的格式。
