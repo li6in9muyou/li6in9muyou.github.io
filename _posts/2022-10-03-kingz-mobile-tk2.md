@@ -5,6 +5,8 @@ tags: [react, frontend, teamwork]
 mermaid: true
 ---
 
+本文是本项目的设计文档，反思见[此文]({% post_url 2022-11-01-review-of-kingz-project %})。
+
 # 待办任务
 
 - [x] [PR#1](https://github.com/li6in9muyou/kingz-tk7/pull/1) 缺陷：游戏标题页如果“填入网名”宽度不够换行，会导致旁边的“点击随机生成”按钮下半部分全部是空白。预期是按钮高度跟左边没换行时一样，不要出现文字下面有大量的空白。
