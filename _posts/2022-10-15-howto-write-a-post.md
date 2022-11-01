@@ -69,4 +69,5 @@ The set up above would cause markdown editor to be unable to locate and render i
 
 0. Markdown titles and subtitles are used to generate permalink, use concise ACSII titles if you don't want your link ends up to be gibberish like `example.com/posts/%E5%A6%82%E4%BD%95%E7%BB%99%E6%9C%AC%E7%AB%99%E6%B7%BB%E5%8A%A0%E6%96%87%E7%AB%A0`
 1. YAML syntax requires a space after colon, see [this commit](https://github.com/li6in9muyou/li6in9muyou.github.io/commit/1bfe2750)
-2. coming soon...
+2. Do not use unidecode characters in image url, see [this commit](https://github.com/li6in9muyou/li6in9muyou.github.io/commit/9ac9a804)
+3. coming soon...
