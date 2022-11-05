@@ -65,10 +65,15 @@ eventBus.subscribe("second", some_critical_function());
 在上面的代码段中，如果事件总线像下面这样顺序同步地来实现，`some_critical_function()`是不会被调用的。
 
 ```ts
-// coming soon...
+function publish(event) {
+  for (const subscriber of subscribersOf(event)) {
+    subscriber(event);
+  }
+}
 ```
 
-我采用的解决方法是如果某个事件没有订阅者， 就先把这个事件放到一个等待区，等到这个事件的第一个订阅者订阅时再把等待区中的时间全部交给他处理。
+我采用的解决方法是如果某个事件没有订阅者， 就先把这个事件放到一个等待区，
+等到这个事件的第一个订阅者订阅时再把等待区中的时间全部交给他处理。
 
 # 反复重头开始
 
