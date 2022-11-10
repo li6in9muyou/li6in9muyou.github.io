@@ -4,7 +4,6 @@ categories: [ProjectExperience]
 tags: [java, database, jdbc, gui, swing]
 ---
 
-
 基本思路是模仿 Django 的效果和设计。
 
 # 做一个简单的操作表中各行的接口
@@ -55,6 +54,24 @@ Cooperating classes are
   swing's table model.
 
 Maybe I should survey how this is done in Django. More design is required!
+
+> [Django’s role in forms](https://docs.djangoproject.com/en/4.1/topics/forms/#django-s-role-in-forms)
+>
+> Django handles three distinct parts of the work involved in forms:
+>
+> - preparing and restructuring data to make it ready for rendering
+> - creating HTML forms for the data
+> - receiving and processing submitted forms and data from the client
+
+Similar to tasks listed above, I need to:
+
+- fetching table data from a datasource convert them to string
+- creating JComponents to construct an input dialog for user
+- validating user input
+
+All data in a row is treated as strings for simplicity.
+And I will delegate all validation work to the database. Error messages will be shown to user should error occurs,
+then another dialog will prompt them to update data that they entered previously.
 
 # 怎么连接到 vmware 虚拟机中的 DB2 数据库？
 
