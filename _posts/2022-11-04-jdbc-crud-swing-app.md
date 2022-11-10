@@ -4,6 +4,58 @@ categories: [ProjectExperience]
 tags: [java, database, jdbc, gui, swing]
 ---
 
+
+基本思路是模仿 Django 的效果和设计。
+
+# 做一个简单的操作表中各行的接口
+
+`ITable` is supposed to be used as a Django `Model`.
+
+```java
+interface ITable {
+  void createOne(IRow row);
+
+  IRow[] getAll();
+
+  void commitOne(IRow row);
+
+  void deleteOne(IRow row);
+}
+
+interface IRow {
+  String getAttribute(String name);
+
+  void setAttribute(String name);
+
+  Map<String, String> listAttributesAsMap();
+
+  void saveChanges();
+}
+```
+
+IRow 须持有对其所属 Table 类的引用。
+
+1. in `DatabaseTableDataModel`, change data container type to be a container of
+   IRow objects
+2. create IRow objects out of row `String[]` types fetched from JDBC
+
+I don't like put much logic in Subclasses of `AbstracTableModel`. For the time being,
+a subclass of it is interacting with `IRow[]` and `IRow` objects and I don't like that.
+
+Subclasses of `AbstractTableModel` is used by swing to render data to UI components.
+They are expecting data with type of `Object[][]` which may be very different from what
+IRow understands about table rows.
+
+Cooperating classes are
+
+- `DbMgr`, program entry point, the main waing form
+- `IRow`, `ITable`
+- My subclass of `swing.table.AbstractTableModel`, it provides data to swing and listens for
+  use input. These event should be handled by `ITable` or something else, definitely not by
+  swing's table model.
+
+Maybe I should survey how this is done in Django. More design is required!
+
 # 怎么连接到 vmware 虚拟机中的 DB2 数据库？
 
 客户机应该使用 NAT 网络模式，在笔者的这个环境中，不能使用 Bridge 模式，因为没有 IP 会被分配给虚拟机。
@@ -18,9 +70,10 @@ tags: [java, database, jdbc, gui, swing]
 这两中驱动的主要区别是 type 2 驱动依赖于操作系统的原生二进制，type 4 则不需要，因其纯 Java 实现。
 这几种驱动的说明见[此链接](https://www.ibm.com/docs/en/db2/9.7?topic=apis-supported-drivers-jdbc-sqlj)。
 
-1. 从 maven 仓库中，安装 `com.ibm.db2.jcc:db2jcc:db2jcc4` 库。
+1. 用你最喜欢的依赖管理器，从 maven 仓库中安装 `com.ibm.db2.jcc:db2jcc:db2jcc4` 库。
 2. 在 java 程序中载入 `com.ibm.db2.jcc.DB2Driver` 驱动类。
-3. 用`DriverManager.getConnection("jdbc:db2://<ip addr>:50000/sample", "<user name>", "<user password>")`得到一个`Connection`类实例。
+3. 用`DriverManager.getConnection("jdbc:db2://<ip addr>:50000/sample", "<user name>", "<user password>")`
+   得到一个`Connection`类实例。
 
 注意，在源码中写入用户名，用户密码，和数据库主机地址是非恶劣的行为。
 比较好的在各编程语言生态中通行的做法是从环境变量中引入这些秘密的值。Java 生态中还有其他的引入秘密的方法。
