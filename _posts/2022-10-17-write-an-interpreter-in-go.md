@@ -9,7 +9,8 @@ mermaid: true
 
 I am using this book _"Writing An Interpreter In Go"_ by Thorsten Ball.
 You can but this book at [https://interpreterbook.com/]().
-In the meantime, I am taking [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
+In the meantime, I am
+taking [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
 at edx.org.
 
 # Test Driven Development
@@ -35,7 +36,11 @@ I will find a library to do that for me.
 
 # Lexer
 
-Lexer and parser have a very common behavior. Both of them will peek one character/token then decide which concrete lexer/tokenizer to use. Some tokens may start with the same character. For example, `let` and `latitude` both starts with character `l` but they are keyword and identifier respectively. So when character `l` is encountered a lexer would try to use a sequence of "sub-lexers" according to some predefined priority. When one "sub-lexer" fails, it tries the next one. An example is given below.
+Lexer and parser have a very common behavior. Both of them will peek one character/token then decide which concrete
+lexer/tokenizer to use. Some tokens may start with the same character. For example, `let` and `latitude` both starts
+with character `l` but they are keyword and identifier respectively. So when character `l` is encountered a lexer would
+try to use a sequence of "sub-lexers" according to some predefined priority. When one "sub-lexer" fails, it tries the
+next one. An example is given below.
 
 ```go
 word := lexer.eatWord()
@@ -53,7 +58,8 @@ if err == nil {
 
 # Parser
 
-A parser parses tokens into abstract syntax trees. Parsing is one of the most well-understood branches of computer science and really smart people have already invested a lot of time into the problems of parsing.
+A parser parses tokens into abstract syntax trees. Parsing is one of the most well-understood branches of computer
+science and really smart people have already invested a lot of time into the problems of parsing.
 
 I will implement a "Pratt parser" or "top down operator precedence parser"
 
