@@ -2,11 +2,31 @@
 title: 用swing开发数据库CRUD应用。Build a CRUD app with JDBC and swing
 categories: [ProjectExperience]
 tags: [java, database, jdbc, gui, swing]
+mermaid: true
 ---
 
 基本思路是模仿 Django 的效果和设计。
 
 # 做一个简单的操作表中各行的接口
+
+```mermaid
+flowchart TD
+start
+dialogShown["DbMgr handles this click event and constructs form via IUserInputForm"]
+previousEnterDataIsShown["IUserInputForm."]
+userCanceled
+userSubmitted["data is passed to ITableSchema.getObjectOrNull()"]
+ifInputIsValid{validated by\nITableSchema}
+iRowCreated
+
+start--> |clicks insert row button|dialogShown
+--> |user inputs data|userSubmitted
+--> ifInputIsValid
+--> |valid|iRowCreated
+
+ifInputIsValid -->|invalid, validator provides error messages|previousEnterDataIsShown
+--> |user updates|userSubmitted
+```
 
 `ITable` is supposed to be used as a Django `Model`.
 
@@ -19,6 +39,10 @@ interface ITable {
   void commitOne(IRow row);
 
   void deleteOne(IRow row);
+
+  int getRowCount();
+
+  ITableSchema getSchema();
 }
 
 interface IRow {
@@ -32,28 +56,20 @@ interface IRow {
 }
 ```
 
-IRow 须持有对其所属 Table 类的引用。
+`ITableSchema` provides information for `IUserInput` so that it can construct appropriate swing
+components.
 
-1. in `DatabaseTableDataModel`, change data container type to be a container of
-   IRow objects
-2. create IRow objects out of row `String[]` types fetched from JDBC
+```java
+interface ITableSchema {
+  String[] getColumnNames();
 
-I don't like put much logic in Subclasses of `AbstracTableModel`. For the time being,
-a subclass of it is interacting with `IRow[]` and `IRow` objects and I don't like that.
+  String[] getColumnTypeNames();
 
-Subclasses of `AbstractTableModel` is used by swing to render data to UI components.
-They are expecting data with type of `Object[][]` which may be very different from what
-IRow understands about table rows.
+  IRow getObjectOrNull(IUserInputForm form);
+}
+```
 
-Cooperating classes are
-
-- `DbMgr`, program entry point, the main waing form
-- `IRow`, `ITable`
-- My subclass of `swing.table.AbstractTableModel`, it provides data to swing and listens for
-  use input. These event should be handled by `ITable` or something else, definitely not by
-  swing's table model.
-
-Maybe I should survey how this is done in Django. More design is required!
+## reference design in Django
 
 > [Django’s role in forms](https://docs.djangoproject.com/en/4.1/topics/forms/#django-s-role-in-forms)
 >
@@ -72,6 +88,53 @@ Similar to tasks listed above, I need to:
 All data in a row is treated as strings for simplicity.
 And I will delegate all validation work to the database. Error messages will be shown to user should error occurs,
 then another dialog will prompt them to update data that they entered previously.
+
+IUseInputForm constructs `JComponent`s for accepting user input. It may choose different component
+for different types.
+
+```java
+interface IUserInputFormFactory {
+  IUserInputForm createForm(ITableSchema schema);
+
+  IUserInputForm createForm(ITableSchema schema, String[] initialData);
+}
+
+interface IUserInputForm {
+  JComponent[] getFields();
+
+  String[] getCleanedData();
+}
+```
+
+Algorithm:
+
+pre-condition:
+
+- DbMgr has an `ITableSchema`
+
+steps:
+
+1. `DbMgr` get an `IuserInputForm` from factory.
+2. `DbMgr` get `JComponents[]` from `IUserInputForm`.
+3. `DbMgr` renders these components with `JOptionPane.showConfirmDialog()`.
+4. if user cancels this operation, exit.
+5. `DbMgr` passes `IUserInputForm` to `ITableSchema` trying to get an `IRow`.
+6. if got `IRow`, exit.
+7. if got null, go to 3.
+
+Low level interfaces for working with databases:
+
+```java
+interface DbBackend {
+  IRow createOne(String[] cleanedData);
+
+  IRow[] getAll();
+
+  void commitOne(IRow row);
+
+  void deleteOne(IRow row);
+}
+```
 
 # 怎么连接到 vmware 虚拟机中的 DB2 数据库？
 
