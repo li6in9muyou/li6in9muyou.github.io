@@ -65,29 +65,9 @@ interface ITableSchema {
 
   String[] getColumnTypeNames();
 
-  IRow getObjectOrNull(IUserInputForm form);
+  IRow createObjectOrNull(IUserInputForm form);
 }
 ```
-
-## reference design in Django
-
-> [Django’s role in forms](https://docs.djangoproject.com/en/4.1/topics/forms/#django-s-role-in-forms)
->
-> Django handles three distinct parts of the work involved in forms:
->
-> - preparing and restructuring data to make it ready for rendering
-> - creating HTML forms for the data
-> - receiving and processing submitted forms and data from the client
-
-Similar to tasks listed above, I need to:
-
-- fetching table data from a datasource convert them to string
-- creating JComponents to construct an input dialog for user
-- validating user input
-
-All data in a row is treated as strings for simplicity.
-And I will delegate all validation work to the database. Error messages will be shown to user should error occurs,
-then another dialog will prompt them to update data that they entered previously.
 
 IUseInputForm constructs `JComponent`s for accepting user input. It may choose different component
 for different types.
@@ -121,6 +101,26 @@ steps:
 5. `DbMgr` passes `IUserInputForm` to `ITableSchema` trying to get an `IRow`.
 6. if got `IRow`, exit.
 7. if got null, go to 3.
+
+## reference design in Django
+
+> [Django’s role in forms](https://docs.djangoproject.com/en/4.1/topics/forms/#django-s-role-in-forms)
+>
+> Django handles three distinct parts of the work involved in forms:
+>
+> - preparing and restructuring data to make it ready for rendering
+> - creating HTML forms for the data
+> - receiving and processing submitted forms and data from the client
+
+Similar to tasks listed above, I need to:
+
+- fetching table data from a datasource convert them to string
+- creating JComponents to construct an input dialog for user
+- validating user input
+
+All data in a row is treated as strings for simplicity.
+And I will delegate all validation work to the database. Error messages will be shown to user should error occurs,
+then another dialog will prompt them to update data that they entered previously.
 
 Low level interfaces for working with databases:
 
