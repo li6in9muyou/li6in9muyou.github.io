@@ -61,3 +61,8 @@ Besides the mental overhead described above, in that example `ActionPanel.svelte
 also a child of `Library.svelte`, which means that when `Library.svelte` is rendered
 there is actually two instances of `AddToBookListModal.svelte` in the subtree of
 `Library.svelte`.
+This will an an issue if the duplicated components possess some resources e.g. access tokens.
+
+# Refactoring proposal
+
+Use redux through redux-toolkit.
