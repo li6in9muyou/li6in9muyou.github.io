@@ -15,9 +15,12 @@ on ray tracing in the Go programming language. Key takeaways are:
 
 Debugger offer little help here because raw values of a `Vec3` make no sense.
 All one can do is make sure basic operations on vectors are all correct. Then check key assumptions
-of the whole code base, like:
+on which the whole system bases. The author of this book explicitly shows the bounds and orientations
+of "film" space and world space. However, due to the use of PPM image encoding format, coordinate system of
+the viewport space is implicit. Meaning that it's now clear to see the mapping between film space
+(classic math coordinate system) and screen space (top-left origin, y goes down, x goes right).
 
-### bounds of key value spaces
+### bounds of vector spaces
 
 Some coordinate spaces use normalized coordinates. Some code assumes parameters passed in are normalized
 into some bounds. In contrast to the usage of normalized coordinates, some vectors must retain size information
@@ -60,6 +63,7 @@ for y := 0; y < PictureBounds.Max.Y; y++ {
 wg.Wait()
 ```
 
-I know such slow-down is caused by contention. And I suspect that the random number generator
+I know such slow-down is caused by race conditions. And I suspect that the random number generator
 is the subject of contention. So I create a new random source for every goroutine, which ends up
-to be a satisfactory speed-up of roughly 4.5 times.
+to be a satisfactory speed-up of roughly 4.5 times. But that's all physical CPU cores can do for me, starting
+from here, only algorithmic acceleration techniques can reduce running time.
