@@ -7,7 +7,18 @@ mermaid: true
 
 基本思路是模仿 Django 的效果和设计。
 
-# 做一个简单的操作表中各行的接口
+# New requirements
+
+New spec requires that user may use the same `JTable` component to input data.
+Thankfully, `JTable` component supports cell editing out of the box.
+It fires `tableChanged` event on "blur". This event has a rowId and columnId with it and nothing more.
+However, this approach does not fit with the current approach where an explicit form.
+
+To implement this feature, a new row with all empty fields
+should be added when user decide to insert a row, then new data may be filled in naturally.
+Similarly, user may update any attribute of a row directly inside this `JTable` component.
+
+# Interfaces representing one row of data
 
 ```mermaid
 flowchart TD
@@ -68,6 +79,8 @@ interface ITableSchema {
   IRow createObjectOrNull(IUserInputForm form);
 }
 ```
+
+# User input form
 
 IUseInputForm constructs `JComponent`s for accepting user input. It may choose different component
 for different types.
