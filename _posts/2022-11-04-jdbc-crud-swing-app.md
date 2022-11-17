@@ -168,5 +168,5 @@ interface DbBackend {
 3. 用`DriverManager.getConnection("jdbc:db2://<ip addr>:50000/sample", "<user name>", "<user password>")`
    得到一个`Connection`类实例。
 
-注意，在源码中写入用户名，用户密码，和数据库主机地址是非恶劣的行为。
+注意，在源码中写入用户名，用户密码，和数据库主机地址是非常非常恶劣的行为。
 比较好的在各编程语言生态中通行的做法是从环境变量中引入这些秘密的值。Java 生态中还有其他的引入秘密的方法。
