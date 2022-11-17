@@ -5,7 +5,7 @@ tags: [java, database, jdbc, gui, swing]
 mermaid: true
 ---
 
-基本思路是模仿 Django 的效果和设计。
+基本思路是模仿 Django ORM 的效果和设计。
 
 # New requirements
 
