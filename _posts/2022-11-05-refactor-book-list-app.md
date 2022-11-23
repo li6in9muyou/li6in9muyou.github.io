@@ -66,3 +66,14 @@ This will an an issue if the duplicated components possess some resources e.g. a
 # Refactoring proposal
 
 Use redux through redux-toolkit.
+
+# Pocketbase frontend design
+
+## `pocketbase/ui/src/stores`
+
+App wide states, e.g. active collection, are stored here
+as well as states of toasts, confirmations and error notifications.
+
+## `pocketbase/ui/src/actions`
+
+There is only one file implementing a simple tooltip.
