@@ -170,3 +170,57 @@ interface DbBackend {
 
 注意，在源码中写入用户名，用户密码，和数据库主机地址是非常非常恶劣的行为。
 比较好的在各编程语言生态中通行的做法是从环境变量中引入这些秘密的值。Java 生态中还有其他的引入秘密的方法。
+
+# 怎么显示详细的出错信息
+
+先尝试再 JDBC 连接字符串中设置 `retrieveMessagesFromServerOnGetMessage` 属性为真，
+此后，捕获到JDBC驱动抛出的异常时，使用 `getMessage()` 就可以得到详细的错误说明。
+
+示例如下：
+
+```java
+public static class Program {
+  private final static Connection con = DriverManager.getConnection(
+    "jdbc:db2://192.168.245.128:50000/sample:" +
+      "retrieveMessagesFromServerOnGetMessage=true;",
+    "student",
+    "student"
+  );
+}
+```
+
+如果显示的不是中文，则需使用如下方法，手动查询中文简体字的错误说明。也许可以在数据库后台设置本地化策略集为中文简体以免去
+下面描述的步骤。
+
+1. 捕获 JDBC 驱动抛出的异常。
+2. 强制将此异常类型转换为 `com.ibm.db2.jcc.DB2Diagnosable`，再调用 `getSqlca()` ，得到一个 `DB2Sqlca` 对象。
+3. 作如下查询，查询字符串为 `values (sysproc.SQLERRM(?, ?, ';', 'zh_CN', 1))`，第一参数设置为字符串
+   `"SQL%s".formatted(Math.abs(sqlca.getSqlCode()))`，第二参数设置为`sqlca.getSqlErrmc()`
+
+示例如下：
+
+```java
+public static class Program {
+  private final static Connection con;
+
+  public String fetchErrorMessage(Throwable error) {
+    if (error instanceof DB2Diagnosable) {
+      DB2Sqlca sqlca = ((DB2Diagnosable) error).getSqlca();
+      PreparedStatement query = con.prepareStatement(
+        "values (sysproc.SQLERRM(?, ?, ';', 'zh_CN', 1))"
+      );
+      query.setString(1, "SQL" + Math.abs(sqlca.getSqlCode()));
+      query.setString(2, sqlca.getSqlErrmc());
+      ResultSet rs = query.executeQuery();
+      rs.first();
+      return rs.getString(1);
+    } else {
+      return error.getMessage();
+    }
+  }
+}
+```
+
+关于这种做法的详细说明见
+[Handling an SQLException under the IBM Data Server Driver for JDBC and SQLJ](https://www.ibm.com/docs/en/db2/9.7?topic=ewudsdjs-handling-sqlexception-under-data-server-driver-jdbc-sqlj)
+。
