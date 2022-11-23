@@ -173,7 +173,7 @@ interface DbBackend {
 
 # 怎么显示详细的出错信息
 
-先尝试再 JDBC 连接字符串中设置 `retrieveMessagesFromServerOnGetMessage` 属性为真，
+先尝试在 JDBC 连接字符串中设置 `retrieveMessagesFromServerOnGetMessage` 属性为真，
 此后，捕获到JDBC驱动抛出的异常时，使用 `getMessage()` 就可以得到详细的错误说明。
 
 示例如下：
