@@ -5,6 +5,48 @@ tags: [java, database, jdbc, gui, swing]
 mermaid: true
 ---
 
+# 将程序调试过程中遇到的典型错误列出
+
+## `ArrayStoreException` is thrown when putting `java.sql.Date` into an `Object[]`
+
+Cause: `Object[] objects = new String[colCount];`
+
+Solution:
+[commit](https://github.com/li6in9muyou/SwingDbCrudApp/commit/9240a4af)
+`Object[] objects = new Object[colCount];`
+
+## custom table cell renderer is not used
+
+Cause: class parameter in `setDefaultRenderer` is not generic enough
+
+Solution:
+[commit](https://github.com/li6in9muyou/SwingDbCrudApp/commit/885adbe1a6621fc57c5da182e92dbf52e541060c)
+change `setDefaultRenderer(String.class, ...)` to `setDefaultRenderer(Object.class, ...)`
+
+## after reset local tracking branch to HEAD~N, force pushing to remote is rejected
+
+Cause: IDE forbids me from doing this not git.
+
+Solution: `git push --force`.
+
+## Selected rows background are all white
+
+Expected: blue background, appropriate foreground color for reading.
+
+## Many cells are unexpectedly painted with highlight color for NULLs and empty strings
+
+Expected: Normal cells background alternates between two colors according to row index and
+turns blue on focus
+
+Cause: The same renderer is used to paint many cells. If its internal state is changed
+when rendering one cell, all cells after that is affected.
+
+Solution: Create a class that implements `TableCellRenderer` and holds reference to a
+`DefaultTableCellRenderer`. It should return itself if some cell needs special treatment, otherwise
+return that referenced default renderer.
+
+----
+
 基本思路是模仿 Django ORM 的效果和设计。
 
 # New requirements
