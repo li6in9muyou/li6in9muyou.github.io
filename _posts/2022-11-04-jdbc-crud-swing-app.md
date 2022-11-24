@@ -20,7 +20,7 @@ Solution:
 Cause: class parameter in `setDefaultRenderer` is not generic enough
 
 Solution:
-[commit](https://github.com/li6in9muyou/SwingDbCrudApp/commit/885adbe1a6621fc57c5da182e92dbf52e541060c)
+[commit](https://github.com/li6in9muyou/SwingDbCrudApp/commit/885adbe)
 change `setDefaultRenderer(String.class, ...)` to `setDefaultRenderer(Object.class, ...)`
 
 ## after reset local tracking branch to HEAD~N, force pushing to remote is rejected
@@ -41,7 +41,9 @@ turns blue on focus
 Cause: The same renderer is used to paint many cells. If its internal state is changed
 when rendering one cell, all cells after that is affected.
 
-Solution: Create a class that implements `TableCellRenderer` and holds reference to a
+Solution:
+[commit](https://github.com/li6in9muyou/SwingDbCrudApp/commit/9e848fa7)
+Create a class that implements `TableCellRenderer` and holds reference to a
 `DefaultTableCellRenderer`. It should return itself if some cell needs special treatment, otherwise
 return that referenced default renderer.
 
