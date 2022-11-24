@@ -45,6 +45,10 @@ Solution: Create a class that implements `TableCellRenderer` and holds reference
 `DefaultTableCellRenderer`. It should return itself if some cell needs special treatment, otherwise
 return that referenced default renderer.
 
+Remarks: `TableModel` in `JTable` can be strongly typed however `DefaultTableModel` see all
+data as `Object`s. To use type specific renderer, one must override `getColumnClass()` in
+a `TableModel`.
+
 # 怎么连接到 vmware 虚拟机中的 DB2 数据库？
 
 客户机应该使用 NAT 网络模式，在笔者的这个环境中，不能使用 Bridge 模式，因为没有 IP 会被分配给虚拟机。
