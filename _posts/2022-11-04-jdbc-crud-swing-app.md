@@ -5,6 +5,8 @@ tags: [java, database, jdbc, gui, swing]
 mermaid: true
 ---
 
+仓库地址：[github.com/li6in9muyou/SwingDbCrudApp](https://github.com/li6in9muyou/SwingDbCrudApp)
+
 # 将程序调试过程中遇到的典型错误列出
 
 ## `ArrayStoreException` is thrown when putting `java.sql.Date` into an `Object[]`
@@ -128,6 +130,15 @@ public static class Program {
 。
 
 ----
+
+# TODO
+
+-[ ] `Fetch` 中的修改数据库状态的各方法用模版方法模式重构，主要是为了保证将缓存设置为失效。
+-[ ] `Fetch` 中发送请求的的各方法用模版方法模式重构，主要是为了处理异常和警告。
+-[ ] 改各功能暂存区的文本框为 `JTable`。
+-[ ] `Fetch::createRows()` 里面硬编码了 employee 表的元数据，要查看其他数据表时该怎么办？
+-[ ] `TableModel`、`Fetch`中的缓存究竟该用什么类型？怎么处理这两处地方和数据表这三处地方类型转换？
+-[ ] 取消暂存任意单元各修改的功能。
 
 基本思路是模仿 Django ORM 的效果和设计。
 
