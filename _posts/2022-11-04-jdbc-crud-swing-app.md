@@ -141,6 +141,7 @@ public static class Program {
 -[ ] `Fetch::createRows()` 里面硬编码了 employee 表的元数据，要查看其他数据表时该怎么办？
 -[ ] `TableModel`、`Fetch`中的缓存究竟该用什么类型？怎么处理这两处地方和数据表这三处地方类型转换？
 -[ ] 新功能：重置已经暂存了的单元格的修改。
+-[ ] 编译为 WASM 使之能够运行在浏览器中，能否在Azure上部署类似的数据库实例？。
 
 基本思路是模仿 Django ORM 的效果和设计。
 
