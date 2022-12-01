@@ -108,19 +108,16 @@ public static class Program {
   private final static Connection con;
 
   public String fetchErrorMessage(Throwable error) {
-    if (error instanceof DB2Diagnosable) {
-      DB2Sqlca sqlca = ((DB2Diagnosable) error).getSqlca();
-      PreparedStatement query = con.prepareStatement(
-        "values (sysproc.SQLERRM(?, ?, ';', 'zh_CN', 1))"
-      );
-      query.setString(1, "SQL" + Math.abs(sqlca.getSqlCode()));
-      query.setString(2, sqlca.getSqlErrmc());
-      ResultSet rs = query.executeQuery();
-      rs.first();
-      return rs.getString(1);
-    } else {
-      return error.getMessage();
-    }
+    // CAUTION! sqlca may be null due to run-time cast.
+    DB2Sqlca sqlca = ((DB2Diagnosable) error).getSqlca();
+    PreparedStatement query = con.prepareStatement(
+      "values (sysproc.SQLERRM(?, ?, ';', 'zh_CN', 1))"
+    );
+    query.setString(1, "SQL" + Math.abs(sqlca.getSqlCode()));
+    query.setString(2, sqlca.getSqlErrmc());
+    ResultSet rs = query.executeQuery();
+    rs.first();
+    return rs.getString(1);
   }
 }
 ```
