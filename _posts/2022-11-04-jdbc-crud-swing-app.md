@@ -150,6 +150,12 @@ public static class Program {
 
 -[ ] 修正：批处理的查询出错时，不能显示详细的错误信息。
 
+-[ ] 增强：强力区分处理 `Fetch` 中的 SQL 异常和 Java 异常，Java 异常的 errorMessage
+并不十分有描述性，必须带上`error.toString()`。
+
+-[ ] 修正：创建多行时若日期类型的列以空字符串为参数，在`Fetch::fetchErrorMessage`中，`Db2Diagnosable::getSqlca`
+会返回 `null`。
+
 # Multimedia queries
 
 -[ ] 功能：切换数据表，处理原硬编码的仅适用于 employee 表的代码。
