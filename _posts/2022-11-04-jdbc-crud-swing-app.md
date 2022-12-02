@@ -78,7 +78,7 @@ a `TableModel`.
 # 怎么显示详细的出错信息
 
 先尝试在 JDBC 连接字符串中设置 `retrieveMessagesFromServerOnGetMessage` 属性为真，
-此后，捕获到JDBC驱动抛出的异常时，使用 `getMessage()` 就可以得到详细的错误说明。
+此后，捕获到 JDBC 驱动抛出的异常时，使用 `getMessage()` 就可以得到详细的错误说明。
 
 示例如下：
 
@@ -126,19 +126,28 @@ public static class Program {
 [Handling an SQLException under the IBM Data Server Driver for JDBC and SQLJ](https://www.ibm.com/docs/en/db2/9.7?topic=ewudsdjs-handling-sqlexception-under-data-server-driver-jdbc-sqlj)
 。
 
-----
+---
 
 # TODO
 
 -[x] 即使在程序启动时连接数据库失败，也要能够提示连接失败并让用户可以重试。
+
 -[x] `Fetch` 中的修改数据库状态的各方法用模版方法模式重构，主要是为了保证将缓存设置为失效。
+
 -[x] `Fetch` 中发送请求的的各方法用模版方法模式重构，主要是为了处理异常和警告。
+
 -[ ] 显示跟查询命令关联的警告，比如删除时指定的谓词查询不到任何行。
+
 -[ ] 改各功能暂存区的文本框为 `JTable`。
+
 -[ ] `Fetch::createRows()` 里面硬编码了 employee 表的元数据，要查看其他数据表时该怎么办？
+
 -[ ] `TableModel`、`Fetch`中的缓存究竟该用什么类型？怎么处理这两处地方和数据表这三处地方类型转换？
+
 -[ ] 新功能：重置已经暂存了的单元格的修改。
--[ ] 编译为 WASM 使之能够运行在浏览器中，能否在Azure上部署类似的数据库实例？。
+
+-[ ] 编译为 WASM 使之能够运行在浏览器中，能否在 Azure 上部署类似的数据库实例？。
+
 -[ ] 修正：批处理的查询出错时，不能显示详细的错误信息。
 
 # Multimedia queries
