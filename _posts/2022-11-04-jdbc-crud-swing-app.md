@@ -152,5 +152,6 @@ public static class Program {
 
 # Multimedia queries
 
--[ ] 功能：切换数据表，处理原硬编码的仅适用于employee表的代码。
+-[ ] 功能：切换数据表，处理原硬编码的仅适用于 employee 表的代码。
+
 -[ ] 重构：如何修改能使代码适应面向多媒体数据的表查询？
