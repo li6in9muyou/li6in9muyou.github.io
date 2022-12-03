@@ -148,7 +148,7 @@ public static class Program {
 
 -[ ] 编译为 WASM 使之能够运行在浏览器中，能否在 Azure 上部署类似的数据库实例？。
 
--[ ] 修正：批处理的查询出错时，不能显示详细的错误信息。
+-[x] 修正：批处理的查询出错时，不能显示详细的错误信息。
 
 -[ ] 增强：强力区分处理 `Fetch` 中的 SQL 异常和 Java 异常，Java 异常的 errorMessage
 并不十分有描述性，必须带上`error.toString()`。
