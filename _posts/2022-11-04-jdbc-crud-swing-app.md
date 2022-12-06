@@ -7,6 +7,20 @@ mermaid: true
 
 仓库地址：[github.com/li6in9muyou/SwingDbCrudApp](https://github.com/li6in9muyou/SwingDbCrudApp)
 
+本项目中，使用 Java 的 Swing 组件开发了一个简单的 GUI 应用程序。
+简单在于其数据流是单向的。数据库中各表的数据填充在一`JTable`组件中，用户可直接修改各单元格的数据，
+其改动会被记录到暂存区，要想撤销暂存区中的改动是不能够的。
+
+```mermaid
+flowchart LR
+a[数据库]
+b[Swing的JTable组件]
+c[暂存区]
+a --> b
+b --> c
+c --> a
+```
+
 # 将程序调试过程中遇到的典型错误列出
 
 ## `ArrayStoreException` is thrown when putting `java.sql.Date` into an `Object[]`
