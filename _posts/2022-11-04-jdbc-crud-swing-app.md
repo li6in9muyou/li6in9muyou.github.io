@@ -130,6 +130,8 @@ public static class Program {
 
 # TODO
 
+本节内容正在迁移到[GitHub Issues 页面](https://github.com/li6in9muyou/SwingDbCrudApp/issues)。
+
 - [x] 即使在程序启动时连接数据库失败，也要能够提示连接失败并让用户可以重试。
 
 - [x] `Fetch` 中的修改数据库状态的各方法用模版方法模式重构，主要是为了保证将缓存设置为失效。
