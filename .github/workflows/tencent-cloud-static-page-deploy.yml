@@ -20,7 +20,7 @@ jobs:
           ref: 'gh-pages'
       
       - name: Remove ./.git/
-        run:  bash rm -rf ${GITHUB_WORKSPACE}/.git
+        run:  rm -rf ./.git
         
       - name: Deploy static to Tencent CloudBase
         uses: TencentCloudBase/cloudbase-action@v1
