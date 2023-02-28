@@ -5,7 +5,7 @@ on:
     branches:
       - gh-pages
   workflow_run:
-    workflows: ['Automatic build']
+    workflows: ['pages-build-deployment']
     types:
       - completed
 
@@ -25,4 +25,4 @@ jobs:
           secretId: ${{ secrets.TENCENT_CLOUD_SECRET_ID }}
           secretKey: ${{ secrets.TENCENT_CLOUD_SECRET_KEY }}
           envId: ${{ secrets.TENCENT_CLOUD_ENV_ID }}
-          staticSrcPath: $GITHUB_WORKSPACE
+          staticSrcPath: .
