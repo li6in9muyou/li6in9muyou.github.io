@@ -6,6 +6,52 @@ tags: []
 
 **THIS POST IS WORK-IN-PROGRESS**
 
+# 基础理论和算法
+
+- TCP 可靠传输协议实现，处理丢包、乱序、超时问题
+- 三维渲染管线实现，还原三维渲染过程，实现经典三维图形算法，如 Phong shading、SMAA 等
+- 互斥锁的实现，实现四种经典算法，在浏览器 WebWorker 之间自行实现共享内存，用 Svelte
+- 某算法比赛，用 C++ 实现了点云表面重建、多 Agent 遍历图等
+- 不围棋自动下棋程序，团队合作，负责文档和设计，用 C++。
+- 光线追踪，用 Go。
+
+# Java
+
+- Java EE 开发
+- 直接使用 JDBC 驱动开发 CRUD 应用，用 Swing 开发桌面应用
+- P2P 双人对战游戏，用 Swing 开发桌面应用
+
+# 团队协作
+
+- 基于 Git 合作
+- 撰写需求分析和架构设计等文档、测试驱动开发
+- 现学现用 C# 和 .Net 生态
+- P2P 双人对战游戏、软件架构模仿 Electron 来搭建桌面应用
+
+# 基本操作学习
+
+- 基于 libuv 服务器开发
+- 基于 Compose 的安卓开发流程
+
+# 云服务和 CI/CD
+
+- 多个仓库都使用 GitHub Action 将站点自动部署到 GitHub Pages、腾讯云、Azure
+- 本博客在云端构建之后部署到 Azure
+- 用 PocketHost 部署 SQL 数据库，其他项目通过 RESTful API 使用
+- 熟悉 Linux 和 Bash 基本操作
+
+# 前端
+
+- 图书搜索、筛选、收藏功能演示，用 Svelte
+- 在线井字棋，设计了双人对战平台通信协议，用 React
+- FreeCodeCamp 前端开发证书要求的几个项目，着重前端业务逻辑和状态管理，用 Vanilla 和 Svelte
+- XML、XSL 编辑器，实用工具，网页编辑器，带实时渲染和本地保存，用 Vanilla
+- 公共留言板，数据库部署在 PocketHost，任何人可留言，管理员可验证身份。
+
+---
+
+> 笔者按：以下是旧的内容
+
 # [神机妙算算法竞赛]({% post_url 2022-06-05-shenjimiaosuan-contest %}) 2021-07-31
 
 为了锻炼自己解决陌生领域软件问题的能力，我参加了这一神机妙算算法竞赛。
