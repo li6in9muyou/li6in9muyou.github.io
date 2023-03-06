@@ -1,6 +1,6 @@
 ---
 title: 数字现实场景建模与仿真课程作业汇总。Scene modeling 101
-categories: [homework]
+categories: [Homework]
 tags: [computer-graphics, 3d-modeling]
 ---
 

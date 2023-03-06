@@ -11,6 +11,7 @@ tags:
     JLU-assignment,
     concurrent-programming,
     threads,
+    algorithm,
   ]
 mermaid: true
 ---

@@ -1,6 +1,6 @@
 ---
 title: 如何给本站添加文章
-categories: [Howto]
+categories: [HowTo]
 tags: [chore]
 ---
 
@@ -41,7 +41,7 @@ example:
 ```
 ---
 title: 如何给本站添加文章
-categories: [Howto]
+categories: [HowTo]
 tags: [chore]
 ---
 ```

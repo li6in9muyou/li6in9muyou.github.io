@@ -1,8 +1,8 @@
 ---
 title: 如何恢复删除掉的文件和照片。How to undelete my pictures?
 date: 2022-06-05
-categories: [Howto]
-tags: []
+categories: [HowTo]
+tags: [chore]
 ---
 
 I accidentally lost a few folders under `D:\tech--BLOG\`.

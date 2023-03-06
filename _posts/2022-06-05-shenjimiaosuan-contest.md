@@ -2,7 +2,7 @@
 title: 神机妙算算法竞赛
 date: 2021-07-31
 categories: [ProjectExperience]
-tags: [contest, c++, algorithm]
+tags: [c++, algorithm]
 math: true
 ---
 

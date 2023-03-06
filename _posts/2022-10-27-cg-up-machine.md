@@ -1,7 +1,7 @@
 ---
 title: 计算机图形学上机实验课作业。Computer graphics up machine assignments
 categories: [ProjectExperience]
-tags: [computer-graphics, algorithms]
+tags: [computer-graphics, algorithm]
 ---
 
 **THIS IS A WORK-IN-PROGRESS**

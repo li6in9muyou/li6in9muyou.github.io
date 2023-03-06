@@ -1,6 +1,6 @@
 ---
-title: 如何用GitHub Actions自动构建并发布一个静态页面。Howto build and publish a static web page with GitHub Actions
-categories: [Howto]
+title: 如何用GitHub Actions自动构建并发布一个静态页面。How to build and publish a static web page with GitHub Actions
+categories: [HowTo]
 tags: [github-actions]
 ---
 
