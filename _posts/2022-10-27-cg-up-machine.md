@@ -4,6 +4,8 @@ categories: [ProjectExperience]
 tags: [computer-graphics, algorithms]
 ---
 
+**THIS IS A WORK-IN-PROGRESS**
+
 # 模拟从几何到像素点的全过程
 
 1. 给出场景的几何定义
