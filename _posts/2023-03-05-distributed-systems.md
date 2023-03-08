@@ -26,6 +26,17 @@ tricky scenarios:
 - When multiple computers are modifying a same file or directory, those modification should not
   interference each other unexpectedly.
 
+To address above issues, IO operations on shard files follows strict rules.
+
+- cache is invalid without holding a lock
+- acquire a lock before read
+- write before release a lock
+
+Communication protocols between a Frangipani client and Petal:
+
+1. request to a lock server
+2. grant
+
 ## atomicity
 
 The system should grantee some file operations be atomic e.g. create and delete files.
