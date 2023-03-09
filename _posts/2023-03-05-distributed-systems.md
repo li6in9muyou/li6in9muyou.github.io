@@ -32,10 +32,23 @@ To address above issues, IO operations on shard files follows strict rules.
 - acquire a lock before read
 - write before release a lock
 
-Communication protocols between a Frangipani client and Petal:
+operation abstractions between a Frangipani client and Petal:
 
 1. request to a lock server
-2. grant
+2. grant a lock to a client
+3. revoke a lock from a client
+4. release a lock back to lock server
+
+Lock has BUSY and IDLE state.
+Lock is cached in client in a IDLE state as long as it has not been revoked.
+One type of lock is shard read lock, another type is of course an exclusive write lock.
+
+Anyone who reads a file must acquire a read lock first. Subsequently, he lock server revokes
+any write lock. But no Frangipani
+client busy writing shall be interrupted, lock server and all reader must wait for its writing
+operation. Luckily, there is a big chance that such write lock is in IDLE state.
+This process make sure that no one will be reading stale data since write must give writing
+before any reader can read.
 
 ## atomicity
 
