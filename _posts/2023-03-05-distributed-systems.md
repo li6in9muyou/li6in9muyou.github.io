@@ -61,5 +61,14 @@ tricky scenarios:
 - Even if a computer crashes in the middle of syncing local state to the central server,
   other computer should not be affected by it.
 
+Write-Ahead-Log is used for crash recovery. Timeouts are also used to eliminate waiting indefinitely
+for responses from a Frangipani client. WALs are meant to be replayed by other peers.
+
+The lecturer distinguishes file metadata between user content. But how does the Linux OS implement
+file system?
+
+Sequenced numbers are used to track WAL entries and filesystem changes so that future readers
+of this data are able to find the latest one.
+
 > A review of this software can be found
 > at [wenzhe.one/MIT6.824%2021Spring/frangipani.html](https://wenzhe.one/MIT6.824%2021Spring/frangipani.html)
