@@ -68,7 +68,27 @@ The lecturer distinguishes file metadata between user content. But how does the 
 file system?
 
 Sequenced numbers are used to track WAL entries and filesystem changes so that future readers
-of this data are able to find the latest one.
+of same file entry are able to find the latest one. In such scenario, sequence number is often
+called version number, which is very common in document-oriented NoSQL databases.
+
+The lecturer comments that the Frangipani system is not suitable for today's use case of shard
+file storage.
 
 > A review of this software can be found
 > at [wenzhe.one/MIT6.824%2021Spring/frangipani.html](https://wenzhe.one/MIT6.824%2021Spring/frangipani.html)
+
+# Distributed Transactions (Distr. Xactions.)
+
+Distributed transactions are used when some bussiness logic requires
+modifying data across multiple servers.
+Two main topics of this lecture are concurrency control and atomic commit.
+A transaction packs series of operation into an atomic operation.
+
+The classical ACID:
+
+- Atomic: all or none
+- Consistent: ignored by this lecture
+- Isolated: serializable
+- Durable: changes are persistent on non-volatile storage
+
+What is serializable?
