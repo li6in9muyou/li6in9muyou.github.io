@@ -6,7 +6,7 @@ tags: [distributed-system]
 
 **THIS IS A WORK-IN-PROGRESS**
 
-This free online course explains inner-workings various distributed systems.
+This free online course explains inner-workings of various distributed systems.
 
 # Frangipani
 
