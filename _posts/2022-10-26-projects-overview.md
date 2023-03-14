@@ -43,8 +43,8 @@ tags: []
 - 图书搜索、筛选、收藏功能演示，用 Svelte
   ![](https://cdn.jsdelivr.net/gh/li6in9muyou/book-list-app-demo/demo/multi-select.gif)
 - 在线井字棋，设计了双人对战平台通信协议，用 React
-- FreeCodeCamp 前端开发证书要求的几个项目，着重前端业务逻辑和状态管理，用 Vanilla 和 Svelte
-- XML、XSL 编辑器，实用工具，网页编辑器，带实时渲染和本地保存，用 Vanilla
+- FreeCodeCamp 前端开发证书要求的几个项目，着重前端业务逻辑和状态管理，用 Vanilla JS 和 Svelte
+- XML、XSL 编辑器，实用工具，网页编辑器，带实时渲染和本地保存，用 Vanilla JS
 - 公共留言板，数据库部署在 PocketHost，任何人可留言，管理员可验证身份。
 
 ---
