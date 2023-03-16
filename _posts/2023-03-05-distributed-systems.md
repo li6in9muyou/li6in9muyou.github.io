@@ -83,6 +83,11 @@ Distributed transactions are used when some bussiness logic requires
 modifying data across multiple servers.
 Two main topics of this lecture are concurrency control and atomic commit.
 A transaction packs series of operation into an atomic operation.
+To facilitate such operations,
+concurrent system often provides abstract primitives for application programmers
+that mark the start and the end of a transaction. Another very useful abstraction would be
+to abort. When an abort happens, the execution system rolls back intermediate modifications.
+An abort may not indicates an error because interrupting a transaction can resolve a dead lock.
 
 The classical ACID:
 
@@ -92,3 +97,12 @@ The classical ACID:
 - Durable: changes are persistent on non-volatile storage
 
 What is serializable?
+Serializable execution means that a concurrent system is able to execute concurrent
+transactions that yields the same result as if those concurrent transactions are executed
+in a serial fashion, in other words, one after another.
+
+How to implement a serializable system?
+
+## concurrency
+
+## atomic commit
