@@ -2,8 +2,7 @@
 title: 互斥锁的实现：软件方法 Implementation of software mutex locks
 date: 2022-10-15
 categories: [ProjectExperience]
-tags:
-[
+tags: [
 mutex,
 javascript,
 svelte,
