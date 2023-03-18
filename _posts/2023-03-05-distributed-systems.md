@@ -103,6 +103,79 @@ in a serial fashion, in other words, one after another.
 
 How to implement a serializable system?
 
-## concurrency
+## concurrency control
+
+The two main strategies for concurrency control are pessimistic and optimistic concurrency control.
+Pessimistic concurrency control is a strategy that tries to prevent conflicts from happening
+by locking data items, while optimistic concurrency control is a strategy that allows
+transactions to proceed without locking data items and checks for conflicts
+when the transaction is ready to commit.
+
+For example, let’s say that two computers, Computer A and Computer B, are trying to write to the same file
+at the same time.
+With pessimistic concurrency control, Computer A would lock the file so that
+Computer B can’t write to it until Computer A is done. Once Computer A is done,
+it would release the lock and Computer B would be able to write to the file.
+This way, there’s no chance of Computer A and Computer B writing to the file at the same time
+and causing conflicts.
+With optimistic concurrency control, Computer A and Computer B would both be able to
+write to the file at the same time. However, when they’re done, the system would check
+to make sure that there are no conflicts between the changes that they made.
+If there are conflicts, the system would roll back the changes and ask Computer A
+and Computer B to try again.
+
+### two-phrase locking
+
+In the growing phase, a transaction acquires locks on data items as it reads and writes them. Once a lock is acquired,
+it cannot be released until the transaction is ready to commit i.e. all changes have been made.
+This ensures that other transactions cannot read or write the same data item
+while the transaction is still in progress hence no one is able to see intermediate results.
+
+In the shrinking phase, a transaction releases all of its locks once it is ready to commit. This allows other
+transactions to read and write the same data items.
+
+In distributed systems, data involved in a transaction may reside in different servers.
+What if one of them fails in the middle of a transaction, how are we going to do about that?
+
+### two-phrase commit
+
+This operation involves two phases: a prepare phase and a commit phase.
+
+In the prepare phase, the transaction coordinator sends a prepare message to all the servers involved in the
+transaction. Each server then checks to see if it can commit the transaction. If a server cannot commit the transaction,
+it sends a abort message to the transaction coordinator. If all the servers can commit the transaction, they send a
+ready message to the transaction coordinator.
+
+In the commit phase, the transaction coordinator sends a commit message to all the servers that sent a ready message.
+The servers then commit the transaction and send an acknowledgement message to the transaction coordinator. If a server
+cannot commit the transaction, it sends an abort message to the transaction coordinator.
+
+The transaction ID and a list operations on involved resources are exchanged between the transaction coordinator and
+participants. In addition to the transaction coordinator, there are two other roles in a two-phase commit: participants
+and resource managers.
+
+- Participants: servers that are involved in the transaction.
+- Resource managers: software components that manage access to resources, such as databases or files, on behalf of
+  the participants. Resource managers are required to manage access to resources, such as databases or files, on behalf
+  of the participants. They ensure that the resources are accessed in a consistent and reliable manner.
+
+The interaction between the transaction coordinator and the client that initiates the transaction is as follows:
+
+1. The client sends a request to the transaction coordinator to begin a transaction.
+2. The transaction coordinator assigns a unique transaction ID to the transaction and sends a prepare message to all the
+   participants involved in the transaction.
+3. Each participant checks to see if it can commit the transaction. If a participant cannot commit the transaction, it
+   sends an abort message to the transaction coordinator. If all the participants can commit the transaction, they send
+   a ready message to the transaction coordinator.
+4. The transaction coordinator sends a commit message to all the participants that sent a ready message.
+5. The participants then commit the transaction and send an acknowledgement message to the transaction coordinator. If a
+   participant
+   cannot commit the transaction, it sends an abort message to the transaction coordinator.
+6. The transaction coordinator sends a response to the client indicating whether the transaction was committed or
+   aborted.
+
+In this two-phase commit protocol, the participants acquire locks during the prepare phase and release them during the
+commit phase. The locks are acquired to ensure that the resources involved in the transaction are accessed in a
+consistent and reliable manner.
 
 ## atomic commit
