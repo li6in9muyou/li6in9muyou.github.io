@@ -114,7 +114,8 @@ tags: [pandas, python, database]
 </table>
 <p>123 rows × 4 columns</p>
 
-表格含义解读：`E47`号企业合作了 4 年的合作伙伴有 80 家，而`E101`号企业只有两个刚刚合作一年的伙伴，`E8`则有多达 2000 余家合作了一年的合作伙伴。
+表格含义解读：`E47`号企业合作了 4 年的合作伙伴有 80 家，而`E101`号企业只有两个刚刚合作一年的伙伴，`E8`则有多达 2000
+余家合作了一年的合作伙伴。
 
 ## 不太好的思路
 
@@ -206,9 +207,11 @@ ff.groupby(by=['id', 'yr'])['sold'].unique().to_frame()\
 .fillna(0).astype(int).droplevel(0, axis='columns')
 ```
 
-基本上跟单个的时候一致，只有两个区别，apply 的算子接收到的参数类型就是`pd.DataFrame`，而上面`loc`得到的是`pd.Series`，这里就不需要`to_drame`操作了。再有一个是需要用转置换成`pd.Series`后面才能使用`value_counts`。
+基本上跟单个的时候一致，只有两个区别，apply 的算子接收到的参数类型就是`pd.DataFrame`，而上面`loc`得到的是`pd.Series`
+，这里就不需要`to_drame`操作了。再有一个是需要用转置换成`pd.Series`后面才能使用`value_counts`。
 
-这种方法是比较慢的，而且也比较不合理，不是正确的 pandas 使用方法。因为使用了比较多的`apply`跟反复两次`to_frame`，应该多使用 pandas 提供的功能。
+这种方法是比较慢的，而且也比较不合理，不是正确的 pandas 使用方法。因为使用了比较多的`apply`跟反复两次`to_frame`，应该多使用
+pandas 提供的功能。
 
 计时结果如，需要 2 秒余：
 
