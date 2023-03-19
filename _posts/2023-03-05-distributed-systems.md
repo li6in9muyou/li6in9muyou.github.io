@@ -178,4 +178,28 @@ In this two-phase commit protocol, the participants acquire locks during the pre
 commit phase. The locks are acquired to ensure that the resources involved in the transaction are accessed in a
 consistent and reliable manner.
 
+If a participant server fails during the two-phase commit, the transaction coordinator will not receive a ready message
+from that participant. The transaction coordinator will then send an abort message to all the participants that sent a
+prepare message. The abort message tells the participants to abort the transaction.
+
+For example, suppose a transaction involves three participants: A, B, and C. The transaction coordinator sends a prepare
+message to all three participants. Participant A sends a ready message to the transaction coordinator, but participants
+B and C do not. The transaction coordinator then sends an abort message to participants A, B, and C, telling them to
+abort the transaction.
+
+If a participant server fails after sending a ready message, the transaction coordinator will send a commit message to
+all the participants that sent a ready message. The participants will then commit the transaction and send an
+acknowledgement message to the transaction coordinator. If a participant server fails after receiving a commit message,
+the transaction coordinator will not receive an acknowledgement message from that participant. The transaction
+coordinator will then send an abort message to all the participants that sent a commit message. The abort message tells
+the participants to abort the transaction.
+
+If the transaction coordinator server fails during the two-phase commit, the participants will not receive a commit or
+abort message from the transaction coordinator. The participants will then wait for a timeout period to elapse before
+aborting the transaction.
+
+For example, suppose a transaction involves three participants: A, B, and C. The transaction coordinator sends a prepare
+message to all three participants and then fails before sending a commit or abort message. Participants A, B, and C will
+wait for a timeout period to elapse before aborting the transaction.
+
 ## atomic commit
