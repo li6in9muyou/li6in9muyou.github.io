@@ -88,7 +88,7 @@ std::vector<std::vector<unsigned int>> all_empty_group(const TriMesh& mesh, cons
 
 本题的实现几乎全部是用的别人的实现，我自己做了一些 adapter 来提供 API 罢了，没有什么技术含量。核心的 BallPivoting 算法是用的 open3D 的实现，其中又需要依赖计算 convex hull，三维三角化。这两个计算的代码是费了一点功夫在网络上找的开源代码，都是论文作者释出的源码。至于最终结果的正确性，我心里也没底，测试估算法向量代码时，在 open3D 的测试用例下，总是有一两个是错误的。
 
-![roll](/assets/blog-images/神机妙算算法竞赛.assets\roll.png)
+![roll](/assets/blog-images/神机妙算算法竞赛.assets/roll.png)
 
 # 第一题，三头遍历
 

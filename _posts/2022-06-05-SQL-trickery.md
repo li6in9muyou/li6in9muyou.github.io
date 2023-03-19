@@ -11,7 +11,7 @@ tags: [pandas, python, database]
 
 对每一笔交易，记录企业 id，买家 id，交易发生年份，这样的记录共有 16 万余条，以 csv 格式存储在文件系统中。如下图：
 
-![image-20210817154025740](/assets/blog-images/用python生态的pandas解决一个aggregation需求.assets\image-20210817154025740.png)
+![image-20210817154025740](/assets/blog-images/用python生态的pandas解决一个aggregation需求.assets/image-20210817154025740.png)
 
 李明的任务是对每一家企业`E1, E2, ..., E123`统计与它们合作了 1,2,3,4 年的合作伙伴的数量。结果应类似下图：
 
