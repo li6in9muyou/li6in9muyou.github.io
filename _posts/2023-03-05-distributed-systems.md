@@ -178,6 +178,8 @@ In this two-phase commit protocol, the participants acquire locks during the pre
 commit phase. The locks are acquired to ensure that the resources involved in the transaction are accessed in a
 consistent and reliable manner.
 
+### failure scenarios
+
 If a participant server fails during the two-phase commit, the transaction coordinator will not receive a ready message
 from that participant. The transaction coordinator will then send an abort message to all the participants that sent a
 prepare message. The abort message tells the participants to abort the transaction.
@@ -201,5 +203,22 @@ aborting the transaction.
 For example, suppose a transaction involves three participants: A, B, and C. The transaction coordinator sends a prepare
 message to all three participants and then fails before sending a commit or abort message. Participants A, B, and C will
 wait for a timeout period to elapse before aborting the transaction.
+
+A lot of things can go wrong in these operations, system designers have to prepare their system for various failures.
+In short, there is a lot of acknowledgements and back-and-forth between participants and coordinators, when any reply is
+not received, the whole operations aborts. Participants use Write-Ahead-Log to grantee the transaction will be made
+before reply to coordinator.
+
+In short, write a log to persistent storage before doing anything publicly.
+
+In short, use timeout when holding a lock except you have promise to commit the operation.
+
+Drawback of two-phrase commit:
+
+- Many RTT are required.
+- Bottleneck at disk writes.
+- Long lock holding time.
+
+To achieve high availability with this protocol, one must replicate different parties involved.
 
 ## atomic commit
