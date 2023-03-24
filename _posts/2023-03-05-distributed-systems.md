@@ -222,3 +222,15 @@ Drawback of two-phrase commit:
 To achieve high availability with this protocol, one must replicate different parties involved.
 
 ## atomic commit
+
+> coming soon
+
+# Spanner
+
+A system for perform transactions on distributed data that is shared across servers around the globe.
+Over ninety percent of the transactions on them is read-only.
+
+The basic setup:
+
+1. one spanner manages one copy of many data items.
+2. use paxos protocol to manage each data item
