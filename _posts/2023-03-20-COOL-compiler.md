@@ -4,7 +4,7 @@ categories: [Learning]
 tags: [compiler, bash]
 ---
 
-**THIS IS AN WORK-IN-PROGRESS**
+**THIS IS A WORK-IN-PROGRESS**
 
 This post will be a summary of programming assignments of
 [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020) on edx.
