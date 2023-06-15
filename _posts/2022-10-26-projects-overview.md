@@ -8,19 +8,28 @@ tags: []
 
 # 基础理论和算法
 
-- TCP 可靠传输协议实现，处理丢包、乱序、超时问题
-- 三维渲染管线实现，还原三维渲染过程，实现经典三维图形算法，如 Phong shading、SMAA 等
-- 互斥锁的实现，实现四种经典算法，在浏览器 WebWorker 之间自行实现共享内存，用 Svelte
-- 某算法比赛，用 C++ 实现了点云表面重建、多 Agent 遍历图等
+- TCP 可靠传输协议实现，处理丢包、乱序、超时问题，用 C++。
+- 三维渲染管线实现，还原三维渲染过程，实现经典三维图形算法，如 Phong shading、SMAA 等，用 JavaScript。
+- 互斥锁的实现，实现四种经典算法，在浏览器 WebWorker 之间自行实现共享内存，用 Svelte。
+- 某算法比赛，实现了点云表面重建、多 Agent 遍历图等，用 C++。
 - 不围棋自动下棋程序，团队合作，负责文档和设计，用 C++。
-- 光线追踪，用 Go。
-- COOL 编译器
+- 光线追踪渲染在一个周末，用 Go。
+- 某大学编译器课程，编写一个面向对象语言（COOL）的编译器，用 flex、bison 等工具，用 C++。
+
+# 前端
+
+- 图书搜索、筛选、收藏功能演示，用 Svelte
+  ![](https://cdn.jsdelivr.net/gh/li6in9muyou/book-list-app-demo/demo/multi-select.gif)
+- 在线井字棋，设计了双人对战平台通信协议，用 React
+- FreeCodeCamp 前端开发证书要求的几个项目，着重前端业务逻辑和状态管理，用 Vanilla JS 和 Svelte
+- XML、XSL 编辑器，实用工具，网页编辑器，带实时渲染和本地保存，用 Vanilla JS
+- 公共留言板，数据库部署在 PocketHost，任何人可留言，管理员可验证身份， 用 Vanilla JS 后迁移至 Svelte。
 
 # Java
 
-- Java EE 开发
-- 直接使用 JDBC 驱动开发 CRUD 应用，用 Swing 开发桌面应用
-- P2P 双人对战游戏，用 Swing 开发桌面应用
+- 聊天网站开发，用 Java EE、Spring Boot。
+- 直接使用 JDBC 驱动开发 CRUD 桌面应用，用 Swing
+- P2P 双人对战游戏桌面应用，用 Swing
 
 # 团队协作
 
@@ -39,18 +48,9 @@ tags: []
 - 用 PocketHost 部署 SQL 数据库，其他项目通过 RESTful API 使用
 - 熟悉 Linux 和 Bash 基本操作
 
-# 前端
-
-- 图书搜索、筛选、收藏功能演示，用 Svelte
-  ![](https://cdn.jsdelivr.net/gh/li6in9muyou/book-list-app-demo/demo/multi-select.gif)
-- 在线井字棋，设计了双人对战平台通信协议，用 React
-- FreeCodeCamp 前端开发证书要求的几个项目，着重前端业务逻辑和状态管理，用 Vanilla JS 和 Svelte
-- XML、XSL 编辑器，实用工具，网页编辑器，带实时渲染和本地保存，用 Vanilla JS
-- 公共留言板，数据库部署在 PocketHost，任何人可留言，管理员可验证身份。
-
 ---
 
-> 笔者按：以下是旧的内容
+> 笔者按：以下是旧的内容，仅作存档。
 
 # [神机妙算算法竞赛]({% post_url 2022-06-05-shenjimiaosuan-contest %}) 2021-07-31
 
