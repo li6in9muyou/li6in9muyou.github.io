@@ -16,6 +16,6 @@ sandbox="allow-scripts allow-same-origin">
 
 # lorem ipsum but it's picture
 
-`https://placehold.co/600x400/orange/red?font=montserrat&text=Awesome+Tools`
+`https://placehold.co/600x400/orange/blue`
 
 ![](https://placehold.co/600x300/orange/blue)

@@ -56,14 +56,8 @@ further prompts, it is able to generate better content.
 > - How to use regular expressions and finite automata to recognize tokens in a source program
 > - How to use context-free grammars and parsing algorithms to build abstract syntax trees
 > - How to use symbol tables and type checking rules to perform semantic analysis
-> - How to use code generation techniques such as register allocation and instruction selection to produce MIPS assembly
-
-    code
-
-> - How to use optimization techniques such as dead code elimination and constant folding to improve the performance of
-
-    the generated code
-
+> - How to use code generation techniques such as register allocation and instruction selection to produce MIPS assembly code
+> - How to use optimization techniques such as dead code elimination and constant folding to improve the performance of the generated code
 > - How to use runtime systems such as stack frames and garbage collection to manage memory allocation
 >
 > I also learned how to use some tools that are commonly used in compiler development, such as:
