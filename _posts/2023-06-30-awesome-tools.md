@@ -18,4 +18,4 @@ sandbox="allow-scripts allow-same-origin">
 
 `https://placehold.co/600x400/orange/red?font=montserrat&text=Awesome+Tools`
 
-![](https://placehold.co/600x300/orange/blue?font=montserrat&text=Awesome+Tools)
+![](https://placehold.co/600x300/orange/blue?font=montserrat&text=AwesomeTools)
