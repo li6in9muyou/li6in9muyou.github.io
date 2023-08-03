@@ -8,12 +8,33 @@ tags: []
 
 # 少做工
 
-更优算法、捷思法、分批操作
+更优算法、领域知识、分批操作
 
 # 提前做工
 
-缓存、预取、索引和 B 树
+## 缓存
+
+- memory hierarchy
+- CDN
+
+### challenges
+
+- cache invalidation
+- cache consistence
+
+## 预取
+
+- `prefetch` attributes in HTML
+
+## 索引
+
+- B 树
+
+## 流水线
+
+- pnpm
+- CPU
 
 # 更多机器
 
-并行计算、专用硬件
+并行计算、专用硬件、一个指令多个数据
