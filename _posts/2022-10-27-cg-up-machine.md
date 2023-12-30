@@ -83,3 +83,6 @@ tags: [computer-graphics, algorithm]
   - 平移步长、旋转度数，是一个实数。
 
 - 画布
+
+  - 用 canvas 绘制
+  - 手工模拟像素点，逐像素点上色
