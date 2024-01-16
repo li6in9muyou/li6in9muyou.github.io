@@ -6,11 +6,11 @@ tags: [memo]
 
 **THIS IS A WORK IN PROGRESS**
 
-# 你说一下深拷贝和浅拷贝
+## 你说一下深拷贝和浅拷贝
 
 深浅拷贝的概念在有运行时自动内存空间管理的编程语言中是常见的概念。
 
-## The deep copy algorithm
+### The deep copy algorithm
 
 Deep copying is naturally recursive. In `lodash`, the recurse entry is
 at [a `baseClone` function](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2620) and
@@ -48,9 +48,9 @@ At every invocation:
 5. enumerate over object keys and descend into their values, when recursion returns, assign cloned value to
    corresponding key.
 
-## Implementation details
+### Implementation details
 
-### assign value to a key
+#### assign value to a key
 
 consider the following scenarios
 
@@ -58,7 +58,7 @@ consider the following scenarios
   Make sure to use `SameValueZero` comparison.
 - If the value is `undefined`, set it only if `!(key in object)`
 
-### enumerate keys
+#### enumerate keys
 
 But before enumerating any key,
 read https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties first then handle
@@ -79,7 +79,7 @@ The algorithm for enumerating owned and inherited properties
 1. Use `for ... of` loop for enumerating both own and inherited properties.
 2. add enumerable symbols of every prototype on prototype chain
 
-### blazingly fast associative container
+#### blazingly fast associative container
 
 An associative container is needed to eliminate infinite recursion caused by cyclic references in cloning
 objects. `lodash` uses native `Map` whenever possible. However, for compatibility reasons, `lodash` developers wrote
@@ -94,7 +94,7 @@ Another implementation uses `{}` as base container. This implementation is suita
 One complex implementation uses multiple simpler implementations for storing different types of keys. Another complex
 implementation uses the array based one before changing to object based one when it has more than 200 keys.
 
-## read more
+### read more
 
 [如何写出一个惊艳面试官的深拷贝](https://juejin.cn/post/6844903929705136141)
 
@@ -164,7 +164,7 @@ function deepClone(obj) {
 }
 ```
 
-# 你说一下响应式设计
+## 你说一下响应式设计
 
 响应式设计就是一批行业内的最佳实践，用来处理不同屏幕大小和屏幕方向对网页的影响，从而给用户最好的体验。
 主要着力点是三个方面：页面布局、图片、文字。详见[https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design)
@@ -180,11 +180,11 @@ function deepClone(obj) {
 文字响应式的做法是根据屏幕大小尺寸调整文字的大小，例如在大屏幕上可以适当增大标题文字的尺寸。
 可以用 media query 和 viewport units 来实现。
 
-# 你说一下跨域
+## 你说一下跨域
 
 用户代理中通常执行同源策略。在此基础上，用户代理又提供 CORS 作为一种宽松措施。
 
-## 主要过程
+### 主要过程
 
 通常情况下这个过程对 JavaScript 是透明的，除非你要读取服务器响应中特殊的 HTTP 头或者使用服务器发回的
 HTTP cookie 等身份信息。
@@ -212,7 +212,7 @@ HTTP cookie 等身份信息。
 - [JavaScript 要读取 HTTP 响应头](https://fetch.spec.whatwg.org/#example-cors-with-response-header)
 - [服务器需要 HTTP cookie 来识别用户](https://fetch.spec.whatwg.org/#example-cors-with-credentials)
 
-## 目的、作用与局限
+### 目的、作用与局限
 
 其目的是为了放宽同源策略的限制，在同源策略中，用户代理只能向同一个源发送 HTTP 请求，
 如果使用 CORS 的话，可以在其他源服务器同意的情况下，访问其资源。
