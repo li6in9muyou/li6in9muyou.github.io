@@ -272,15 +272,15 @@ function isFunction(value) {
 }
 ```
 
-## 你讲一下`let`、`const`、`var`
+## 你说一下`let`、`const`、`var`
 
 `var`的声明会被提升，可见域是当前包围的函数和子函数。未完待续……
 
-## 你讲一下箭头函数
+## 你说一下箭头函数
 
 箭头函数不能用作构造函数，也没有自己的`this`和`arguments`绑定，并且不应该用作属性方法。未完待续……
 
-## 你讲一下水平居中垂直居中
+## 你说一下水平居中垂直居中
 
 ### 水平居中
 
@@ -296,7 +296,7 @@ function isFunction(value) {
 - `absolute`元素用`left: 50% top: 50%`然后再用`transform[XY](-50%)`往回调整
 - `display: flex`然后设置恰当的属性。
 
-## 你讲一下怎么隐藏一个元素
+## 你说一下怎么隐藏一个元素
 
 - `display: none`：宽高为0，不占位置，点击不了。
 - `visibility: hidden`：宽高正常，占位置，点击不了。
