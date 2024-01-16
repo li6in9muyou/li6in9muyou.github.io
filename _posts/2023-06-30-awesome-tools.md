@@ -18,4 +18,4 @@ sandbox="allow-scripts allow-same-origin">
 
 `https://placehold.co/600x400/orange/blue`
 
-![](https://placehold.co/600x300/orange/blue)
+![https://placehold.co/600x400/orange/blue](https://placehold.co/600x300/orange/blue)
