@@ -29,13 +29,13 @@ tags: [game-dev, ai, pacman]
 
 目标点始终是玩家的当前位置，这使得它总是穷追不舍。
 
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/blinky-targeting.png)
+![穷追不舍](/assets/blog-images/2023-02-08-pacman-ghost-patterns/blinky-targeting.png)
 
 ## 粉色反派
 
 目标点始终是沿着玩家前进方向上的第四格，这使得它有一点的前瞻性。
 
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/pinky-targeting.png)
+![快人一步](/assets/blog-images/2023-02-08-pacman-ghost-patterns/pinky-targeting.png)
 
 ## 蓝色反派
 
@@ -43,15 +43,15 @@ tags: [game-dev, ai, pacman]
 以 center 点为中心点，bottom-left 点为左下角点，按照游戏地图的网格，我们可以做出一个长方形，这一长方形的右上角
 即为目标点。这中目标点使得它的行动轨迹难以预测。
 
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/inky-targeting.png)
+![变换莫测](/assets/blog-images/2023-02-08-pacman-ghost-patterns/inky-targeting.png)
 
 ## 橙色反派
 
 如果当前位置与玩家位置的直线距离小于 8 个单位，该目标点固定为地图左下角处的某一点。否则，其目标点为玩家当前位置，
 这使得它似乎没有要追逐玩家的意图。
 
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/clyde-targeting.png)
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/clyde-targeting2.png)
+![若无旁人](/assets/blog-images/2023-02-08-pacman-ghost-patterns/clyde-targeting.png)
+![若无旁人](/assets/blog-images/2023-02-08-pacman-ghost-patterns/clyde-targeting2.png)
 
 # 游戏 AI 的其他设计
 
@@ -61,7 +61,7 @@ tags: [game-dev, ai, pacman]
 
 各反派的目标点分别是地图四角处的某点，结合上述的寻路决策算法，游荡模式下它们最终将各自转圈。
 
-![](/assets/blog-images/2023-02-08-pacman-ghost-patterns/scatter-targets.png)
+![游荡路径环](/assets/blog-images/2023-02-08-pacman-ghost-patterns/scatter-targets.png)
 
 ## 追逐
 
