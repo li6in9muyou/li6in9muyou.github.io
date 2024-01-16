@@ -224,3 +224,83 @@ HTTP cookie 等身份信息。
 如不信任，用户代理就不会发送后继请求。
 当然，攻击者也可以用其他的 HTTP 客户端，带上用户身份信息来访问真实站点，这攻击方法属于 CSRF 攻击，防范方法见
 [https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie)
+
+## 你说一下怎么判断数据的类型
+
+### `Array`
+
+`Array.isArray` [source](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L11286)
+
+### `NaN`
+
+用`x != +x`，注意`Number.isNaN`不做类型强制转换，而global的`isNaN`会做，这导致不能成功转成数字的值都会被认为是`NaN`。
+
+### 元语值
+
+元语值如下：
+
+- `null`
+- `undefined`
+- `true`、`false`
+
+[source](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L11949)
+用`===`，注意`Object.prototype.toString.call`返回相应的大写的`[object xxx]`。内置类型的字符串标记见[此处](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L92)
+
+### `Object`
+
+[source](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L11743)
+不为`null`且`typeof`得`object`或`function`
+
+### 数字、字符串
+
+用`typeof`，`Number`和`String`用通用方法。
+
+### 通用方法
+
+[source](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L3063)
+用`Object.prototype.toString.call`，
+然后按照返回值判断，如果要判断的值自己覆盖了`toString`，要先把这个方法置`undefined`再调用，然后再恢复原方法。例如，[判断是否`Function`
+](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L11647)
+
+```javascript
+function isFunction(value) {
+  if (!isObject(value)) {
+    return false;
+  }
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+```
+
+## 你讲一下`let`、`const`、`var`
+
+`var`的声明会被提升，可见域是当前包围的函数和子函数。未完待续……
+
+## 你讲一下箭头函数
+
+箭头函数不能用作构造函数，也没有自己的`this`和`arguments`绑定，并且不应该用作属性方法。未完待续……
+
+## 你讲一下水平居中垂直居中
+
+### 水平居中
+
+文字用`text-align`，其他元素可以用`display: inline-block`。宽度确定的块元素用`margin: auto`
+
+### 垂直居中
+
+文字可把行高设置为父元素高度，如字体不对劲，可用`vertical-align`微调，其他元素可以用`display: inline-block`。
+
+### 都可以
+
+- `absolute`元素用对应方向上的两个属性置0
+- `absolute`元素用`left: 50% top: 50%`然后再用`transform[XY](-50%)`往回调整
+- `display: flex`然后设置恰当的属性。
+
+## 你讲一下怎么隐藏一个元素
+
+- `display: none`：宽高为0，不占位置，点击不了。
+- `visibility: hidden`：宽高正常，占位置，点击不了。
+- `opacity: 0`：宽高正常，占位置，能点击。
+- 宽高设置0：外边距占位置，内容会溢出。
+- `z-index`设置足够小：宽高正常，占位置，要有其他元素遮挡，否则能看到却不能点击。
+- 把元素位置移到视口之外：呵呵。
