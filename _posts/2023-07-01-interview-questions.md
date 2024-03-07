@@ -23,28 +23,28 @@ it supports various flavors:
 At every invocation:
 
 1. If `!isObject(value)`, it can be trivially cloned by returning argument
-   e.g. `(value)=>value` https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2632C7-L2634
+   e.g. `(value)=>value` [lodash.js#L2632C7-L2634](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2632C7-L2634)
 2. Give up cloning by returning literal `{}` or a caller-supplied parent
    object if the value is `Function`, `Error`,
-   or `WeakMap` https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2656-L2658
+   or `WeakMap` [lodash.js#L2656-L2658](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2656-L2658)
 3. Create an object of the same type, types are determined by "toString tags"
 
    - `Boolean`, `Date`, `Map`, `Set`, `Number`, `Array`, `RegExp`:
-     simply `new value.constructor` https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6185 but take extra care in
+     simply `new value.constructor` [lodash.js#L6185](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6185) but take extra care in
      following cases
    - `RegExp` has a `lastindex` to be copied manually
    - if this `Array` is returned from `RegExp#exec`, remember to copy some particular
-     properties https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6153-L6156
+     properties [lodash.js#L6153-L6156](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6153-L6156)
    - `Symbol`: use `Symbol#valueOf` if present otherwise fallback
-     to `{}` https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4563
+     to `{}` [lodash.js#L4563](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4563)
    - `DataView`, `ArrayBuffer`, `Buffer`: use native methods, `Buffer#slice` for deep clone and `Buffer#coopy` for
      shallow
-     clone https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4506-L4515
+     clone [lodash.js#L4506-L4515](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4506-L4515)
    - `Arguments`, and generic `Object` i.e. everything else: be careful with
-     prototypes https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6167
+     prototypes [lodash.js#L6167](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6167)
 
 4. if subject is `Array`, `Set` or `Map`, their values are cloned or linked
-   accordingly https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2670-L2678
+   accordingly [lodash.js#L2670-L2678](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L2670-L2678)
 5. enumerate over object keys and descend into their values, when recursion returns, assign cloned value to
    corresponding key.
 
@@ -67,7 +67,7 @@ the following scenarios:
 - whether to enumerate inherited property
 - numeric indices in array-like objects including `Array`, `Arguments`, `Buffer` and its friends.
 
-See https://github.com/lodash/lodash/blob/4.17/lodash.js#L3093-L3096
+See [lodash.js#L3093-L3096](https://github.com/lodash/lodash/blob/4.17/lodash.js#L3093-L3096)
 
 The algorithm for enumerating own properties
 
