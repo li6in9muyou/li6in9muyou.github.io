@@ -32,7 +32,7 @@ At every invocation:
    - `Boolean`, `Date`, `Map`, `Set`, `Number`, `Array`, `RegExp`:
      simply `new value.constructor` [lodash.js#L6185](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6185) but take extra care in
      following cases
-   - `RegExp` has a `lastindex` to be copied manually
+   - `RegExp` has a `lastindex` that has to be copied manually
    - if this `Array` is returned from `RegExp#exec`, remember to copy some particular
      properties [lodash.js#L6153-L6156](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6153-L6156)
    - `Symbol`: use `Symbol#valueOf` if present otherwise fallback
