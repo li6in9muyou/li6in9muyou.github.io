@@ -37,7 +37,7 @@ At every invocation:
      properties [lodash.js#L6153-L6156](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L6153-L6156)
    - `Symbol`: use `Symbol#valueOf` if present otherwise fallback
      to `{}` [lodash.js#L4563](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4563)
-   - `DataView`, `ArrayBuffer`, `Buffer`: use native methods, `Buffer#slice` for deep clone and `Buffer#coopy` for
+   - `DataView`, `ArrayBuffer`, `Buffer`: use native methods, `Buffer#slice` for deep clone and `Buffer#copy` for
      shallow
      clone [lodash.js#L4506-L4515](https://github.com/lodash/lodash/blob/4.17.15/lodash.js#L4506-L4515)
    - `Arguments`, and generic `Object` i.e. everything else: be careful with
