@@ -85,11 +85,11 @@ An associative container is needed to eliminate infinite recursion caused by cyc
 objects. `lodash` uses native `Map` whenever possible. However, for compatibility reasons, `lodash` developers wrote
 their own implementation in multiple ways. To achieve better performance, various implementations are developed.
 
-One implementation uses `[]` as base container. Insert operation simply pushes a key-value tuple to the array. Query
+[One implementation](https://github.com/lodash/lodash/blob/c7c70a7da5172111b99bb45e45532ed034d7b5b9/src/.internal/ListCache.ts) uses `[]` as base container. Insert operation simply pushes a key-value tuple to the array. Query
 operations comparing every key one after another. This implementation is suitable for small containers and containers
 have mostly non trivially comparable keys. String, number, symbol, boolean are considered trivially comparable.
 
-Another implementation uses `{}` as base container. This implementation is suitable for trivially comparable objects.
+[Another implementation](https://github.com/lodash/lodash/blob/c7c70a7da5172111b99bb45e45532ed034d7b5b9/src/.internal/MapCache.ts) uses `{}` as base container. This implementation is suitable for trivially comparable objects.
 
 One complex implementation uses multiple simpler implementations for storing different types of keys. Another complex
 implementation uses the array based one before changing to object based one when it has more than 200 keys.
