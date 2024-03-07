@@ -55,7 +55,7 @@ At every invocation:
 consider the following scenarios
 
 - If this key is inherited , which can be checked with `hasOwnProperty`, overwrite only if two values are different.
-  Make sure to use [`SameValueZero`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness) comparison.
+  Make sure to use [SameValueZero](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness) comparison.
 - If the value is `undefined`, set it only if `!(key in object)`
 
 #### enumerate keys
