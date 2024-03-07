@@ -98,8 +98,7 @@ implementation uses the array based one before changing to object based one when
 
 [如何写出一个惊艳面试官的深拷贝](https://juejin.cn/post/6844903929705136141)
 
-There is one clever implementation in comment section. You gotta be kidding me, strategy pattern, seriously?
-More like replacing switch case with lookup table.
+There is one clever implementation in comment section.
 
 ```js
 function deepClone(obj) {
@@ -115,6 +114,8 @@ function deepClone(obj) {
       .call(target)
       .replace(/\[object (\w+)\]/, "$1");
     //使用策略模式，处理每种类型的克隆
+    //You gotta be kidding me, strategy pattern, seriously?
+    //More like replacing switch case with lookup table.
     const strategy = {
       // Array和Object可以公用一个函数
       ObjectOrArray() {
