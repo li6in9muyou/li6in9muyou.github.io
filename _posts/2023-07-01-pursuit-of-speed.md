@@ -6,6 +6,8 @@ tags: []
 
 **THIS IS A WORK IN PROGRESS**
 
+TODO: add simple examples for covered approaches
+
 # 少做工
 
 更优算法、领域知识、分批操作
