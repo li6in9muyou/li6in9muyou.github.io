@@ -20,6 +20,7 @@ TODO: add simple examples for covered approaches
 
 - concat strings before output to stdout
 - merge meshes to render them in a single draw call
+- HTTP 2 multiplexing
 
 # 提前做工
 
