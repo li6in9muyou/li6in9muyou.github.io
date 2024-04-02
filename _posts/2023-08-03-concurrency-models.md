@@ -28,3 +28,15 @@ A channel is a thread-safe queue.
 # Data parallelism with GPU
 
 # Lambda architecture
+
+The MapReduce paradigm distributes both data and computation across a cluster of hunders of computers to process gigabytes or terrabytes data.
+
+## Batch layer
+
+It calculate derived data over some raw data in advance to provide a *batch view* e.g. `select sum(sales) from daily_sales group by WEEK(date)` runs an aggregation function on weekly data.
+Afterwards, the same aggregation function that runs on any time interval can be computed with some pre-computed data.
+For example, when aggregating on a period of 10 days, it can find a pre-computed weekly data then merge aggregation results from the rest 3 days thus saving computation.
+Note there are two downsides in such batch-and-cache operation.
+One is that data records it pre-computed with can not be mutated after creation otherwise all pre-computed results will be invalidated.
+Second is that sometimes such batch view computation can take a significant amount of time i.e. batch view always lags behind and out-of-date.
+
