@@ -39,12 +39,13 @@ Excerpt:
 
 > Here is the command sequence you need:
 >
+> ```bash
 > $ git remote add -f Bproject /path/to/B <1>
 > $ git merge -s ours --no-commit --allow-unrelated-histories Bproject/master <2>
 > $ git read-tree --prefix=dir-B/ -u Bproject/master <3>
 > $ git commit -m "Merge B project as our subdirectory" <4>
->
 > $ git pull -s subtree Bproject master <5>
+> ```
 >
 > 1. name the other project "Bproject", and fetch.
 > 2. prepare for the later step to record the result as a merge.
