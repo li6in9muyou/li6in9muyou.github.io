@@ -54,3 +54,7 @@ Excerpt:
 > 5. maintain the result with subsequent merges using "subtree"
 >
 > The first four commands are used for the initial merge, while the last one is to merge updates from B project.
+
+# git stash
+
+`git stash` common commands includes: `list`, `push`, `pop`/`apply`, `show`. Their meaning are pretty strateforward and don't forget to use `git stash show -p` to show stash detail. For options other than "-p" see _"DIFF FORMATTING"_ section in `git show --help`.
