@@ -5,6 +5,8 @@ categories: [HowTo]
 tags: [tooling, PowerShell]
 ---
 
+_THIS POST IS DEPRECATED, SEE [POWERSHELL DOTFILE](https://github.com/li6in9muyou/powershell-dotfiles/blob/master/Microsoft.PowerShell_profile.ps1)_
+
 Execute following lines in PowerShell, then restart it.
 
 ```powershell
@@ -15,4 +17,4 @@ echo "Set-PSReadLineOption -PredictionViewStyle ListView" >> $profile
 
 ## showcase
 
-![image-20220606103921745](/assets/blog-images/2022-06-06-powershell自动补全.assets/image-20220606103921745.png)
+Picture was removed when this post got deprecated.
