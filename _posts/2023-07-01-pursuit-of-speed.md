@@ -12,11 +12,11 @@ TODO: add simple examples for covered approaches
 
 更优算法
 
-## 领域知识
+## 利用领域知识减少做工
 
 - last N digits of fibonacci sequence is cyclic, thus one can calculate last N digits of the xth number in the sequence with manageable time and memory
 
-## 分批操作
+## 成批操作减少每次操作的overhead
 
 - concat strings before output to stdout
 - merge meshes to render them in a single draw call
