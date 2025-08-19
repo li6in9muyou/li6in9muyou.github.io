@@ -4,6 +4,8 @@ categories: [HowTo]
 tags: [chore]
 ---
 
+<p style="color: red; font-size: 2rem;">严禁在本博客抖机灵，所有内容必须清楚表达意思。</p>
+
 # steps
 
 0. Clone this repo from GitHub

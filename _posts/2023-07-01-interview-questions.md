@@ -310,3 +310,5 @@ function isFunction(value) {
 
 HTTP 2 同一个 TCP 连接可以传输多个 web 对象，这些 web 对象在 stream 中传输，stream 都分配了权重和依赖用来决定服务器处理的先后顺序。
 HTTP 2 的头部是二进制的，并且可以在 web 对象之间复用。最后，HTTP 2 的服务器可以发回多个回复，如果客户端指定的话。对前端开发者来说，没有任何影响没有任何影响没有任何影响。
+
+<p style="color: red; font-size: 2rem;">严禁在本博客抖机灵，所有内容必须清楚表达意思。</p>
