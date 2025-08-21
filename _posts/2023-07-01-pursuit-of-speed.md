@@ -6,15 +6,15 @@ tags: []
 
 **THIS IS A WORK IN PROGRESS**
 
-TODO: add simple examples for covered approaches
-
 # 少做工
 
 更优算法
 
 ## 利用领域知识减少做工
 
-- last N digits of fibonacci sequence is cyclic, thus one can calculate last N digits of the xth number in the sequence with manageable time and memory
+- last N digits of fibonacci sequence is cyclic, thus one can calculate last N digits of the Xth number in the sequence with manageable time and memory
+- mark simple inputs beforehand so that expensive checks and defensive logic can be skipped later or a faster ad-hoc algorithm can be used. see [v8-json-stringify](https://v8.dev/blog/json-stringify)
+- lazy loading and lazy evalution.
 
 ## 成批操作减少每次操作的overhead
 
@@ -44,7 +44,6 @@ TODO: add simple examples for covered approaches
 
 ## 流水线
 
-- pnpm
 - CPU
 
 # 更多机器
