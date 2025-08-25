@@ -4,11 +4,13 @@ categories: []
 tags: [memo]
 ---
 
-# lorem ipsum but it's picture
+# placeholder for images
 
-`https://placehold.co/600x400/orange/blue`
+`https://placehold.co/600x400/f00/0f0?text=libq%20debug\ngreen%20on%20red`
 
-![https://placehold.co/600x400/orange/blue](https://placehold.co/600x300/orange/blue)
+![https://placehold.co/600x400/f00/0f0?text=libq%20debug\ngreen%20on%20red](https://placehold.co/600x400/f00/0f0?text=libq%20debug\ngreen%20on%20red)
+
+![https://placehold.co/600x400/00f/ff0?text=libq%20debug\nyellow%20on%20blue](https://placehold.co/600x400/00f/ff0?text=libq%20debug\nyellow%20on%20blue)
 
 # copy a directory and its git history
 
@@ -44,7 +46,3 @@ Excerpt:
 > 5. maintain the result with subsequent merges using "subtree"
 >
 > The first four commands are used for the initial merge, while the last one is to merge updates from B project.
-
-# git stash
-
-`git stash` common commands includes: `list`, `push`, `pop`/`apply`, `show`. Their meaning are pretty strateforward and don't forget to use `git stash show -p` to show stash detail. For options other than "-p" see _"DIFF FORMATTING"_ section in `git show --help`.
