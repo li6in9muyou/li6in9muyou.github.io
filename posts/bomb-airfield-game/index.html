@@ -1,0 +1,337 @@
+<!doctype html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.4.1" /><meta property="og:title" content="组队开发联机对战游戏：炸飞机。bomb airfield game" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="小队成员中都不太熟悉 dotnet 语言生态也不熟悉基于 git 的合作开发模式，我负责系统的整体设计和部分子系统的开发， 我给出了系统各模块的接口设计，并跟小队成员分享了 git 和 GitHub 的常见使用方法，最终小队各成员都熟悉了 git 的常用操作并 在时间期限前完成了开发任务。" /><meta property="og:description" content="小队成员中都不太熟悉 dotnet 语言生态也不熟悉基于 git 的合作开发模式，我负责系统的整体设计和部分子系统的开发， 我给出了系统各模块的接口设计，并跟小队成员分享了 git 和 GitHub 的常见使用方法，最终小队各成员都熟悉了 git 的常用操作并 在时间期限前完成了开发任务。" /><link rel="canonical" href="https://li6in9muyou.github.io/posts/bomb-airfield-game/" /><meta property="og:url" content="https://li6in9muyou.github.io/posts/bomb-airfield-game/" /><meta property="og:site_name" content="Li6q 笔记" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2022-10-26T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="组队开发联机对战游戏：炸飞机。bomb airfield game" /><meta name="twitter:site" content="@" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-11-25T16:58:35+08:00","datePublished":"2022-10-26T00:00:00+08:00","description":"小队成员中都不太熟悉 dotnet 语言生态也不熟悉基于 git 的合作开发模式，我负责系统的整体设计和部分子系统的开发， 我给出了系统各模块的接口设计，并跟小队成员分享了 git 和 GitHub 的常见使用方法，最终小队各成员都熟悉了 git 的常用操作并 在时间期限前完成了开发任务。","headline":"组队开发联机对战游戏：炸飞机。bomb airfield game","mainEntityOfPage":{"@type":"WebPage","@id":"https://li6in9muyou.github.io/posts/bomb-airfield-game/"},"url":"https://li6in9muyou.github.io/posts/bomb-airfield-game/"}</script><title>组队开发联机对战游戏：炸飞机。bomb airfield game | Li6q 笔记</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="Li6q 笔记"><meta name="application-name" content="Li6q 笔记"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="preconnect" href="https://cdnjs.cloudflare.com" ><link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.25.0/dist/tocbot.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return 'mode'; } static get MODE_ATTR() { return 'data-mode'; } static get DARK_MODE() { return 'dark'; } static get LIGHT_MODE() { return 'light'; } static get ID() { return 'mode-toggle'; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia('(prefers-color-scheme: dark)'); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { document.documentElement.removeAttribute(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage( { direction: ModeToggle.ID, message: this.modeStatus }, '*' ); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body><aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end"><header class="profile-wrapper"> <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/li6in9muyou.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a><h1 class="site-title"> <a href="/">Li6q 笔记</a></h1><p class="site-subtitle fst-italic mb-0">A blog of a unique person.</p></header><nav class="flex-column flex-grow-1 w-100 ps-0"><ul class="nav"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home"></i> <span>首页</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tag"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info-circle"></i> <span>关于</span> </a></ul></nav><div class="sidebar-bottom d-flex flex-wrap align-items-center w-100"> <button type="button" class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/li6in9muyou" aria-label="github" target="_blank" rel="noopener noreferrer" > <i class="fab fa-github"></i> </a> <a href="javascript:location.href = 'mailto:' + ['libq5520','mails.jlu.edu.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></aside><div id="main-wrapper" class="d-flex justify-content-center"><div class="container d-flex flex-column px-xxl-5"><header id="topbar-wrapper" aria-label="Top Bar"><div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100" ><nav id="breadcrumb" aria-label="Breadcrumb"> <span> <a href="/">首页</a> </span> <span>组队开发联机对战游戏：炸飞机。bomb airfield game</span></nav><button type="button" id="sidebar-trigger" class="btn btn-link"> <i class="fas fa-bars fa-fw"></i> </button><div id="topbar-title"> 文章</div><button type="button" id="search-trigger" class="btn btn-link"> <i class="fas fa-search fa-fw"></i> </button> <search class="align-items-center ms-3 ms-lg-0"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="搜索..." > </search> <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">取消</button></div></header><div class="row flex-grow-1"><main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4"><article class="px-1"><header><h1 data-toc-skip>组队开发联机对战游戏：炸飞机。bomb airfield game</h1><div class="post-meta text-muted"> <span> 发表于 <time data-ts="1666713600" data-df="YYYY/MM/DD" data-bs-toggle="tooltip" data-bs-placement="bottom" > 2022/10/26 </time> </span> <span> 更新于 <time data-ts="1669366715" data-df="YYYY/MM/DD" data-bs-toggle="tooltip" data-bs-placement="bottom" > 2022/11/25 </time> </span><div class="d-flex justify-content-between"> <span> 作者 <em> <a href="https://github.com/li6in9muyou">Li 6in9Muyou</a> </em> </span> <span class="readtime" data-bs-toggle="tooltip" data-bs-placement="bottom" title="3598 字" > <em>19 分钟</em>阅读</span></div></div></header><div class="content"><p>小队成员中都不太熟悉 dotnet 语言生态也不熟悉基于 git 的合作开发模式，我负责系统的整体设计和部分子系统的开发， 我给出了系统各模块的接口设计，并跟小队成员分享了 git 和 GitHub 的常见使用方法，最终小队各成员都熟悉了 git 的常用操作并 在时间期限前完成了开发任务。</p><blockquote><p>本文是设计文档，该开发过程的反思 在<a href="/posts/review-of-bomb-airfield-game/">此链接</a>。</p></blockquote><h1 id="炸飞机">炸飞机</h1><h1 id="炸飞机游戏逻辑类">炸飞机游戏逻辑类</h1><p>本类负责实现游戏逻辑，并提供当前的游戏状态给需要查询的其他模块，游戏状态表示如下。</p><ul><li>飞机摆法列表：一个列表，里面各元素记录有机头坐标和飞机朝向。<li>系统猜想的敌方飞机的摆法：一个列表，里面各元素记录有机头坐标和飞机朝向。<li>本方机场挨炸：一个列表，装有挨炸位置的坐标。<li>我方炸对方机场得到的结果：一个列表，里面各元素记录有坐标和炸的结果。</ul><p>修改上述的游戏状态是不会改变游戏逻辑类内部的游戏状态的。</p><h2 id="设计思路"><span class="me-2">设计思路</span><a href="#设计思路" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>游戏中有两个机场，一个摆有自己飞机的机场，另一个用来记录炸对手机场的结果。 对手机场上飞机的摆法本方客户端是不可见的。 数据类包括： 存有 3 个飞机头+方向的 AirplanePlace 类（单例） 可实例化的“飞机头+方向”的 Airplane 类（非单例） 本方机场被炸的坐标集，BeBombed、（单例），用 HashSet 存一系列坐标点 敌方机场被炸的坐标集+状态，OpponentAirfield（单例），用什么类型的数据结构还不知道</p><p>一些约定： 飞机原点坐标约定为左上角(0,0),x➡ 右增，y⬇ 下增 本方机场图像状态=飞机头坐标+方向+被炸的坐标集 （分别在 AirplanePlace 和 BeBombed 类中。需要写算法计算具体状态，已经保证不会越界/重叠） 敌方机场状态=坐标+状态（都在 OpponentAirfield 类中）</p><h2 id="1摆飞机坐标上下左右"><span class="me-2">1、摆飞机（坐标，上、下、左、右）：</span><a href="#1摆飞机坐标上下左右" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>怎么用? 实例化一个游戏逻辑类对象（GameLogic 类），不断调用其中的方法 setAirplane(int x,int y,String d), 若传入成功，返回 bool 类型的 true，若传入不成功，则可能是（飞机机头/机身坐标越界、重叠），需要提示用户，返回 false 里面的算法逻辑： 1）、机头/机身坐标是否越界 2）、获取已有飞机坐标，判断是否有飞机坐标重叠 返回 bool 值</p><div class="language-c# highlighter-rouge"><div class="code-header"> <span data-label-text="C#"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="k">public</span> <span class="k">class</span> <span class="nc">Coordinate</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">X</span><span class="p">;</span>
+    <span class="k">public</span> <span class="kt">int</span> <span class="n">Y</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">Coordinate</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">,</span> <span class="kt">int</span> <span class="n">y</span><span class="p">);</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="n">Coordinate</span> <span class="nf">Void</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h2 id="2本方机场挨炸坐标返回炸的结果未炸中炸中了机身炸中了机头"><span class="me-2">2、本方机场挨炸（坐标）：返回炸的结果，未炸中、炸中了机身、炸中了机头。</span><a href="#2本方机场挨炸坐标返回炸的结果未炸中炸中了机身炸中了机头" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>炸的结果使用 C# 枚举类。</p><div class="language-c# highlighter-rouge"><div class="code-header"> <span data-label-text="C#"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre><td class="rouge-code"><pre><span class="k">public</span> <span class="k">enum</span> <span class="n">BombResult</span>
+<span class="p">{</span>
+    <span class="n">Miss</span><span class="p">,</span>
+    <span class="n">Hit</span><span class="p">,</span>
+    <span class="n">Destroyed</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h2 id="3登记炸对方机场的结果坐标炸的结果炸的结果同上条"><span class="me-2">3、登记炸对方机场的结果（坐标，炸的结果）：炸的结果同上条。</span><a href="#3登记炸对方机场的结果坐标炸的结果炸的结果同上条" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>将敌方返回的结果登记在代表敌方机场的数据结构中</p><h2 id="4我的飞机全部被摧毁了吗返回是或否"><span class="me-2">4、我的飞机全部被摧毁了吗（）：返回是或否。</span><a href="#4我的飞机全部被摧毁了吗返回是或否" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>调用此函数，若返回 ture，则说明此场比赛本方输，敌方获胜，若 ture，则向敌方发送”认输”包 此外，此函数必须在 2、本方挨炸方法 的调用之后使用</p><h2 id="5导出当前游戏状态供读者读取游戏状态具体表示见上文"><span class="me-2">5、导出当前游戏状态（）：供读者读取游戏状态，具体表示见上文。</span><a href="#5导出当前游戏状态供读者读取游戏状态具体表示见上文" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>导出的结果是一个 GameStateSnapShot，里面有敌方机场坐标+状态，我方机场飞机坐标+方向，我方机场被炸的坐标+状态</p><h2 id="实现细节设计"><span class="me-2">实现细节设计</span><a href="#实现细节设计" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>使用单例模式来保证只有一个实例。</p><h1 id="网络模块">网络模块</h1><h2 id="炸飞机协议"><span class="me-2">炸飞机协议</span><a href="#炸飞机协议" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>炸飞机协议的语法以 EBNF 描述如下，协议语义按照上边非终端符号的英文名字的意思来理解就可以了。协议时序定义见下文顺序图的描述。</p><div class="language-text highlighter-rouge"><div class="code-header"> <span data-label-text="Text"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre><td class="rouge-code"><pre>game = handshake, player ready, [{message}], game over;
+message
+  = coordinate
+  | bomb result
+  ;
+bomb result = "miss" | "hit" | "destroy";
+handshake = digit, digit;
+game over  = "end";
+yield = "yield";
+continue = "continue";
+player ready = "ok";
+coordinate = digit, "," , digit;
+digit = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+</pre></table></code></div></div><p>做一个网络沟通交流类，提供一个读取数据的接口，供炸飞机协议类使用。</p><div class="language-c# highlighter-rouge"><div class="code-header"> <span data-label-text="C#"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre><td class="rouge-code"><pre><span class="k">public</span> <span class="k">interface</span> <span class="nc">ICommunicator</span>
+<span class="p">{</span>
+    <span class="kt">bool</span> <span class="nf">IsLostConnection</span><span class="p">();</span>
+    <span class="kt">string</span> <span class="nf">Read</span><span class="p">();</span>
+    <span class="kt">string</span> <span class="nf">Expect</span><span class="p">(</span><span class="n">Regex</span> <span class="n">expected</span><span class="p">);</span>
+    <span class="k">void</span> <span class="nf">Write</span><span class="p">(</span><span class="kt">string</span> <span class="n">message</span><span class="p">);</span>
+    <span class="k">void</span> <span class="nf">Start</span><span class="p">();</span>
+    <span class="k">void</span> <span class="nf">Stop</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h2 id="炸飞机协议类"><span class="me-2">炸飞机协议类</span><a href="#炸飞机协议类" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>这个协议类规定了两个炸飞机游戏客户端之间的互动。</p><ul><li>通知对手我已经摆好飞机（）<li>等待对手摆好飞机（）<ul><li>阻塞，直到远端客户端发来飞机已经摆好的信息。可能会等很久，对手要摆完他的飞机。</ul><li>炸对方的机场并返回炸的结果（坐标）：炸的结果<li>等待对方来炸我方机场（）：坐标<li>发回我方机场挨炸的结果（炸的结果）<li>等待通知对手我方没有输（）<li>等待向对方认输（）<li>等待对方认输（）：如果对方不认输，返回假，否则返回真</ul><h2 id="基于-tcp-流的网络类"><span class="me-2">基于 TCP 流的网络类</span><a href="#基于-tcp-流的网络类" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>有如下 TCP 特有的方法：</p><ul><li>创建房间（）：IP 地址<li>加入对方房间并等待和对手握手（IP 地址）：我方是否先手<ul><li>这个方法抛出异常<code class="language-plaintext highlighter-rouge"> CanNotJoin</code> 如果没办法加入的话。</ul><li>等待对手加入（）：我方是否先手</ul><h2 id="等待类操作的异常事件处理方法"><span class="me-2">等待类操作的异常事件处理方法</span><a href="#等待类操作的异常事件处理方法" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h3 id="网络超时"><span class="me-2">网络超时</span><a href="#网络超时" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><h3 id="对方玩家操作超时"><span class="me-2">对方玩家操作超时</span><a href="#对方玩家操作超时" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><h1 id="交互界面模块">交互界面模块</h1><h2 id="绘制本地玩家败北"><span class="me-2">绘制本地玩家败北（）</span><a href="#绘制本地玩家败北" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h2 id="绘制本地玩家胜利"><span class="me-2">绘制本地玩家胜利（）</span><a href="#绘制本地玩家胜利" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h2 id="等待用户决定是否在本房间中继续下一局是或否"><span class="me-2">等待用户决定是否在本房间中继续下一局（）：是或否</span><a href="#等待用户决定是否在本房间中继续下一局是或否" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>用户选择否的话整个程序退出。 选择是的话，稍后游戏主程序将调用交互界面模块里面的<code class="language-plaintext highlighter-rouge">等待用户摆好自己的飞机</code>方法。</p><h2 id="绘制其他内容其他内容"><span class="me-2">绘制其他内容（其他内容）</span><a href="#绘制其他内容其他内容" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><ul><li>聊天信息<li>开发调试信息<li>通知消息<ul><li>对手的 IP 地址是……、对手已加入房间<li>对手正在摆飞机<li>对手正在选定要炸的位置<li>对手已经离线</ul></ul><h2 id="绘制游戏数据状态游戏逻辑类实例"><span class="me-2">绘制游戏数据状态（游戏逻辑类实例）</span><a href="#绘制游戏数据状态游戏逻辑类实例" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h2 id="等待本回合用户要炸的对方机场的坐标游戏逻辑类实例坐标"><span class="me-2">等待本回合用户要炸的对方机场的坐标（游戏逻辑类实例）：坐标</span><a href="#等待本回合用户要炸的对方机场的坐标游戏逻辑类实例坐标" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>阻塞，最多等待 30 秒，从进入这个方法开始计时，如果用户没有输入就返回 <code class="language-plaintext highlighter-rouge">(-1,-1)</code>。 本方法接受一个游戏逻辑类实例的目的是为了避免用户重复炸已经炸过的地方。</p><h2 id="等待用户摆好自己的飞机游戏逻辑类实例"><span class="me-2">等待用户摆好自己的飞机（游戏逻辑类实例）</span><a href="#等待用户摆好自己的飞机游戏逻辑类实例" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>阻塞。传入一个游戏逻辑类，用来判断用户的摆法是不是合理，交互界面类应该调用摆飞机（……）方法，直到摆好三架。 之前的方案是规定交互界面类不能直接修改游戏逻辑类，在之前的方案中，此方法仅仅是获取飞机摆法而不实际摆飞机，但有可能摆了第一架 飞机之后，返回的列表中的后面两架飞机的摆法会违反规则。</p><h2 id="等待获取一个-ip-地址建议的值ip-地址"><span class="me-2">等待获取一个 IP 地址（建议的值）：IP 地址</span><a href="#等待获取一个-ip-地址建议的值ip-地址" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>阻塞，如果用户希望创建房间的话就返回空字符串。传入一个建议的值可以实现记忆上次对战的玩家的功能。</p><h1 id="人工智能模块">人工智能模块</h1><h2 id="本回合要炸的对方机场的坐标游戏逻辑类实例坐标"><span class="me-2">本回合要炸的对方机场的坐标（游戏逻辑类实例）：坐标</span><a href="#本回合要炸的对方机场的坐标游戏逻辑类实例坐标" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><h2 id="推断对方飞机的摆法游戏逻辑类实例飞机摆法列表"><span class="me-2">推断对方飞机的摆法（游戏逻辑类实例）：飞机摆法列表</span><a href="#推断对方飞机的摆法游戏逻辑类实例飞机摆法列表" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>返回值定义见上文。</p><h1 id="游戏流程">游戏流程</h1><h2 id="整个程序流程"><span class="me-2">整个程序流程</span><a href="#整个程序流程" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><div class="language-text highlighter-rouge"><div class="code-header"> <span data-label-text="Text"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre><td class="rouge-code"><pre>各子系统初始化
+询问玩家如何联机
+两个客户端握手并分出先后手
+while ( true ) {
+  游戏主循环
+  通知对手游戏结果
+  通知用户本轮游戏的结果
+  如果用户选择退出
+    两个客户端关闭连接
+    跳出循环
+}
+系统退出
+</pre></table></code></div></div><h2 id="游戏主循环"><span class="me-2">游戏主循环</span><a href="#游戏主循环" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><div class="language-text highlighter-rouge"><div class="code-header"> <span data-label-text="Text"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre>自己玩家摆飞机
+通知对方自己已经摆好并等待对方玩家摆好
+while ( !本地玩家输了 ）{
+  通知对方我方没有输并等待回应
+  如果对方回应他输了，跳出循环
+
+  如果是本方回合
+    等待UI传回本方玩家要炸的坐标
+    传给远端并等待回应
+    更新游戏状态
+  否则
+    等待远端发来坐标
+    查询炸的结果
+    返回炸的结果
+
+  切换到另一个玩家的回合
+}
+</pre></table></code></div></div><h2 id="游戏各子系统初始化"><span class="me-2">游戏各子系统初始化</span><a href="#游戏各子系统初始化" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant ui as 界面类
+participant socket as 网络类
+participant game as 数据类
+
+activate main
+main -&gt;&gt; ui : 初始化
+main -&gt;&gt; socket : 初始化
+main -&gt;&gt; game : 初始化
+</code></pre><h2 id="在线游戏功能初始化"><span class="me-2">在线游戏功能初始化</span><a href="#在线游戏功能初始化" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant ui as 界面类
+participant socket as 网络类
+participant remote as 对方炸飞机客户端
+
+main -&gt;&gt; ui: 获取一个IP
+activate ui
+ui --&gt;&gt; main: IP address（加入别人的房间）或者空字符串（成为房主）
+deactivate ui
+
+alt 房主
+main -&gt;&gt; socket: 创建房间（）
+activate socket
+socket --&gt;&gt; main: 本房间的IP地址
+deactivate socket
+main -&gt;&gt; ui: 绘制其他内容（IP地址）
+activate ui
+ui --&gt;&gt; main: void
+deactivate ui
+main -&gt;&gt; socket: 等待对方加入（）
+activate socket
+deactivate socket
+else 加入房间
+main -&gt;&gt; socket: 加入对方房间并等待和对手握手（IP 地址）
+activate socket
+deactivate socket
+end
+activate socket
+socket --&gt;&gt; remote: 建立连接或等待连接
+remote --&gt;&gt; socket: 握手数据包
+socket --&gt;&gt; main: 我方是先手还是后手
+deactivate socket
+</code></pre><h2 id="游戏准备阶段"><span class="me-2">游戏准备阶段</span><a href="#游戏准备阶段" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant ui as 界面类
+participant socket as 网络类
+participant game as 游戏逻辑类
+participant remote as 远端炸飞机客户端
+
+main -&gt;&gt; ui: 等待用户摆好自己的飞机（游戏逻辑类实例）
+activate main
+deactivate main
+activate ui
+ui --&gt;&gt; main: void
+deactivate ui
+loop 三架飞机，循环三次
+activate main
+main -&gt;&gt; game: 摆飞机（飞机摆法）
+deactivate main
+activate game
+game --&gt;&gt; main: void
+deactivate game
+end
+activate main
+main -&gt;&gt; socket: 等待对手摆好飞机()
+deactivate main
+activate socket
+socket --&gt;&gt; remote: 飞机已经摆好
+remote --&gt;&gt; socket: 飞机已经摆好
+socket --&gt;&gt; main: void
+deactivate socket
+activate main
+deactivate main
+</code></pre><h2 id="炸飞机阶段"><span class="me-2">炸飞机阶段</span><a href="#炸飞机阶段" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>本游戏规定两个玩家轮流丢炸弹。到自己的回合可以丢一个炸弹，丢完一个炸弹后变为对方回合。 回合由主函数协调，一开始是根据网络模块握手的结果给定谁丢炸弹，此后每当收到对方机场挨炸的结果就切换一次 回合。</p><h3 id="我方等待对手来炸对手的回合"><span class="me-2">我方等待对手来炸，对手的回合。</span><a href="#我方等待对手来炸对手的回合" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant ui as 界面类
+participant socket as 网络类
+participant game as 游戏逻辑类
+participant remote as 远端炸飞机客户端
+
+main -&gt;&gt; ui: 绘制其他内容（需等待对方选定炸的位置）
+activate main
+deactivate main
+activate ui
+deactivate ui
+activate main
+main -&gt;&gt; socket: 等待对方来炸我方机场（）
+deactivate main
+activate socket
+remote --&gt;&gt; socket: 坐标
+socket --&gt;&gt; main: 坐标
+deactivate socket
+activate main
+main -&gt;&gt; game: 本方机场挨炸（坐标）
+activate game
+deactivate main
+game --&gt;&gt; main: 炸的结果
+deactivate game
+activate main
+main -&gt;&gt; socket: 发回我方机场挨炸的结果（炸的结果）
+activate socket
+deactivate main
+socket --&gt;&gt; remote: 炸的结果
+deactivate socket
+main -&gt;&gt; ui: 绘制游戏数据状态（游戏逻辑类实例）
+activate main
+activate ui
+deactivate ui
+deactivate main
+</code></pre><h3 id="我炸对方机场我的回合"><span class="me-2">我炸对方机场，我的回合。</span><a href="#我炸对方机场我的回合" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant ai as 人工智能类
+participant ui as 界面类
+participant socket as 网络类
+participant game as 游戏逻辑类
+participant remote as 远端炸飞机客户端
+
+
+main -&gt;&gt; ui: 查询用户是否开启AI代玩（）
+activate main
+deactivate main
+activate ui
+ui --&gt;&gt; main: 是或否
+deactivate ui
+
+alt 不开启AI代玩
+main -&gt;&gt; ui: 等待本回合用户要炸的对方机场的坐标（游戏逻辑类实例）
+activate main
+deactivate main
+activate ui
+ui --&gt;&gt; main: 坐标
+deactivate ui
+else 开启AI代玩
+main -&gt;&gt; ai: 本回合要炸的对方机场的坐标（对方机场的炸的结果）
+activate main
+deactivate main
+activate ai
+ai --&gt;&gt; main: 坐标
+deactivate ai
+end
+
+activate main
+main -&gt;&gt; socket: 坐标
+deactivate main
+activate socket
+socket --&gt;&gt; remote: 炸对方的机场并返回炸的结果（坐标）
+remote --&gt;&gt; socket: 炸的结果
+socket --&gt;&gt; main: 炸的结果
+activate main
+deactivate socket
+activate main
+main -&gt;&gt; game: 登记炸对方机场的结果（坐标，炸的结果）
+deactivate main
+activate game
+deactivate game
+activate main
+main -&gt;&gt; ui: 绘制游戏数据状态（游戏逻辑类实例）
+activate ui
+deactivate ui
+deactivate main
+</code></pre><h2 id="游戏胜负已分"><span class="me-2">游戏胜负已分</span><a href="#游戏胜负已分" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><pre><code class="language-mermaid">sequenceDiagram
+
+participant main as 主函数
+participant game as 游戏逻辑类
+participant ui as 界面类
+participant online as 网络类
+participant remote as 远端炸飞机客户端
+
+
+main -&gt;&gt; ui: 本局对战已经结束请选择退出房间或者再来一局（）
+activate main
+deactivate main
+activate ui
+ui --&gt;&gt; main: 再来一局、退出房间
+deactivate ui
+alt 再来一局
+activate main
+main -&gt;&gt; online: 和远端握手分出先后手()
+deactivate main
+activate online
+online --&gt;&gt; remote: 握手数据包
+remote --&gt;&gt; online: 握手数据包
+online --&gt;&gt; main: 我方是先手还是后手
+deactivate online
+activate main
+deactivate main
+else 退出房间
+activate main
+main -&gt;&gt; online: 退出房间
+deactivate main
+activate online
+online --&gt;&gt; remote: 断开连接
+remote --&gt;&gt; online: 断开连接
+online --&gt;&gt; main: void
+deactivate online
+activate main
+deactivate main
+end
+</code></pre></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw me-1"></i> <a href="/categories/projectexperience/">ProjectExperience</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw me-1"></i> <a href="/tags/teamwork/" class="post-tag no-text-decoration" >teamwork</a> <a href="/tags/c/" class="post-tag no-text-decoration" >c#</a></div><div class=" post-tail-bottom d-flex justify-content-between align-items-center mt-5 pb-2 " ><div class="license-wrapper"> 本文由作者按照 <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> 进行授权</div><div class="share-wrapper d-flex align-items-center"> <span class="share-label text-muted">分享</span> <span class="share-icons"> <a href="http://service.weibo.com/share/share.php?title=%E7%BB%84%E9%98%9F%E5%BC%80%E5%8F%91%E8%81%94%E6%9C%BA%E5%AF%B9%E6%88%98%E6%B8%B8%E6%88%8F%EF%BC%9A%E7%82%B8%E9%A3%9E%E6%9C%BA%E3%80%82bomb%20airfield%20game%20-%20Li6q%20%E7%AC%94%E8%AE%B0&url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Fbomb-airfield-game%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Weibo" aria-label="Weibo"> <i class="fa-fw fab fa-weibo"></i> </a> <a href="https://twitter.com/intent/tweet?text=%E7%BB%84%E9%98%9F%E5%BC%80%E5%8F%91%E8%81%94%E6%9C%BA%E5%AF%B9%E6%88%98%E6%B8%B8%E6%88%8F%EF%BC%9A%E7%82%B8%E9%A3%9E%E6%9C%BA%E3%80%82bomb%20airfield%20game%20-%20Li6q%20%E7%AC%94%E8%AE%B0&url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Fbomb-airfield-game%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=%E7%BB%84%E9%98%9F%E5%BC%80%E5%8F%91%E8%81%94%E6%9C%BA%E5%AF%B9%E6%88%98%E6%B8%B8%E6%88%8F%EF%BC%9A%E7%82%B8%E9%A3%9E%E6%9C%BA%E3%80%82bomb%20airfield%20game%20-%20Li6q%20%E7%AC%94%E8%AE%B0&u=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Fbomb-airfield-game%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Fbomb-airfield-game%2F&text=%E7%BB%84%E9%98%9F%E5%BC%80%E5%8F%91%E8%81%94%E6%9C%BA%E5%AF%B9%E6%88%98%E6%B8%B8%E6%88%8F%EF%BC%9A%E7%82%B8%E9%A3%9E%E6%9C%BA%E3%80%82bomb%20airfield%20game%20-%20Li6q%20%E7%AC%94%E8%AE%B0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <button id="copy-link" aria-label="Copy link" class="btn small" data-bs-toggle="tooltip" data-bs-placement="top" title="分享链接" data-title-succeed="链接已复制！" > <i class="fa-fw fas fa-link pe-none fs-6"></i> </button> </span></div></div></div></article></main><aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted"><div class="access"><section id="access-lastmod"><h2 class="panel-heading">最近更新</h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"><li class="text-truncate lh-lg"> <a href="/posts/pursuit-of-speed/">快点、再快点。the pursuit of speed</a><li class="text-truncate lh-lg"> <a href="/posts/interview-questions/">前端面试题目。crap</a><li class="text-truncate lh-lg"> <a href="/posts/concurrency-models/">大略了解并发模型。seven concurrency models in seven weeks</a><li class="text-truncate lh-lg"> <a href="/posts/howto-write-a-post/">如何给本站添加文章</a><li class="text-truncate lh-lg"> <a href="/posts/git-101/">git 基础。git 101</a></ul></section><section><h2 class="panel-heading">热门标签</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/tags/frontend/">frontend</a> <a class="post-tag btn btn-outline-primary" href="/tags/teamwork/">teamwork</a> <a class="post-tag btn btn-outline-primary" href="/tags/algorithm/">algorithm</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c++</a> <a class="post-tag btn btn-outline-primary" href="/tags/chore/">chore</a> <a class="post-tag btn btn-outline-primary" href="/tags/database/">database</a> <a class="post-tag btn btn-outline-primary" href="/tags/python/">python</a> <a class="post-tag btn btn-outline-primary" href="/tags/tooling/">tooling</a> <a class="post-tag btn btn-outline-primary" href="/tags/bash/">bash</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c#</a></div></section></div><section id="toc-wrapper" class="ps-0 pe-4"><h2 class="panel-heading ps-3 pt-2 mb-2">文章内容</h2><nav id="toc"></nav></section></aside></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4"><aside id="related-posts" aria-labelledby="related-label"><h3 class="mb-4" id="related-label">相关文章</h3><nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4"><article class="col"> <a href="/posts/review-of-bomb-airfield-game/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1669305600" data-df="YYYY/MM/DD" > 2022/11/25 </time><h4 class="pt-0 my-2">炸飞机场游戏开发反思。Review of bomb airfield game</h4><div class="text-muted"><p> 这是一篇草稿！ 本次开发过程最大的特点是各成员的参与度均较高，且充分使用了 git 协助开发。就系统设计和实现而言，我们通过网页接受用户 输入并显示游戏状态，网页与 C# 二进制之间通过 WebSocket 交互。本系统是基于 TCP 协议实现点对点联机的双人对战游戏， 主要由游戏主循环构成。为了简单起见，这一游戏循环是顺序执行并使用阻塞式 IO。即 等待用户的输入、渲染游戏状态、收发 T...</p></div></div></a></article><article class="col"> <a href="/posts/nogo-bot/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1650211200" data-df="YYYY/MM/DD" > 2022/04/18 </time><h4 class="pt-0 my-2">计算机下棋程序设计，以不围棋为例。</h4><div class="text-muted"><p> 作者按：这是数据结构课程的 assignment，本人撰写了本设计报告。 botzone NoGo 棋简单 AI 的设计 小组成员： 李秉权 软件学院 2020 级 6 班 刘小宝 软件学院 2020 级 6 班 刘小明 软件学院 2020 级 6 班 王三金 软件学院 2020 级 10 班 1 分工与合作 项目进行的初期，刘小明、王三金与 botzo...</p></div></div></a></article><article class="col"> <a href="/posts/kingz-mobile-tk2/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1664726400" data-df="YYYY/MM/DD" > 2022/10/03 </time><h4 class="pt-0 my-2">移动应用设计和开发：棋牌类手机游戏</h4><div class="text-muted"><p> 本文是本项目的设计文档，反思见此文。 待办任务 PR#1 缺陷：游戏标题页如果“填入网名”宽度不够换行，会导致旁边的“点击随机生成”按钮下半部分全部是空白。预期是按钮高度跟左边没换行时一样，不要出现文字下面有大量的空白。 增强：远端玩家离线时，现在有两个选项，1 我也不玩了 2 重新匹配，添加一个选项为 3 跟本地电脑接着玩。 重构：GameOver.jsx 中 winne...</p></div></div></a></article></nav></aside><nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation"> <a href="/posts/review-of-bomb-airfield-game/" class="btn btn-outline-primary" aria-label="上一篇" ><p>炸飞机场游戏开发反思。Review of bomb airfield game</p></a> <a href="/posts/refactor-book-list-app/" class="btn btn-outline-primary" aria-label="下一篇" ><p>重构书单分享应用。refactoring book list sharing app</p></a></nav><footer aria-label="Site Info" class=" d-flex flex-column justify-content-center text-muted flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3 " ><p>© <time>2025</time> <a href="https://github.com/li6in9muyou">Li 6in9Muyou</a>. <span data-bs-toggle="tooltip" data-bs-placement="top" title="除非另有说明，本网站上的博客文章均由作者按照知识共享署名 4.0 国际 (CC BY 4.0) 许可协议进行授权。" >保留部分权利。</span></p><p>本站由 <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> 生成，采用 <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> 主题。</p></footer></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-11 content"><div id="search-hints"><section><h2 class="panel-heading">热门标签</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/tags/frontend/">frontend</a> <a class="post-tag btn btn-outline-primary" href="/tags/teamwork/">teamwork</a> <a class="post-tag btn btn-outline-primary" href="/tags/algorithm/">algorithm</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c++</a> <a class="post-tag btn btn-outline-primary" href="/tags/chore/">chore</a> <a class="post-tag btn btn-outline-primary" href="/tags/database/">database</a> <a class="post-tag btn btn-outline-primary" href="/tags/python/">python</a> <a class="post-tag btn btn-outline-primary" href="/tags/tooling/">tooling</a> <a class="post-tag btn btn-outline-primary" href="/tags/bash/">bash</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c#</a></div></section></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><aside aria-label="Scroll to Top"> <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow"> <i class="fas fa-angle-up"></i> </button></aside></div><div id="mask"></div><script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/zh.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.25.0/dist/tocbot.min.js,npm/mermaid@10.8.0/dist/mermaid.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src=""></script> <script> $(function() { function updateMermaid(event) { if (event.source === window && event.data && event.data.direction === ModeToggle.ID) { const mode = event.data.message; if (typeof mermaid === "undefined") { return; } let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } let initTheme = "default"; if ($("html[data-mode=dark]").length > 0 || ($("html[data-mode]").length == 0 && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) { initTheme = "dark"; } let mermaidConf = { theme: initTheme /* <default|dark|forest|neutral> */ }; /* Markdown converts to HTML */ $("pre").has("code.language-mermaid").each(function() { let svgCode = $(this).children().html(); $(this).addClass("unloaded"); $(this).after(`<div class=\"mermaid\">${svgCode}</div>`); }); mermaid.initialize(mermaidConf); mermaid.init(undefined, ".mermaid"); window.addEventListener("message", updateMermaid); }); </script> <script> /* Note: dependent library will be loaded in `js-selector.html` */ SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<article class="px-1 px-sm-2 px-lg-4 px-xl-0"><header><h2><a href="{url}">{title}</a></h2><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div></header><p>{snippet}</p></article>', noResultsText: '<p class="mt-5"></p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>

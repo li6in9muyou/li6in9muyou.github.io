@@ -1,0 +1,707 @@
+<!doctype html><html lang="zh-CN" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f7f7f7"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1b1b1e"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="viewport" content="width=device-width, user-scalable=no initial-scale=1, shrink-to-fit=no, viewport-fit=cover" ><meta name="generator" content="Jekyll v4.4.1" /><meta property="og:title" content="即时聊天系统的模拟设计" /><meta property="og:locale" content="zh_CN" /><meta name="description" content="四、总结与体会" /><meta property="og:description" content="四、总结与体会" /><link rel="canonical" href="https://li6in9muyou.github.io/posts/try-design-QQ/" /><meta property="og:url" content="https://li6in9muyou.github.io/posts/try-design-QQ/" /><meta property="og:site_name" content="Li6q 笔记" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2021-12-21T00:00:00+08:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="即时聊天系统的模拟设计" /><meta name="twitter:site" content="@" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2022-10-27T11:12:48+08:00","datePublished":"2021-12-21T00:00:00+08:00","description":"四、总结与体会","headline":"即时聊天系统的模拟设计","mainEntityOfPage":{"@type":"WebPage","@id":"https://li6in9muyou.github.io/posts/try-design-QQ/"},"url":"https://li6in9muyou.github.io/posts/try-design-QQ/"}</script><title>即时聊天系统的模拟设计 | Li6q 笔记</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="Li6q 笔记"><meta name="application-name" content="Li6q 笔记"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="dns-prefetch" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://fonts.googleapis.com" ><link rel="dns-prefetch" href="https://fonts.googleapis.com" ><link rel="preconnect" href="https://cdn.jsdelivr.net" ><link rel="dns-prefetch" href="https://cdn.jsdelivr.net" ><link rel="preconnect" href="https://cdnjs.cloudflare.com" ><link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" ><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&family=Source+Sans+Pro:wght@400;600;700;900&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="/assets/css/jekyll-theme-chirpy.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tocbot@4.25.0/dist/tocbot.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script type="text/javascript"> class ModeToggle { static get MODE_KEY() { return 'mode'; } static get MODE_ATTR() { return 'data-mode'; } static get DARK_MODE() { return 'dark'; } static get LIGHT_MODE() { return 'light'; } static get ID() { return 'mode-toggle'; } constructor() { if (this.hasMode) { if (this.isDarkMode) { if (!this.isSysDarkPrefer) { this.setDark(); } } else { if (this.isSysDarkPrefer) { this.setLight(); } } } let self = this; /* always follow the system prefers */ this.sysDarkPrefers.addEventListener('change', () => { if (self.hasMode) { if (self.isDarkMode) { if (!self.isSysDarkPrefer) { self.setDark(); } } else { if (self.isSysDarkPrefer) { self.setLight(); } } self.clearMode(); } self.notify(); }); } /* constructor() */ get sysDarkPrefers() { return window.matchMedia('(prefers-color-scheme: dark)'); } get isSysDarkPrefer() { return this.sysDarkPrefers.matches; } get isDarkMode() { return this.mode === ModeToggle.DARK_MODE; } get isLightMode() { return this.mode === ModeToggle.LIGHT_MODE; } get hasMode() { return this.mode != null; } get mode() { return sessionStorage.getItem(ModeToggle.MODE_KEY); } /* get the current mode on screen */ get modeStatus() { if (this.isDarkMode || (!this.hasMode && this.isSysDarkPrefer)) { return ModeToggle.DARK_MODE; } else { return ModeToggle.LIGHT_MODE; } } setDark() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.DARK_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.DARK_MODE); } setLight() { document.documentElement.setAttribute(ModeToggle.MODE_ATTR, ModeToggle.LIGHT_MODE); sessionStorage.setItem(ModeToggle.MODE_KEY, ModeToggle.LIGHT_MODE); } clearMode() { document.documentElement.removeAttribute(ModeToggle.MODE_ATTR); sessionStorage.removeItem(ModeToggle.MODE_KEY); } /* Notify another plugins that the theme mode has changed */ notify() { window.postMessage( { direction: ModeToggle.ID, message: this.modeStatus }, '*' ); } flipMode() { if (this.hasMode) { if (this.isSysDarkPrefer) { if (this.isLightMode) { this.clearMode(); } else { this.setLight(); } } else { if (this.isDarkMode) { this.clearMode(); } else { this.setDark(); } } } else { if (this.isSysDarkPrefer) { this.setLight(); } else { this.setDark(); } } this.notify(); } /* flipMode() */ } /* ModeToggle */ const modeToggle = new ModeToggle(); </script><body><aside aria-label="Sidebar" id="sidebar" class="d-flex flex-column align-items-end"><header class="profile-wrapper"> <a href="/" id="avatar" class="rounded-circle"><img src="/assets/img/li6in9muyou.png" width="112" height="112" alt="avatar" onerror="this.style.display='none'"></a><h1 class="site-title"> <a href="/">Li6q 笔记</a></h1><p class="site-subtitle fst-italic mb-0">A blog of a unique person.</p></header><nav class="flex-column flex-grow-1 w-100 ps-0"><ul class="nav"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home"></i> <span>首页</span> </a><li class="nav-item"> <a href="/categories/" class="nav-link"> <i class="fa-fw fas fa-stream"></i> <span>分类</span> </a><li class="nav-item"> <a href="/tags/" class="nav-link"> <i class="fa-fw fas fa-tag"></i> <span>标签</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive"></i> <span>归档</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info-circle"></i> <span>关于</span> </a></ul></nav><div class="sidebar-bottom d-flex flex-wrap align-items-center w-100"> <button type="button" class="mode-toggle btn" aria-label="Switch Mode"> <i class="fas fa-adjust"></i> </button> <span class="icon-border"></span> <a href="https://github.com/li6in9muyou" aria-label="github" target="_blank" rel="noopener noreferrer" > <i class="fab fa-github"></i> </a> <a href="javascript:location.href = 'mailto:' + ['libq5520','mails.jlu.edu.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></aside><div id="main-wrapper" class="d-flex justify-content-center"><div class="container d-flex flex-column px-xxl-5"><header id="topbar-wrapper" aria-label="Top Bar"><div id="topbar" class="d-flex align-items-center justify-content-between px-lg-3 h-100" ><nav id="breadcrumb" aria-label="Breadcrumb"> <span> <a href="/">首页</a> </span> <span>即时聊天系统的模拟设计</span></nav><button type="button" id="sidebar-trigger" class="btn btn-link"> <i class="fas fa-bars fa-fw"></i> </button><div id="topbar-title"> 文章</div><button type="button" id="search-trigger" class="btn btn-link"> <i class="fas fa-search fa-fw"></i> </button> <search class="align-items-center ms-3 ms-lg-0"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="搜索..." > </search> <button type="button" class="btn btn-link text-decoration-none" id="search-cancel">取消</button></div></header><div class="row flex-grow-1"><main aria-label="Main Content" class="col-12 col-lg-11 col-xl-9 px-md-4"><article class="px-1"><header><h1 data-toc-skip>即时聊天系统的模拟设计</h1><div class="post-meta text-muted"> <span> 发表于 <time data-ts="1640016000" data-df="YYYY/MM/DD" data-bs-toggle="tooltip" data-bs-placement="bottom" > 2021/12/21 </time> </span> <span> 更新于 <time data-ts="1666840368" data-df="YYYY/MM/DD" data-bs-toggle="tooltip" data-bs-placement="bottom" > 2022/10/27 </time> </span><div class="d-flex justify-content-between"> <span> 作者 <em> <a href="https://github.com/li6in9muyou">Li 6in9Muyou</a> </em> </span> <span class="readtime" data-bs-toggle="tooltip" data-bs-placement="bottom" title="4912 字" > <em>27 分钟</em>阅读</span></div></div></header><div class="content"><h2 id="四总结与体会"><span class="me-2">四、总结与体会</span><a href="#四总结与体会" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>我不具备设计 complex system 的能力，在设计这个软件的过程中我很纠结，不知道该怎么设计，搞不清楚各个子系统之间要如何 interact，要遵守什么约定，使用什么样的 interface，我都搞不清。从这门课的设计要求来看，功能很多，每个功能都需要大量复杂的 infrastructure 来支撑，that is where the things get out of my hands，设计这些 infrastructure 的过程，我尤其觉得力不从心。功能太多了，做不过来。未来要更加努力的学习。我花在前期设计上的时间太少了，功能设计一边做一边改。我很羡慕这个舍友刘某，他掌握了 Qt GUI 开发技术，可以很快的做出正常的 GUI 而不是用 text stream 糊弄。</p><h2 id="一设计任务分析"><span class="me-2">一、设计任务分析</span><a href="#一设计任务分析" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>本小节要对设计任务进行分析。本软件的开发是一是为了应付这门课程的及格和学分，二是为了锻炼自己的 debug 能力，最后是提高自己使用 C++语言和生态的熟练度。</p><p>从分发的课程设计题面来看，功能展示要求有：</p><ul><li>开通服务情况、群成员信息等信息可以从文件系统加载。<li>一个服务登陆后其他服务都进入开通状态<li>服务之间可以根据添加好友<li>展示群的特色功能<li>群的类型的动态变换</ul><h2 id="二设计方案"><span class="me-2">二、设计方案</span><a href="#二设计方案" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>在本软件的输入输出方面，它和用户是通过 text stream 交互；用简单的行文本文件来保存数据到文件系统，并向其他子系统提供 key-value pair 访问的抽象。</p><p>在业务逻辑部分，我把系统分成六个部分，下面逐一介绍：</p><h3 id="meta"><span class="me-2">Meta</span><a href="#meta" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统负责处理账号的 metadata，显然，这些 metadata 一旦生成就不能修改，对用户来说是只读的，并且几乎没有必要向用户直接展示其值，且一定要有一个账号与之关联。这些 metadata 的生成很廉价，可以随意丢弃。该子系统为设计要求中记录用户的，and I quote，“号码 ID”和“T 龄”，end quote，提供支撑。</p><p>目前包括两个信息：</p><ul><li>uuid，这是用户在本系统中的唯一标识符，这种标识符的值空间中元素的数量比已知宇宙中的原子数目还要多，不论其他服务开通如何，这里提供 ground truth。<li>creation time，这是账号的创建时间。</ul><p>向其他子系统提供的功能有：</p><ul><li>Get Account Meta，提供一个合理的值，包括目前系统使用的 metadata 的各字段。</ul><p>为了支撑系统未来的功能扩展，该系统可以做的改进有：</p><ul><li>TODO</ul><h4 id="实现细节"><span class="me-2">实现细节</span><a href="#实现细节" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>这里没有什么细节，就是一个隐藏了诸构造函数的类，用静态方法生成一个 metadata object，相关代码如下：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre><td class="rouge-code"><pre><span class="k">struct</span> <span class="nc">AccountMeta</span> <span class="p">{</span>
+  <span class="n">uuid</span> <span class="n">id</span><span class="p">{};</span>
+  <span class="n">TimeStamp</span> <span class="n">creation_time</span><span class="p">{};</span>
+
+  <span class="k">static</span> <span class="n">AccountMeta</span>
+  <span class="nf">GetAccountMeta</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">nickname</span><span class="p">);</span>
+
+ <span class="k">private</span><span class="o">:</span>
+  <span class="n">AccountMeta</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></table></code></div></div><h4 id="讨论"><span class="me-2">讨论</span><a href="#讨论" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>没有什么可讨论的，用随机数代替 uuid。</p><h3 id="info"><span class="me-2">Info</span><a href="#info" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统负责处理 User Generated Content（UGC），也就是由用户输入进系统的内容。不用担心，虽然我们会 log 用户输入的内容，但是我们不使用受 CVE-2021-44228 以及后继 CVE-2021-45046 影响的诸程序。这种 UGC 是用户可以修改的，每个“微 × 平台”可以自己添加额外的内容，</p><p>目前提供的基本信息有：</p><ul><li>display name，用户展示给其他用户的名字，可以叫做昵称。<li>personal tagline，个性签名，用户展示给其他用户的内容，可以用作自我介绍。</ul><p>向其他子系统提供的功能有：</p><ul><li>Query Info，根据账号的 uuid，查询关联的 UGC<li>Update Info，根据账号的 uuid，更新关联的 UGC</ul><p>为了支撑系统未来的功能扩展，该系统可以做的改进有：</p><ul><li>TODO</ul><h4 id="实现细节-1"><span class="me-2">实现细节</span><a href="#实现细节-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>这里没有什么细节，就是一个数据表和一个页面用来更新账号的资料的。</p><h4 id="讨论-1"><span class="me-2">讨论</span><a href="#讨论-1" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>此处最麻烦的就是在 text stream 里面处理 unicode 字符，我现在还不知道该怎么弄，至少要做两次编码的转换，一个是从用户的 terminal 到程序的内存，二个是从程序的内存再转回到 terminal。其他问题还包括微软 C++的 regex 实现中<code class="language-plaintext highlighter-rouge">\w</code>并不能匹配一个中文字，要匹配一个中文字应该用<code class="language-plaintext highlighter-rouge">[\u4e00-\u9fa5]</code>才行。</p><h3 id="account"><span class="me-2">Account</span><a href="#account" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统的负责处理，账号的创建和登陆，会使用到 Meta 子系统和 Store 子系统。</p><h4 id="实现细节-2"><span class="me-2">实现细节</span><a href="#实现细节-2" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>该子系统主要包括了一个<code class="language-plaintext highlighter-rouge">AccountService</code>和诸面向 end user 的 UI 页面。</p><p><code class="language-plaintext highlighter-rouge">AccountService</code>使用三个<code class="language-plaintext highlighter-rouge">StringTable</code>实例，来完成如下 key-value 映射，聊以支撑用户注册和登陆，以及用户名模糊搜索的功能：</p><pre><code class="language-mermaid">flowchart LR
+name_hash--&gt;password_hash
+name_hash--&gt;uuid--&gt;nick_name
+</code></pre><p>用户注册时，会输入全网唯一的 display name，以及自己的密码，display name 和密码加盐散列之后，存储到数据表中。同时为该账号生成一个 uuid，并记录 uuid 到其 display name 的映射。</p><p>用户登陆时，将首先给出要登陆账号的 display name，然后给出密码，<code class="language-plaintext highlighter-rouge">AccountService</code>加盐散列后在数据表中查询，成功匹配就告成功，<code class="language-plaintext highlighter-rouge">AccountService</code>便返回跟此账号关联的 uuid。</p><p>一次典型的用户登陆实录如下，其中不带 prompt 的行是系统显示的，带 prompt 的是用户输入的：</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+</pre><td class="rouge-code"><pre>===Welcome! Please Login!===
+you may use following commands:
+":quit"
+Your nick name:  (should match ^\w{3,30}$)
+user&gt; [brave_turing]
+you may use following commands:
+":quit"
+Your password:  (should match ^\d{3,20}$)
+user&gt; [5416]
+===密码错误===
+===Welcome! Please Login!===
+you may use following commands:
+":quit"
+Your nick name:  (should match ^\w{3,30}$)
+user&gt; [brave_turing]
+you may use following commands:
+":quit"
+Your password:  (should match ^\d{3,20}$)
+user&gt; [4544]
+===密码错误===
+===Welcome! Please Login!===
+you may use following commands:
+":quit"
+Your nick name:  (should match ^\w{3,30}$)
+user&gt; [brave_turing]
+you may use following commands:
+":quit"
+Your password:  (should match ^\d{3,20}$)
+user&gt; [45448079478364]
+===密码错误===
+===Welcome! Please Login!===
+you may use following commands:
+":quit"
+Your nick name:  (should match ^\w{3,30}$)
+user&gt; [brave_turing]
+you may use following commands:
+":quit"
+Your password:  (should match ^\d{3,20}$)
+user&gt; [454480794783645416]
+===登陆成功===
+</pre></table></code></div></div><p>我还实现了对其他用户的用户名的模糊搜索，这是方便用户查找其他账号发起聊天时使用的。这是使用正则表达式匹配实现的简单模糊搜索，典型的交互实录如下，正则表达式对于我们 SE 和 CS 专业的人才应该是非常熟练的：</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre><td class="rouge-code"><pre>===用正则表达式搜索用户名，not some performant implementation===
+you may use following commands:
+":quit"
+regex:  (should match ^.{3,30}$)
+user&gt; [(friendly)|(libq)|(b)]
+===单选一个===
+===[1] brave_turing===
+===[2] wonderful_aryabhata===
+===[3] upbeat_northcutt===
+===[4] boring_edison===
+===[5] quirky_beaver===
+===[6] flamboyant_galois===
+===[7] festive_dubinsky===
+===[8] infallible_roentgen===
+===[9] boring_mirzakhani===
+===[10] zealous_bouman===
+===[11] friendly_chaplygin===
+===[12] boring_antonelli===
+===[13] hopeful_babbage===
+===[14] friendly_goodall===
+===[15] hardcore_black===
+===[16] libq===
+===end of list===
+you may use following commands:
+":quit"
+your choice:  (should match ^\d{1,4}$)
+user&gt; [8]
+===好，与infallible_roentgen开始聊天===
+</pre></table></code></div></div><h4 id="讨论-2"><span class="me-2">讨论</span><a href="#讨论-2" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>我在使用微软的 C++标准库的<code class="language-plaintext highlighter-rouge">string</code>的 hash 实现时，观察到了相当多的碰撞。对 3000 个随机生成的用户名逐一进行散列，它们各不相同，但是观察到只有 2500 余个不同的 hash 值，我后来尝试使用了其他的简单 hash 算法以及最简单的多项式 hash，同样观察到只有 2800 余个不同的 hash 值，我目前尚不知道是怎么回事。另外，我用 mt19937 伪随机数生成器生成的所谓 uuid 可以做得到生成 3000 次就得到 3000 个各异的随机数。</p><h3 id="chat"><span class="me-2">Chat</span><a href="#chat" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统负责处理用户之间的消息，to do that 该子系统为其他子系统提供 Channel 抽象。</p><p>Channel 用一个 uuid 来唯一标识，并负责储存 ChannelHistory，向外界提供：</p><ul><li>push，添加<code class="language-plaintext highlighter-rouge">ChannelHistory</code>中的信息。<li>pull，取得<code class="language-plaintext highlighter-rouge">ChannelHistory</code>中的消息。</ul><p>该子系统向外界提供如下服务：</p><ul><li><code class="language-plaintext highlighter-rouge">create channel</code>，创建一个新的 Channel。<li>connect to，disconnect from，处理账号和 Channel 的关系，如果用户和 Channel 是 connected，用户就可以对这个 Channel push or pull。</ul><p>为了支撑系统未来的功能扩展，该系统可以做的改进有：</p><ul><li>TODO</ul><h4 id="实现细节-3"><span class="me-2">实现细节</span><a href="#实现细节-3" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>该系统目前只记录两件事，依托于下文叙述的<code class="language-plaintext highlighter-rouge">StringTableBase</code>模板：</p><pre><code class="language-mermaid">flowchart
+channel_uuid--&gt;Channel
+user's_uuid--&gt;subscribed_channels'_uuid
+</code></pre><p>该系统是如何完成用户聊天的功能的呢，目前的设计中有如下两种情形。</p><p>例如，两个账号一对一的聊天：</p><ol><li>要求用户登陆到甲账号，然后 ChatService 生成一个 Channel，并把 Channel 加入到甲账号的收听列表中。<li>用户再次输入乙账号的 uuid，ChatService 把上一步中的 Channel 加入到乙用户的收听列表中。<li>接下来用户可以用甲账号向该 Channel push 消息。<li>乙账号登陆后，检视自己账号的收听列表，逐一从里面的 Channel 中 pull 消息。</ol><p>再例如，一群账号的多人聊天：</p><ol><li>按照一定的 domain logic，子系统要求 ChatService 生成一个 Channel。<li>多个账号请求收听上面的 Channel 的 uuid，ChatService 便把把上一步中的 Channel 加入到该账号的收听列表中。<li>某账号可以检视自己的收听列表，逐一从里面的 Channel 中 pull 消息。<li>某账号可以输入 Channel 的 uuid，并向其 push 消息。</ol><p>诚然，这仅仅是最基础的功能的实现，在其外围，势必要包装上诸 domain logic 才能完成面向 end user 的功能。该子系统只负责忠实传达用户之间的消息，其他内容一概不理会，应由其他子系统实现。</p><h4 id="讨论-3"><span class="me-2">讨论</span><a href="#讨论-3" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>这里没有什么可讨论的，我 draw inspiration from message queue, as in the distributed system context。</p><h3 id="store"><span class="me-2">Store</span><a href="#store" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统负责把软件的状态保存到文件系统中，并在软件需要时从文件系统恢复。该系统向外界提供 key-value pair container 的抽象，具体提供如下功能：</p><ul><li>get，取得跟某个 key 关联的的数据。<li>set，设置某个 key 关联的数据。</ul><p>为了支撑系统未来的功能扩展，该系统可以做的改进有：</p><ul><li>TODO</ul><h4 id="实现细节-4"><span class="me-2">实现细节</span><a href="#实现细节-4" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>file format 采用非常简单的按行分隔模式即，<code class="language-plaintext highlighter-rouge">&lt;key&gt; &lt;value&gt;\n</code>为一条记录，此处需要 serialization 和 deserialization。只要使用者指定自己想要存储的数据类型的 serialization 和 deserialization 方法，就可以使用该子系统提供的功能。简单的数据类型如数字<code class="language-plaintext highlighter-rouge">string</code>等就按人类可读文本进行编码，稍复杂的数据类型使用 JSON 格式储存。</p><p>为此我设计了<code class="language-plaintext highlighter-rouge">StringTableBase</code>类，用 C++的模板特性实现，设计一览如下。</p><pre><code class="language-mermaid">classDiagram
+	class StringTableBase~T~{
+	-path DB_ROOT
+	-path TABLE_PATH
+	-StoreType store
+	#Pickle pk
+	#UnPickle unpk
+	-load()
+	-dump()
+	+get(...)
+	+set(...)
+	}
+	class StringTable~string~
+	StringTable~string~--|&gt;StringTableBase
+</code></pre><p>其中该模板<code class="language-plaintext highlighter-rouge">string</code>类型的<code class="language-plaintext highlighter-rouge">specialization</code>所使用的的<code class="language-plaintext highlighter-rouge">Pickle</code>和<code class="language-plaintext highlighter-rouge">UnPickle</code>是简单的 identity function。</p><p>相关代码如下：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+</pre><td class="rouge-code"><pre><span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="o">=</span><span class="n">string</span><span class="p">&gt;</span>
+<span class="k">class</span> <span class="nc">StringTableBase</span> <span class="p">{</span>
+  <span class="k">using</span> <span class="n">Pickle</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">string</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="k">using</span> <span class="n">UnPickle</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="n">T</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span><span class="p">)</span><span class="o">&gt;</span><span class="p">;</span>
+  <span class="k">const</span> <span class="k">static</span> <span class="kr">inline</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">T_identity</span> <span class="o">=</span> <span class="p">[](</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="n">s</span><span class="p">;</span> <span class="p">};</span>
+  <span class="k">using</span> <span class="n">StoreType</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">uuid</span><span class="p">,</span> <span class="n">T</span><span class="o">&gt;</span><span class="p">;</span>
+ <span class="k">protected</span><span class="o">:</span>
+  <span class="n">Pickle</span> <span class="n">pk</span><span class="p">;</span>
+  <span class="n">UnPickle</span> <span class="n">unpk</span><span class="p">;</span>
+  <span class="n">StoreType</span> <span class="n">store</span><span class="p">;</span>
+
+  <span class="p">...</span>
+<span class="p">}</span>
+
+<span class="n">StringTableBase</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">DB_ROOT</span><span class="p">,</span>
+                <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">TABLE_NAME</span><span class="p">,</span>
+                <span class="n">StringTableBase</span><span class="o">::</span><span class="n">Pickle</span> <span class="n">pk</span> <span class="o">=</span> <span class="n">T_identity</span><span class="p">,</span>
+                <span class="n">StringTableBase</span><span class="o">::</span><span class="n">UnPickle</span> <span class="n">unpk</span> <span class="o">=</span> <span class="n">T_identity</span><span class="p">)</span> <span class="o">:</span>
+<span class="n">DB_ROOT</span><span class="p">(</span><span class="n">DB_ROOT</span><span class="p">),</span> <span class="n">pk</span><span class="p">(</span><span class="n">pk</span><span class="p">),</span> <span class="n">unpk</span><span class="p">(</span><span class="n">unpk</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="p">...</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>在其他子系统中 specialized 的类实例中也有使用 JSON 格式来完成 serialization 和 deserialization 的，代码示意如图，这是模板 specialization<code class="language-plaintext highlighter-rouge">StringTableBase&lt;Subscription&gt;</code>中使用的 serialization 和 deserialization 方法：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+</pre><td class="rouge-code"><pre><span class="n">Subscription</span>
+<span class="n">Subscription</span><span class="o">::</span><span class="n">unpickle</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">txt</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">namespace</span> <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">j</span><span class="o">::</span><span class="n">JSON</span><span class="o">::</span><span class="n">Load</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">obj</span><span class="p">[</span><span class="s">"sanity"</span><span class="p">].</span><span class="n">IsNull</span><span class="p">())</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">{};</span>
+  <span class="p">}</span>
+
+  <span class="n">Subscription</span> <span class="n">ch</span><span class="p">;</span>
+  <span class="n">ch</span><span class="p">.</span><span class="n">user_id</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">"channel_uuid"</span><span class="p">].</span><span class="n">ToInt</span><span class="p">();</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">id</span><span class="o">:</span> <span class="n">obj</span><span class="p">[</span><span class="s">"channels"</span><span class="p">].</span><span class="n">ArrayRange</span><span class="p">())</span> <span class="p">{</span>
+	<span class="n">ch</span><span class="p">.</span><span class="n">channels</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">id</span><span class="p">.</span><span class="n">ToInt</span><span class="p">());</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="n">ch</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">string</span>
+<span class="n">Subscription</span><span class="o">::</span><span class="n">pickle</span><span class="p">(</span><span class="k">const</span> <span class="n">Subscription</span><span class="o">&amp;</span> <span class="n">ch</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">namespace</span> <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="p">;</span>
+  <span class="k">auto</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">j</span><span class="o">::</span><span class="n">Object</span><span class="p">();</span>
+
+  <span class="k">auto</span><span class="o">&amp;</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="s">"channels"</span><span class="p">];</span>
+  <span class="k">for</span> <span class="p">(</span><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">id</span><span class="o">:</span> <span class="n">ch</span><span class="p">.</span><span class="n">channels</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">j</span><span class="o">::</span><span class="n">JSON</span><span class="p">(</span><span class="n">id</span><span class="p">));</span>
+  <span class="p">}</span>
+  <span class="n">obj</span><span class="p">[</span><span class="s">"channel_uuid"</span><span class="p">]</span> <span class="o">=</span> <span class="n">ch</span><span class="p">.</span><span class="n">user_id</span><span class="p">;</span>
+  <span class="n">obj</span><span class="p">[</span><span class="s">"sanity"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+
+  <span class="k">auto</span> <span class="n">json_txt</span> <span class="o">=</span> <span class="n">obj</span><span class="p">.</span><span class="n">dump</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">replace</span><span class="p">(</span><span class="n">json_txt</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">json_txt</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="sc">'\n'</span><span class="p">,</span> <span class="sc">' '</span><span class="p">);</span>
+  <span class="k">return</span> <span class="n">json_txt</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="讨论-4"><span class="me-2">讨论</span><a href="#讨论-4" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>自己手工搭建这一所谓的 key-value pair data storage 系统并不方便，可能还不如使用成熟的 ORM 和正儿八经的数据库实现。</p><h3 id="user-interface"><span class="me-2">User Interface</span><a href="#user-interface" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该子系统负责处理用户的输入，并把向其他子系统提供渲染控件的功能，它使用 blocking 的 text stream 来与用户交互。提供如下功能：</p><ul><li>render，把控件展示给用户<li>get，返回用户交互的状态码和调用者需要的数据。</ul><p>为了支撑系统未来的功能扩展，该系统可以做的改进有：</p><ul><li>TODO</ul><h4 id="实现细节-5"><span class="me-2">实现细节</span><a href="#实现细节-5" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>首先为了软件调试的方便，我设计了<code class="language-plaintext highlighter-rouge">UserInteraction</code>类，设计一览如下。</p><pre><code class="language-mermaid">classDiagram
+class UserInteraction{
+-ostream ots
+-istream ins
++UserInteraction(input_path, output_path)
++operator&lt;&lt;(...)
++operator&gt;&gt;(...)
+}
+class ifstream{
+...
++operator&gt;&gt;(...)
+}
+class ofstream{
+...
++operator&lt;&lt;(...)
+}
+
+UserInteraction o-- ifstream
+UserInteraction o-- ofstream
+</code></pre><p>它能从文件中导入用户的输入，并把各控件渲染的结果记录到文件中，省去我每次反复输入的烦恼。</p><p>例如，要模拟用户的注册，我使用的源文件和运行时效果类似：</p><div class="language-plaintext highlighter-rouge"><div class="code-header"> <span data-label-text="Plaintext"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre><td class="rouge-code"><pre>// user input source
+eloquent_mcnulty
+7521856058124065
+wonderful_aryabhata
+77208342356222461
+amazing_mclean
+5306883560681846
+strange_leavitt
+469567732119057
+
+// rendered screen
+===开始注册新用户了===
+Your nick name: (should match ^\w{3,30}$)
+user&gt; [eloquent_mcnulty]
+Your password: (should match ^\d{3,20}$)
+user&gt; [7521856058124065]
+===注册终了===
+===开始注册新用户了===
+Your nick name: (should match ^\w{3,30}$)
+user&gt; [wonderful_aryabhata]
+Your password: (should match ^\d{3,20}$)
+user&gt; [77208342356222461]
+===注册终了===
+===开始注册新用户了===
+Your nick name: (should match ^\w{3,30}$)
+user&gt; [amazing_mclean]
+Your password: (should match ^\d{3,20}$)
+user&gt; [5306883560681846]
+===注册终了===
+===开始注册新用户了===
+Your nick name: (should match ^\w{3,30}$)
+user&gt; [strange_leavitt]
+Your password: (should match ^\d{3,20}$)
+user&gt; [469567732119057]
+===注册终了===
+</pre></table></code></div></div><p>可以看到其中带有 prompt 的行是模拟用户输入的内容，其余的则是控件渲染的结果。</p><p>根据系统的需要，我实现了单选控件<code class="language-plaintext highlighter-rouge">SingleSelect</code>和几种行输入控件<code class="language-plaintext highlighter-rouge">LineEdit</code>、<code class="language-plaintext highlighter-rouge">RegexVerifiedLineEdit</code>、<code class="language-plaintext highlighter-rouge">RegexAndCommand</code>，设计一览如下。</p><pre><code class="language-mermaid">classDiagram
+
+class UserInteraction
+class Component
+&lt;&lt;interface&gt;&gt; Component
+Component:render()
+Component:get()
+
+class TextLabel{
+-string content
+-UserInteraction&amp; ui
++render()
+}
+TextLabel..&gt;UserInteraction
+TextLabel..|&gt;Component
+
+
+class LineEdit{
+#Predicate predicate
+#UserInteraction&amp; ui
+#string value
+#string prompt
++render()
++get()
+}
+LineEdit..&gt;UserInteraction
+LineEdit..|&gt;Component
+
+
+class RegexVerifiedLineEdit
+RegexVerifiedLineEdit--|&gt;LineEdit
+class RegexAndCommand
+RegexAndCommand--|&gt;LineEdit
+</code></pre><p><code class="language-plaintext highlighter-rouge">LineEdit</code>会读入 text stream 中一行用户的输入，将其值传给<code class="language-plaintext highlighter-rouge">predicate</code>判断是否接受，不接受则要求用户重新输入。<code class="language-plaintext highlighter-rouge">RegexVerifiedLineEdit</code>和<code class="language-plaintext highlighter-rouge">RegexAndCommand</code>只是一个<code class="language-plaintext highlighter-rouge">LineEdit</code>的 wrapper，它们用函数工厂生产各自的<code class="language-plaintext highlighter-rouge">predictate</code>来完成用正则表达式校验用户输入，或是解析用户的命令之功能。<code class="language-plaintext highlighter-rouge">RegexAndCommand</code>在使用正则表达式校验的基础上还会接受调用者指定的一些命令，然后返回调用者相应的状态码。这种控件的存在主要是让用户交互界面的设计者能够提供让用户随时退出中断当前操作的功能。典型的使用方法如下：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre><span class="n">RegexAndCommand</span> <span class="nf">for_pwd</span><span class="p">(</span><span class="s">"Your password: "</span><span class="p">,</span> <span class="s">R"(^\d{3,20}$)"</span><span class="p">,</span> <span class="p">{</span><span class="s">":quit"</span><span class="p">});</span>
+<span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span><span class="p">[</span><span class="n">status</span><span class="p">,</span> <span class="n">pwd</span><span class="p">]</span> <span class="o">=</span> <span class="n">for_pwd</span><span class="p">.</span><span class="n">render</span><span class="p">().</span><span class="n">get</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">is_good</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// continue as password matched</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">status</span><span class="p">.</span><span class="n">is_user_cancelled</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// continue as user quit entering password</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">RegexVerifiedLineEdit</code>使用的函数工厂示意如下：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="k">auto</span>
+<span class="nf">get_regex_validator</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">rgx</span><span class="p">)</span> <span class="p">{</span>
+
+  <span class="k">return</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">rgx</span><span class="p">](</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">txt</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">result</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">regex_search</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">regex</span><span class="p">(</span><span class="n">rgx</span><span class="p">));</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p><code class="language-plaintext highlighter-rouge">RegexAndCommand</code>使用的函数工厂示意如下：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+</pre><td class="rouge-code"><pre><span class="c1">//ui_components.h</span>
+<span class="k">struct</span> <span class="nc">CmdValidatorBuilder</span> <span class="o">:</span> <span class="n">LineEdit</span><span class="o">::</span><span class="n">Predicate</span> <span class="p">{</span>
+  <span class="n">CmdValidatorBuilder</span><span class="p">(</span><span class="n">LineEdit</span><span class="o">::</span><span class="n">Predicate</span> <span class="n">base</span><span class="p">,</span>
+					  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">acceptable_cmd</span><span class="p">);</span>
+
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">received_cmd</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">set</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">acceptable_cmd</span><span class="p">;</span>
+  <span class="n">LineEdit</span><span class="o">::</span><span class="n">Predicate</span> <span class="n">base</span><span class="p">;</span>
+
+  <span class="k">auto</span>
+  <span class="n">get_validator</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">RegexAndCommand</span> <span class="o">:</span> <span class="k">private</span> <span class="n">LineEdit</span> <span class="p">{</span>
+ <span class="nl">public:</span>
+  <span class="n">RegexAndCommand</span><span class="p">(</span>
+	  <span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">prompt</span><span class="p">,</span>
+	  <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">regex_expr</span><span class="p">,</span>
+	  <span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">commands</span><span class="p">);</span>
+
+  <span class="n">CmdValidatorBuilder</span> <span class="n">builder</span><span class="p">;</span>
+
+  <span class="kt">void</span>
+  <span class="n">render</span><span class="p">()</span> <span class="k">override</span><span class="p">;</span>
+
+  <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span>
+  <span class="n">get</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">//ui_components.cpp</span>
+<span class="n">CmdValidatorBuilder</span><span class="o">::</span><span class="n">CmdValidatorBuilder</span><span class="p">(</span>
+	<span class="n">LineEdit</span><span class="o">::</span><span class="n">Predicate</span> <span class="n">base</span><span class="p">,</span>
+	<span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;&amp;</span> <span class="n">acceptable_cmd</span><span class="p">)</span> <span class="o">:</span>
+	<span class="n">base</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">base</span><span class="p">)),</span> <span class="n">acceptable_cmd</span><span class="p">(</span><span class="n">acceptable_cmd</span><span class="p">)</span> <span class="p">{}</span>
+
+<span class="k">auto</span>
+<span class="n">CmdValidatorBuilder</span><span class="o">::</span><span class="n">get_validator</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="k">return</span> <span class="p">[</span><span class="o">&amp;</span><span class="p">](</span><span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">txt</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">acceptable_cmd</span><span class="p">.</span><span class="n">contains</span><span class="p">(</span><span class="n">txt</span><span class="p">))</span> <span class="p">{</span>
+	  <span class="n">received_cmd</span> <span class="o">=</span> <span class="n">txt</span><span class="p">;</span>
+	  <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+	<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	  <span class="k">return</span> <span class="n">base</span><span class="p">(</span><span class="n">txt</span><span class="p">);</span>
+	<span class="p">}</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="n">RegexAndCommand</span><span class="o">::</span><span class="n">RegexAndCommand</span><span class="p">(</span>
+	<span class="k">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">prompt</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">&amp;</span> <span class="n">regex_expr</span><span class="p">,</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">commands</span><span class="p">)</span> <span class="o">:</span>
+	<span class="n">builder</span><span class="p">(</span><span class="n">get_regex_validator</span><span class="p">(</span><span class="n">regex_expr</span><span class="p">),</span> <span class="n">commands</span><span class="p">),</span>
+	<span class="n">LineEdit</span><span class="p">(</span><span class="n">prompt</span> <span class="o">+</span> <span class="n">std</span><span class="o">::</span><span class="n">format</span><span class="p">(</span><span class="s">" (should match {})</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">regex_expr</span><span class="p">))</span> <span class="p">{</span>
+
+  <span class="n">predicate</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="n">get_validator</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></table></code></div></div><h4 id="讨论-5"><span class="me-2">讨论</span><a href="#讨论-5" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>用这种方法处理 escape tokens 并不是什么理想的做法。我考虑过如下方案：把响应 predicate 结果的逻辑拔高一层，并在控件从<code class="language-plaintext highlighter-rouge">UserInteraction</code>提取用户输入的内容之前 hook。目前相应 predicate 结果的逻辑写在控件基类<code class="language-plaintext highlighter-rouge">LineEdit</code>中，其逻辑是重试直到用户输入被 predicate 接受。</p><p>目前的做法：</p><pre><code class="language-mermaid">flowchart LR
+    A["start"]
+    B["ui &gt;&gt; input"]
+    E["return-normal"]
+    rd["LineEdit.render()"]
+    Pred{"predicates"}
+    subgraph while-loop
+        rd--&gt;B
+        Pred--&gt;|false| rd
+    	B--&gt;Pred;
+    end
+    A--&gt; while-loop
+    Pred--&gt;|true| E
+</code></pre><p>proposed 做法：</p><pre><code class="language-mermaid">flowchart LR
+    render["LineEdit.render()"];
+    input["ui &gt;&gt; input"];
+	hook{hook};
+    prdc{"predicates"};
+    start--&gt;render
+    subgraph while-loop
+    	render--&gt;input--&gt;hook--&gt;|pass through|prdc--&gt;|false| render
+	end
+    prdc--&gt;|true|return-good
+    hook--&gt;|bail|return-abnormal
+</code></pre><h3 id="miscellaneous"><span class="me-2">Miscellaneous</span><a href="#miscellaneous" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h3><p>该部分介绍我设计的一些 make life easier 的功能。</p><h4 id="statusand-模板"><span class="me-2">StatusAnd 模板</span><a href="#statusand-模板" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><p>我设计了<code class="language-plaintext highlighter-rouge">StatusAnd</code>模板，封装了对状态码的描述和生成的过程，避免了 magic numbers 外泄到整个系统，相关代码实例如下，状态码的 convention basically follows http status code：</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+</pre><td class="rouge-code"><pre><span class="k">using</span> <span class="n">Status</span> <span class="o">=</span> <span class="kt">short</span><span class="p">;</span>
+
+<span class="k">template</span><span class="o">&lt;</span><span class="k">typename</span> <span class="nc">T</span><span class="p">&gt;</span>
+<span class="k">struct</span> <span class="nc">StatusAnd</span> <span class="p">{</span>
+    <span class="n">Status</span> <span class="n">status</span><span class="p">;</span>
+    <span class="n">T</span> <span class="n">payload</span><span class="p">;</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="kr">inline</span> <span class="kt">bool</span>
+        <span class="n">user_cancelled</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">499</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="kr">inline</span> <span class="kt">bool</span>
+        <span class="n">is_good</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">200</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">[[</span><span class="n">nodiscard</span><span class="p">]]</span> <span class="kr">inline</span> <span class="kt">bool</span>
+        <span class="n">is_bad</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">status</span> <span class="o">==</span> <span class="mi">400</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">static</span> <span class="kr">inline</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="n">Cancelled</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">499</span><span class="p">,</span> <span class="p">{}};</span>
+    <span class="p">}</span>
+
+    <span class="k">static</span> <span class="kr">inline</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="n">Good</span><span class="p">(</span><span class="k">const</span> <span class="n">T</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">)</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">200</span><span class="p">,</span> <span class="n">p</span><span class="p">};</span>
+    <span class="p">}</span>
+
+    <span class="k">static</span> <span class="kr">inline</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span>
+        <span class="n">Bad</span><span class="p">()</span> <span class="p">{</span>
+
+        <span class="k">return</span> <span class="n">StatusAnd</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="p">{</span><span class="mi">400</span><span class="p">,</span> <span class="p">{}};</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></table></code></div></div><h5 id="实现细节-6"><span class="me-2">实现细节</span><a href="#实现细节-6" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5><p>我希望尽可能避免复制 payload object，也许使用<code class="language-plaintext highlighter-rouge">shared_ptr</code>是比较好的办法。</p><h5 id="讨论-6"><span class="me-2">讨论</span><a href="#讨论-6" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5><p>状态码的使用，我觉得很不方便，因为每次都要写诸如此类的 explicit branches，这很麻烦。</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="k">const</span> <span class="k">auto</span><span class="o">&amp;</span> <span class="n">from_update</span> <span class="o">=</span> <span class="n">update</span><span class="p">.</span><span class="n">render</span><span class="p">().</span><span class="n">get</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">from_update</span><span class="p">.</span><span class="n">user_cancelled</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">from_update</span><span class="p">.</span><span class="n">is_good</span><span class="p">())</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></table></code></div></div><p>期望的效果是如下</p><div class="language-c++ highlighter-rouge"><div class="code-header"> <span data-label-text="C++"><i class="fas fa-code fa-fw small"></i></span> <button aria-label="copy" data-title-succeed="已复制！"><i class="far fa-clipboard"></i></button></div><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre><td class="rouge-code"><pre><span class="n">from_update</span><span class="p">.</span><span class="n">render</span><span class="p">().</span><span class="n">get</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">on_good</span><span class="p">(</span>
+    <span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="n">on_cancelled</span><span class="p">(</span>
+    <span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">})</span>
+    <span class="p">.</span><span class="n">on</span><span class="p">(</span>
+    <span class="s">"shit hits the fan"</span><span class="p">,</span>
+    <span class="p">[</span><span class="o">&amp;</span><span class="p">]()</span> <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">});</span>
+</pre></table></code></div></div><h4 id="ui-控件"><span class="me-2">UI 控件</span><a href="#ui-控件" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><h5 id="讨论-7"><span class="me-2">讨论</span><a href="#讨论-7" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5><p>另外本系统中大量使用了 UI 控件的概念，UI 控件是用来跟用户交互的对象，这些控件能往上述 text stream 中拉取和输出字符，并承担一定的 validation 工作。不过由于才疏学浅，我没能实现异步地实现这些 I/O 的功能。这些控件组合之后可以实现一个完成较复杂功能的页面。如果这里能异步，就可以做成 daemon-client 架构了。</p><h4 id="escaped-commands"><span class="me-2">Escaped Commands</span><a href="#escaped-commands" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h4><h5 id="讨论-8"><span class="me-2">讨论</span><a href="#讨论-8" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h5><p>本意是想借此种命令完成页面之间的跳转，但是才疏学浅，在 UI 子系统架构设计中没有很好的支持这种功能，勉强实现了取消当前页面的操作。</p><h2 id="三详细设计"><span class="me-2">三、详细设计</span><a href="#三详细设计" class="anchor text-muted"><i class="fas fa-hashtag"></i></a></h2><p>略，参见上段。</p></div><div class="post-tail-wrapper text-muted"><div class="post-meta mb-3"> <i class="far fa-folder-open fa-fw me-1"></i> <a href="/categories/projectexperience/">ProjectExperience</a></div><div class="post-tags"> <i class="fa fa-tags fa-fw me-1"></i> <a href="/tags/c/" class="post-tag no-text-decoration" >c++</a> <a href="/tags/software-engineering/" class="post-tag no-text-decoration" >software-engineering</a></div><div class=" post-tail-bottom d-flex justify-content-between align-items-center mt-5 pb-2 " ><div class="license-wrapper"> 本文由作者按照 <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> 进行授权</div><div class="share-wrapper d-flex align-items-center"> <span class="share-label text-muted">分享</span> <span class="share-icons"> <a href="http://service.weibo.com/share/share.php?title=%E5%8D%B3%E6%97%B6%E8%81%8A%E5%A4%A9%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E6%8B%9F%E8%AE%BE%E8%AE%A1%20-%20Li6q%20%E7%AC%94%E8%AE%B0&url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Ftry-design-QQ%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Weibo" aria-label="Weibo"> <i class="fa-fw fab fa-weibo"></i> </a> <a href="https://twitter.com/intent/tweet?text=%E5%8D%B3%E6%97%B6%E8%81%8A%E5%A4%A9%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E6%8B%9F%E8%AE%BE%E8%AE%A1%20-%20Li6q%20%E7%AC%94%E8%AE%B0&url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Ftry-design-QQ%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Twitter" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <a href="https://www.facebook.com/sharer/sharer.php?title=%E5%8D%B3%E6%97%B6%E8%81%8A%E5%A4%A9%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E6%8B%9F%E8%AE%BE%E8%AE%A1%20-%20Li6q%20%E7%AC%94%E8%AE%B0&u=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Ftry-design-QQ%2F" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook" aria-label="Facebook"> <i class="fa-fw fab fa-facebook-square"></i> </a> <a href="https://t.me/share/url?url=https%3A%2F%2Fli6in9muyou.github.io%2Fposts%2Ftry-design-QQ%2F&text=%E5%8D%B3%E6%97%B6%E8%81%8A%E5%A4%A9%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%A8%A1%E6%8B%9F%E8%AE%BE%E8%AE%A1%20-%20Li6q%20%E7%AC%94%E8%AE%B0" target="_blank" rel="noopener" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram" aria-label="Telegram"> <i class="fa-fw fab fa-telegram"></i> </a> <button id="copy-link" aria-label="Copy link" class="btn small" data-bs-toggle="tooltip" data-bs-placement="top" title="分享链接" data-title-succeed="链接已复制！" > <i class="fa-fw fas fa-link pe-none fs-6"></i> </button> </span></div></div></div></article></main><aside aria-label="Panel" id="panel-wrapper" class="col-xl-3 ps-2 mb-5 text-muted"><div class="access"><section id="access-lastmod"><h2 class="panel-heading">最近更新</h2><ul class="content list-unstyled ps-0 pb-1 ms-1 mt-2"><li class="text-truncate lh-lg"> <a href="/posts/pursuit-of-speed/">快点、再快点。the pursuit of speed</a><li class="text-truncate lh-lg"> <a href="/posts/interview-questions/">前端面试题目。crap</a><li class="text-truncate lh-lg"> <a href="/posts/concurrency-models/">大略了解并发模型。seven concurrency models in seven weeks</a><li class="text-truncate lh-lg"> <a href="/posts/howto-write-a-post/">如何给本站添加文章</a><li class="text-truncate lh-lg"> <a href="/posts/git-101/">git 基础。git 101</a></ul></section><section><h2 class="panel-heading">热门标签</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/tags/frontend/">frontend</a> <a class="post-tag btn btn-outline-primary" href="/tags/teamwork/">teamwork</a> <a class="post-tag btn btn-outline-primary" href="/tags/algorithm/">algorithm</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c++</a> <a class="post-tag btn btn-outline-primary" href="/tags/chore/">chore</a> <a class="post-tag btn btn-outline-primary" href="/tags/database/">database</a> <a class="post-tag btn btn-outline-primary" href="/tags/python/">python</a> <a class="post-tag btn btn-outline-primary" href="/tags/tooling/">tooling</a> <a class="post-tag btn btn-outline-primary" href="/tags/bash/">bash</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c#</a></div></section></div><section id="toc-wrapper" class="ps-0 pe-4"><h2 class="panel-heading ps-3 pt-2 mb-2">文章内容</h2><nav id="toc"></nav></section></aside></div><div class="row"><div id="tail-wrapper" class="col-12 col-lg-11 col-xl-9 px-md-4"><aside id="related-posts" aria-labelledby="related-label"><h3 class="mb-4" id="related-label">相关文章</h3><nav class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4"><article class="col"> <a href="/posts/design-of-tomato-clock/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1652457600" data-df="YYYY/MM/DD" > 2022/05/14 </time><h4 class="pt-0 my-2">番茄钟的设计与实现。design of tomato-clock</h4><div class="text-muted"><p> domain entities countdown-period duration default duration name counter isRunning shouldLoop counter has one or more countdown-periods usecase resume and pause this event i...</p></div></div></a></article><article class="col"> <a href="/posts/shenjimiaosuan-contest/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1627660800" data-df="YYYY/MM/DD" > 2021/07/31 </time><h4 class="pt-0 my-2">神机妙算算法竞赛</h4><div class="text-muted"><p> Author’s Note: I got my first pull request merged into Open3D’s code base, albeit a minor fix. 本次比赛共有三个题目，使用 C++编程语言，要求只能提交一个源文件。只能提交一个源文件的这个要求，后来发现实现起来不是很轻松。 第二题 三角网补色 本题给定一个三维空间中的三角网，约有四分之...</p></div></div></a></article><article class="col"> <a href="/posts/nogo-bot/" class="post-preview card h-100"><div class="card-body"> <time data-ts="1650211200" data-df="YYYY/MM/DD" > 2022/04/18 </time><h4 class="pt-0 my-2">计算机下棋程序设计，以不围棋为例。</h4><div class="text-muted"><p> 作者按：这是数据结构课程的 assignment，本人撰写了本设计报告。 botzone NoGo 棋简单 AI 的设计 小组成员： 李秉权 软件学院 2020 级 6 班 刘小宝 软件学院 2020 级 6 班 刘小明 软件学院 2020 级 6 班 王三金 软件学院 2020 级 10 班 1 分工与合作 项目进行的初期，刘小明、王三金与 botzo...</p></div></div></a></article></nav></aside><nav class="post-navigation d-flex justify-content-between" aria-label="Post Navigation"> <a href="/posts/book-list-app-design/" class="btn btn-outline-primary" aria-label="上一篇" ><p>书单分享项目：设计分析</p></a> <a href="/posts/thoughts-on-book-list-demo-app/" class="btn btn-outline-primary" aria-label="下一篇" ><p>书单分享项目：反思和批判</p></a></nav><footer aria-label="Site Info" class=" d-flex flex-column justify-content-center text-muted flex-lg-row justify-content-lg-between align-items-lg-center pb-lg-3 " ><p>© <time>2025</time> <a href="https://github.com/li6in9muyou">Li 6in9Muyou</a>. <span data-bs-toggle="tooltip" data-bs-placement="top" title="除非另有说明，本网站上的博客文章均由作者按照知识共享署名 4.0 国际 (CC BY 4.0) 许可协议进行授权。" >保留部分权利。</span></p><p>本站由 <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> 生成，采用 <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> 主题。</p></footer></div></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-11 content"><div id="search-hints"><section><h2 class="panel-heading">热门标签</h2><div class="d-flex flex-wrap mt-3 mb-1 me-3"> <a class="post-tag btn btn-outline-primary" href="/tags/frontend/">frontend</a> <a class="post-tag btn btn-outline-primary" href="/tags/teamwork/">teamwork</a> <a class="post-tag btn btn-outline-primary" href="/tags/algorithm/">algorithm</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c++</a> <a class="post-tag btn btn-outline-primary" href="/tags/chore/">chore</a> <a class="post-tag btn btn-outline-primary" href="/tags/database/">database</a> <a class="post-tag btn btn-outline-primary" href="/tags/python/">python</a> <a class="post-tag btn btn-outline-primary" href="/tags/tooling/">tooling</a> <a class="post-tag btn btn-outline-primary" href="/tags/bash/">bash</a> <a class="post-tag btn btn-outline-primary" href="/tags/c/">c#</a></div></section></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><aside aria-label="Scroll to Top"> <button id="back-to-top" type="button" class="btn btn-lg btn-box-shadow"> <i class="fas fa-angle-up"></i> </button></aside></div><div id="mask"></div><script src="https://cdn.jsdelivr.net/combine/npm/jquery@3.7.1/dist/jquery.min.js,npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js,npm/simple-jekyll-search@1.10.0/dest/simple-jekyll-search.min.js,npm/loading-attribute-polyfill@2.1.1/dist/loading-attribute-polyfill.umd.min.js,npm/magnific-popup@1.1.0/dist/jquery.magnific-popup.min.js,npm/clipboard@2.0.11/dist/clipboard.min.js,npm/dayjs@1.11.10/dayjs.min.js,npm/dayjs@1.11.10/locale/zh.min.js,npm/dayjs@1.11.10/plugin/relativeTime.min.js,npm/dayjs@1.11.10/plugin/localizedFormat.min.js,npm/tocbot@4.25.0/dist/tocbot.min.js,npm/mermaid@10.8.0/dist/mermaid.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src=""></script> <script> $(function() { function updateMermaid(event) { if (event.source === window && event.data && event.data.direction === ModeToggle.ID) { const mode = event.data.message; if (typeof mermaid === "undefined") { return; } let expectedTheme = (mode === ModeToggle.DARK_MODE? "dark" : "default"); let config = { theme: expectedTheme }; /* Re-render the SVG › <https://github.com/mermaid-js/mermaid/issues/311#issuecomment-332557344> */ $(".mermaid").each(function() { let svgCode = $(this).prev().children().html(); $(this).removeAttr("data-processed"); $(this).html(svgCode); }); mermaid.initialize(config); mermaid.init(undefined, ".mermaid"); } } let initTheme = "default"; if ($("html[data-mode=dark]").length > 0 || ($("html[data-mode]").length == 0 && window.matchMedia("(prefers-color-scheme: dark)").matches ) ) { initTheme = "dark"; } let mermaidConf = { theme: initTheme /* <default|dark|forest|neutral> */ }; /* Markdown converts to HTML */ $("pre").has("code.language-mermaid").each(function() { let svgCode = $(this).children().html(); $(this).addClass("unloaded"); $(this).after(`<div class=\"mermaid\">${svgCode}</div>`); }); mermaid.initialize(mermaidConf); mermaid.init(undefined, ".mermaid"); window.addEventListener("message", updateMermaid); }); </script> <script> /* Note: dependent library will be loaded in `js-selector.html` */ SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<article class="px-1 px-sm-2 px-lg-4 px-xl-0"><header><h2><a href="{url}">{title}</a></h2><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div></header><p>{snippet}</p></article>', noResultsText: '<p class="mt-5"></p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="me-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script>
