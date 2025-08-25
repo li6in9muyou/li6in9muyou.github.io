@@ -4,7 +4,7 @@
 platforms:
   - type: Weibo
     icon: "fab fa-weibo"
-    link: "http://service.weibo.com/share/share.php?title=TITLE&url=URL"
+    link: "https://service.weibo.com/share/share.php?title=TITLE&url=URL"
 
   - type: Twitter
     icon: "fa-brands fa-square-x-twitter"
@@ -23,10 +23,6 @@ platforms:
   # - type: Linkedin
   #   icon: "fab fa-linkedin"
   #   link: "https://www.linkedin.com/feed/?shareActive=true&shareUrl=URL"
-  #
-  # - type: Weibo
-  #   icon: "fab fa-weibo"
-  #   link: "https://service.weibo.com/share/share.php?title=TITLE&url=URL"
   #
   # - type: Mastodon
   #   icon: "fa-brands fa-mastodon"
