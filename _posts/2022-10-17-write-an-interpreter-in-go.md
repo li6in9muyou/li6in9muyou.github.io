@@ -8,7 +8,7 @@ mermaid: true
 **THIS POST IS WORK-IN-PROGRESS**
 
 I am using this book _"Writing An Interpreter In Go"_ by Thorsten Ball.
-You can but this book at [https://interpreterbook.com/]().
+You can but this book at [https://interpreterbook.com/](https://interpreterbook.com/).
 In the meantime, I am
 taking [this free course](https://learning.edx.org/course/course-v1:StanfordOnline+SOE.YCSCS1+3T2020/home)
 at edx.org.
