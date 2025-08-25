@@ -84,4 +84,5 @@ am working on a better solution.
 4. Do not hard code links to blog posts, use `{<percent sign> post_url 2022-10-15-howto-write-a-post <percent sign>}`.
    This
    whole thing will get replaced with correct link at blog build time.
-5. coming soon...
+5. Headings in posts should be `##`, otherwise tab of contents does not render.
+6. coming soon...
