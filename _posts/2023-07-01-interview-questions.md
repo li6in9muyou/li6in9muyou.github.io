@@ -6,9 +6,17 @@ tags: [memo]
 
 **THIS IS A WORK IN PROGRESS**
 
-## 你说一下深拷贝和浅拷贝
+## 你说一下深拷贝怎么写
 
-深浅拷贝的概念在有运行时自动内存空间管理的编程语言中是常见的概念。
+基本方法就是递归来写，递归分解的时候注意需要遍历哪些字段以及值是否已经复制过一次，递归合并的时候需要注意值是`undefined`的字段以及继承过来的字段，递归出口的时候注意处理各类特殊情况。
+
+1. 遍历对象属性的时候有多种不同风味：
+   1. 要不要`Symbol`
+   2. 要不要继承过来的东西，要继承的`Symbol`的话要爬原形链的
+   3. 数组用`arr[idx]` 其他用`Object.keys(...)`就行了
+
+2. 你需要一个高性能关联容器或者直接用`new Map()`这个是用来确保同一个引用不会被复制两次 不管他是否是当前节点的祖先。
+3. 复制具体对象的时候需要分别处理，比如`Buffer`和他的朋友们。
 
 ### The deep copy algorithm
 
@@ -61,7 +69,7 @@ consider the following scenarios
 #### enumerate keys
 
 But before enumerating any key,
-read https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties first then handle
+read [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties) first then handle
 the following scenarios:
 
 - whether to enumerate inherited property
@@ -96,74 +104,7 @@ implementation uses the array based one before changing to object based one when
 
 ### read more
 
-[如何写出一个惊艳面试官的深拷贝](https://juejin.cn/post/6844903929705136141)
-
-There is one clever implementation in comment section.
-
-```js
-function deepClone(obj) {
-  //数组或普通对象存在循环引用情况，使用map存储对象避免无限递归函数
-  //函数局部变量，函数执行完毕之后就可以被GC,无需替换为WeakMap
-  const map = new Map();
-
-  //递归这个函数
-  function clone(target) {
-    if (map.has(target)) return map.get(target);
-    // 获取 target 的具体类型，返回：Number String Object Array RegExp ...
-    const type = Object.prototype.toString
-      .call(target)
-      .replace(/\[object (\w+)\]/, "$1");
-    //使用策略模式，处理每种类型的克隆
-    //You gotta be kidding me, strategy pattern, seriously?
-    //More like replacing switch case with lookup table.
-    const strategy = {
-      // Array和Object可以公用一个函数
-      ObjectOrArray() {
-        // const result = Array.isArray(target) ?[]:{} const result = new target.constructor() // !在迭代开始前进行set map.set(target, result)
-        for (const [k, v] of Object.entries(target)) {
-          result[k] = clone(v);
-        }
-        return result;
-      },
-      Map() {
-        const newMap = new Map();
-        target,
-          forEach((v, k) => {
-            newMap.set(clone(k), clone(v));
-          });
-        return newMap;
-      },
-      Set() {
-        const newSet = new Set();
-        target.forEach((item) => {
-          newSet.add(clone(item));
-        });
-        return;
-      },
-      Date() {
-        return new Date(target.valueOf());
-      },
-      RegExp() {
-        const newReg = new RegExp(target.source, target.flags);
-        newReg.lastindex = target.lastindex;
-        return newReg;
-      },
-      Error() {
-        return new Error(target.message);
-      },
-      // ...可添加支持更多对象类型
-    };
-
-    if (["Array", "Object"].includes(type)) {
-      return strategy.ObjectOrArray();
-    } else {
-      return strategy[type] ? strategy[type]() : target;
-    }
-  }
-
-  return clone(obj);
-}
-```
+<p style="color: red; font-size: 2rem;">严禁在本博客抖机灵，所有内容必须清楚表达意思。</p>
 
 ## 你说一下响应式设计
 
