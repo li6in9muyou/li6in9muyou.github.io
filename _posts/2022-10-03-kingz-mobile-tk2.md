@@ -351,7 +351,7 @@ interface Observable {
   publish(ev: { event_type: string; payload: any }): void;
   subscribe(
     event_type: string,
-    subscriber: (ev: { event_type: string; payload: any }) => void
+    subscriber: (ev: { event_type: string; payload: any }) => void,
   ): void;
 }
 ```
