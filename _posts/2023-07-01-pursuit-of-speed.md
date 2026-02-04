@@ -15,6 +15,7 @@ tags: []
 - last N digits of fibonacci sequence is cyclic, thus one can calculate last N digits of the Xth number in the sequence with manageable time and memory
 - mark simple inputs beforehand so that expensive checks and defensive logic can be skipped later or a faster ad-hoc algorithm can be used. see [v8-json-stringify](https://v8.dev/blog/json-stringify)
 - lazy loading and lazy evalution.
+- implement LOD, service degradation, adaptive resolution, etc.
 
 ### 成批操作减少每次操作的overhead
 
@@ -26,7 +27,8 @@ tags: []
 
 ### 缓存
 
-- memory hierarchy
+- implement memory hierarchy e.g. basically every computer system
+- exploit memory hierarchy e.g. preserve temporal and spatial locality to reduce cache misses
 - CDN
 
 #### challenges
